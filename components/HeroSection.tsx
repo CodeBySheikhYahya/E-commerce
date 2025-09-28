@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden bg-contain bg-center bg-no-repeat" style={{backgroundImage: "url('/sa.webp')"}}>
+    <section className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden bg-contain bg-center bg-no-repeat" style={{backgroundImage: "url('/industry.jpg')"}}>
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/20"></div>
 
@@ -22,9 +22,9 @@ export default function HeroSection() {
               className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight" 
               style={{fontFamily: 'var(--header-font-family)'}}
             >
-              Modern & Elegant
+              Premium Safety
               <br />
-              <span className="text-white">Furniture</span>
+              <span className="text-white">Equipment</span>
             </motion.h1>
             
             {/* Description */}
@@ -34,7 +34,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg lg:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
             >
-              Showcase your furniture collections most appealing way driving customer engagement and boosting sales.
+              Protect your workforce with industry-leading safety gear and reliable protection solutions.
             </motion.p>
             
             {/* CTA Button */}
