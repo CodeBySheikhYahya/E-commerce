@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+make sure make sure componenet base mobile friendly which is best look good for mobile and make a css variables for color theme which will be the best and make sure make sure most most modular approach which make code best 
 
-## Getting Started
+```markdown
+# 🦺 Industrial Safety Products E-Commerce (Frontend)
 
-First, run the development server:
+This is the **frontend** for an e-commerce platform selling **industrial safety products** (helmets, gloves, shoes, jackets, etc.).  
+It is built with **Next.js + TypeScript + TailwindCSS + shadcn/ui**, and connects to a **.NET backend API**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Features
+- Beautiful, responsive design (mobile-first)
+- Modular and reusable components
+- Product catalog with search, filters, and categories
+- Product detail pages with images and specs
+- Shopping cart and checkout
+- Stripe payment integration
+- Dropshipping workflow (supplier → customer shipping)
+
+---
+
+## 🛠️ Tech Stack
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Data Fetching**: TanStack Query (React Query)
+- **Forms**: React Hook Form + Zod
+- *t
+
+---
+
+
+
+````
+
+---
+
+## 📄 Pages
+- **Home Page** → Hero, featured products, categories
+- **Product Listing** → Grid/list, filters, search, pagination
+- **Product Detail** → Images, description, add to cart
+- **Cart & Checkout** → Stripe payments
+- **Auth** (future) → Login, Register, Profile
+- **Orders** (future) → Order history
+- **Static Pages** → About, Contact, Privacy, Terms
+
+---
+
+## 🔌 API Endpoints (from .NET backend)
+- **Products**
+  - `GET /api/products` → list products
+  - `GET /api/products/:id` → product details
+- **Categories**
+  - `GET /api/categories` → list categories
+- **Search**
+  - `GET /api/search?q=query`
+- **Orders**
+  - `POST /api/orders` → create order
+- **Auth (future)**
+  - `POST /api/auth/login`
+  - `POST /api/auth/register`
+
+---
+
+## 💳 Payment & Dropshipping
+- Payments handled by **Stripe**
+- Flow: Customer orders → Our system → Supplier ships directly
+
+
+
+# Setup UI
+npx shadcn-ui@latest init
+
+# Install dependencies
+npm install @tanstack/react-query react-hook-form @hookform/resolvers zod stripe
+````
+
+### Environment Variables
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎯 Development Phases
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Phase 1 (Demo - Weekend)**
+✅ Project setup
+✅ Header + Footer layout
+✅ Home Page (hero section)
+✅ Product Listing Page with mock data
 
-## Learn More
+**Phase 2 (MVP - Week 1)**
+🔲 API integration
+🔲 Product details
+🔲 Shopping cart
+🔲 Basic checkout
 
-To learn more about Next.js, take a look at the following resources:
+**Phase 3 (Full Features - Week 2+)**
+🔲 Stripe payments
+🔲 Authentication
+🔲 Order management
+🔲 Dropshipping flow
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✅ Success Criteria
 
-## Deploy on Vercel
+* Fast, responsive, mobile-first design
+* Clean and modular code (TypeScript + reusable components)
+* Impressive UI/UX for client demo
+* Scalable architecture for future features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
