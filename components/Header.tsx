@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Search, ShoppingCart, User, ChevronDown } from "lucide-react";
 import {
   NavigationMenu,
@@ -14,9 +14,32 @@ import {
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide header
+        setIsHeaderVisible(false);
+      } else {
+        // Scrolling up - show header
+        setIsHeaderVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <header className="sticky top-0 z-50 bg-[var(--header-bg)] border-b border-[var(--header-border)]">
+    <header className={`fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] border-b border-[var(--header-border)] transition-transform duration-300 ${
+      isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       {/* Top Bar - Desktop Only */}
       <div className="hidden lg:block h-[var(--desktop-top-bar-height)] bg-[var(--header-bg)] border-b border-[var(--header-border)]">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between text-sm">
