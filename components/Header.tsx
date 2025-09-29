@@ -204,41 +204,43 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setIsMobileMenuOpen(false)} />
-          <div className="fixed left-0 top-0 h-full w-80 bg-white p-6">
-            <div className="flex justify-end mb-6">
-              <button onClick={() => setIsMobileMenuOpen(false)}>
-                <X className="h-6 w-6 text-[var(--header-text)]" />
-              </button>
-            </div>
-            
-            <nav className="space-y-4">
-              <a href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2">
+        <div className="fixed inset-0 z-50 lg:hidden animate-in fade-in duration-300">
+          <div className="fixed inset-0 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="fixed left-0 top-0 h-full w-80 bg-white animate-in slide-in-from-left duration-300">
+            <div className="h-full w-full p-6 flex flex-col bg-white" style={{minHeight: '100vh'}}>
+              <div className="flex justify-end mb-6">
+                <button onClick={() => setIsMobileMenuOpen(false)}>
+                  <X className="h-6 w-6 text-[var(--header-text)] " />
+                </button>
+              </div>
+              
+              <nav className="space-y-4">
+              <a href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 Home <ChevronDown className="h-4 w-4" />
               </a>
-              <a href="/shop" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2">
+              <a href="/shop" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 Shop <ChevronDown className="h-4 w-4" />
               </a>
-              <a href="/category" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2">
+              <a href="/category" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 Search by Category <ChevronDown className="h-4 w-4" />
               </a>
-              <a href="/contact" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2">
+              <a href="/contact" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 Contact Us <ChevronDown className="h-4 w-4" />
               </a>
-              <a href="/about" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2">
+              <a href="/about" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 About Us <ChevronDown className="h-4 w-4" />
               </a>
               
               <div className="pt-4 border-t border-[var(--header-border)] space-y-2">
-                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2">
+                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2 pr-4">
                   🇺🇸 USD $ <ChevronDown className="h-4 w-4" />
                 </button>
-                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2">
+                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2 pr-4">
                   EN <ChevronDown className="h-4 w-4" />
                 </button>
               </div>
             </nav>
+            </div>
           </div>
         </div>
       )}
