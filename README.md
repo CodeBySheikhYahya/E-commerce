@@ -1,14 +1,12 @@
-make sure make sure componenet base mobile friendly which is best look good for mobile and make a css variables for color theme which will be the best and make sure make sure most most modular approach which make code best 
 
-```markdown
-# 🦺 Industrial Safety Products E-Commerce (Frontend)
+#  Industrial Safety Products E-Commerce (Frontend)
 
 This is the **frontend** for an e-commerce platform selling **industrial safety products** (helmets, gloves, shoes, jackets, etc.).  
 It is built with **Next.js + TypeScript + TailwindCSS + shadcn/ui**, and connects to a **.NET backend API**.
 
 ---
 
-## 🚀 Features
+##  Features
 - Beautiful, responsive design (mobile-first)
 - Modular and reusable components
 - Product catalog with search, filters, and categories
@@ -25,13 +23,6 @@ It is built with **Next.js + TypeScript + TailwindCSS + shadcn/ui**, and connect
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Data Fetching**: TanStack Query (React Query)
 - **Forms**: React Hook Form + Zod
-- *t
-
----
-
-
-
-````
 
 ---
 
@@ -62,11 +53,9 @@ It is built with **Next.js + TypeScript + TailwindCSS + shadcn/ui**, and connect
 
 ---
 
-## 💳 Payment & Dropshipping
+##  Payment & Dropshipping
 - Payments handled by **Stripe**
 - Flow: Customer orders → Our system → Supplier ships directly
-
-
 
 # Setup UI
 npx shadcn-ui@latest init
@@ -74,18 +63,9 @@ npx shadcn-ui@latest init
 # Install dependencies
 npm install @tanstack/react-query react-hook-form @hookform/resolvers zod stripe
 ````
-
 ### Environment Variables
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_SECRET_KEY=sk_test_...
-```
-
----
-
-## 🎯 Development Phases
+##  Development Phases
 
 **Phase 1 (Demo - Weekend)**
 ✅ Project setup
@@ -114,7 +94,5 @@ STRIPE_SECRET_KEY=sk_test_...
 * Impressive UI/UX for client demo
 * Scalable architecture for future features
 
-```
 
----
 
