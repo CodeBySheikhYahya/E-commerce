@@ -60,10 +60,10 @@ export default function ProductShowcase() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+          <h2 className="section-heading">
             Featured Safety Products
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto" style={{fontFamily: 'var(--header-font-family)'}}>
+          <p className="section-subtitle max-w-2xl mx-auto">
             Discover our top-rated safety equipment designed to protect your workforce with industry-leading quality and reliability.
           </p>
         </div>

@@ -93,6 +93,15 @@
   --mobile-header-height: 4rem; /* 64px */
   --desktop-header-height: 6.25rem; /* 100px */
   --desktop-top-bar-height: 3.75rem; /* 60px */
+  
+  /* Section Heading Styles */
+  --section-heading-size: 2rem; /* 32px mobile */
+  --section-heading-size-lg: 2.5rem; /* 40px desktop */
+  --section-heading-weight: 300; /* font-light */
+  --section-heading-color: #374151; /* gray-700 */
+  --section-subtitle-size: 1.125rem; /* 18px */
+  --section-subtitle-color: #6b7280; /* gray-500 */
+  --section-spacing: 1rem; /* 16px */
 }
 
 .dark {
@@ -136,4 +145,25 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Section Heading Utility Classes */
+.section-heading {
+  font-size: var(--section-heading-size);
+  font-weight: var(--section-heading-weight);
+  color: var(--section-heading-color);
+  font-family: var(--header-font-family);
+  margin-bottom: var(--section-spacing);
+}
+
+@media (min-width: 1024px) {
+  .section-heading {
+    font-size: var(--section-heading-size-lg);
+  }
+}
+
+.section-subtitle {
+  font-size: var(--section-subtitle-size);
+  color: var(--section-subtitle-color);
+  font-family: var(--header-font-family);
 }

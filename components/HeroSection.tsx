@@ -3,10 +3,43 @@
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function HeroSection() {
+  const images = ['/industry.jpg', '/pak.jpg'];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden bg-contain bg-center bg-no-repeat" style={{backgroundImage: "url('/industry.jpg')"}}>
+    <section 
+      className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden"
+      onMouseEnter={() => setCurrentImageIndex(currentImageIndex)}
+      onMouseLeave={() => setCurrentImageIndex(currentImageIndex)}
+    >
+      {/* Image Carousel */}
+      <div className="relative w-full h-full">
+        {images.map((image, index) => (
+          <motion.div
+            key={index}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('${image}')` }}
+            initial={{ x: '100%' }}
+            animate={{ 
+              x: index === currentImageIndex ? '0%' : 
+                 index === (currentImageIndex - 1 + images.length) % images.length ? '-100%' : '100%'
+            }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+          />
+        ))}
+      </div>
+      
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/20"></div>
 
@@ -64,9 +97,14 @@ export default function HeroSection() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
       >
         <div className="flex space-x-2">
-          <div className="w-8 h-1 bg-white rounded-full"></div>
-          <div className="w-1 h-1 bg-white/50 rounded-full"></div>
-          <div className="w-1 h-1 bg-white/50 rounded-full"></div>
+          {images.map((_, index) => (
+            <div 
+              key={index}
+              className={`h-1 rounded-full transition-all duration-300 ${
+                index === currentImageIndex ? 'w-8 bg-white' : 'w-1 bg-white/50'
+              }`}
+            />
+          ))}
         </div>
       </motion.div>
     </section>
