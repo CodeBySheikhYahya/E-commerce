@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryCard from "./CategoryCard";
+import ScrollableContainer from "./ScrollableContainer";
 
 // Sample category data - replace with real data later
 const categories = [
@@ -63,7 +64,7 @@ export default function ShopByCategory() {
         </div>
 
         {/* Categories - Horizontal Scrollable Layout */}
-        <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 lg:overflow-x-auto lg:pb-0">
+        <ScrollableContainer>
           {categories.map((category) => (
             <div key={category.id} className="flex-shrink-0 w-48 lg:w-64">
               <CategoryCard
@@ -74,7 +75,7 @@ export default function ShopByCategory() {
               />
             </div>
           ))}
-        </div>
+        </ScrollableContainer>
       </div>
     </section>
   );
