@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import HeroSection from "../components/HeroSection";
 import ShopByCategory from "../components/ShopByCategory";
 import ProductShowcase from "../components/ProductShowcase";
+import NewsletterSection from "../components/NewsletterSection";
 import MobileBottomNav from "../components/MobileBottomNav";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <ShopByCategory />
       <ProductShowcase />
+      <NewsletterSection />
     </main>
     <Footer />
     <MobileBottomNav />

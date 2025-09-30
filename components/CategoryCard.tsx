@@ -33,3 +33,4 @@ export default function CategoryCard({ id, name, image, href }: CategoryCardProp
     </Card>
   );
 }
+
