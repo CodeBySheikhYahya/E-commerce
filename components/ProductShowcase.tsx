@@ -124,9 +124,9 @@ export default function ProductShowcase() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
-            View All Products
-          </button>
+          <Button asChild size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
+            <Link href="/products">View All Products</Link>
+          </Button>
         </div>
       </div>
     </section>

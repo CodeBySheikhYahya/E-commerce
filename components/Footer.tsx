@@ -36,9 +36,9 @@ export default function Footer() {
                 </h3>
                 <ul className="space-y-3">
                   <li><a href="/" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Home</a></li>
-                  <li><a href="/shop" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Shop</a></li>
-                  <li><a href="/contact" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Contact Us</a></li>
-                  <li><a href="/about" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">About</a></li>
+                  <li><a href="/products" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Shop</a></li>
+                  <li><a href="/contact-us" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Contact Us</a></li>
+                  <li><a href="/about-us" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">About</a></li>
                 </ul>
               </div>
 
