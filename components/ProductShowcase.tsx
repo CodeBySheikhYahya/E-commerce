@@ -1,6 +1,9 @@
 "use client";
 
 import ProductCard from "./ProductCard";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { useState } from "react";
 
 // Sample product data - replace with real data later
 const sampleProducts = [
@@ -55,6 +58,7 @@ const sampleProducts = [
 ];
 
 export default function ProductShowcase() {
+  const [activeTab, setActiveTab] = useState<"best" | "new" | "featured">("best");
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -66,6 +70,41 @@ export default function ProductShowcase() {
           <p className="section-subtitle max-w-2xl mx-auto">
             Discover our top-rated safety equipment designed to protect your workforce with industry-leading quality and reliability.
           </p>
+        </div>
+
+        {/* Top Controls Row (tabs left, view all right) */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap sm:overflow-visible">
+            <Button 
+              size="sm" 
+              variant={activeTab === "best" ? undefined : "ghost"}
+              aria-selected={activeTab === "best"}
+              onClick={() => setActiveTab("best")}
+            >
+              Best Sellers
+            </Button>
+            <Button 
+              size="sm" 
+              variant={activeTab === "new" ? undefined : "ghost"}
+              aria-selected={activeTab === "new"}
+              onClick={() => setActiveTab("new")}
+            >
+              New Arrivals
+            </Button>
+            <Button 
+              size="sm" 
+              variant={activeTab === "featured" ? undefined : "ghost"}
+              aria-selected={activeTab === "featured"}
+              onClick={() => setActiveTab("featured")}
+            >
+              Featured
+            </Button>
+          </div>
+          <div className="order-2 sm:order-none">
+            <Button size="sm" asChild>
+              <Link href="/products">View All</Link>
+            </Button>
+          </div>
         </div>
 
         {/* Products Grid */}
