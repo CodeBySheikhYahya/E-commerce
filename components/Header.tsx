@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, X, Search, ShoppingCart, User, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
+import SearchBar from "./SearchBar";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,6 +17,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -171,9 +173,14 @@ export default function Header() {
             />
           </div>
 
+
           {/* Right Side Icons */}
           <div className="flex-1 flex items-center justify-end space-x-4">
-            <button className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
+            {/* Search Icon */}
+            <button 
+              className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]"
+              onClick={() => setIsSearchOpen(true)}
+            >
               <Search className="h-5 w-5" />
             </button>
             
@@ -241,6 +248,32 @@ export default function Header() {
               </div>
             </nav>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-50 bg-white animate-in slide-in-from-top duration-300">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-[var(--header-text)]" style={{fontFamily: 'var(--header-font-family)'}}>
+                Search Products
+              </h2>
+              <button 
+                onClick={() => setIsSearchOpen(false)}
+                className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <SearchBar 
+              placeholder="Search safety products..."
+              onSubmit={(value) => {
+                console.log("Search:", value);
+                setIsSearchOpen(false);
+              }}
+            />
           </div>
         </div>
       )}
