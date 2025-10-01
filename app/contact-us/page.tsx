@@ -1,15 +1,56 @@
+"use client";
+
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import ContactForm from "../../components/forms/ContactForm";
 import ContactInfoPanel from "../../components/ContactInfoPanel";
 import ContactMap from "../../components/ContactMap";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function ContactUs() {
   return (
    <>
     <Header />
     <main className="min-h-screen pb-20 lg:pb-0 pt-[var(--mobile-header-height)] lg:pt-[calc(var(--desktop-top-bar-height)+var(--desktop-header-height))]">
+      {/* Hero Section */}
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative h-[60vh] lg:h-[70vh] overflow-hidden"
+      >
+        <div className="absolute inset-0">
+          <Image
+            src="/contactus.avif"
+            alt="Contact Us"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+        
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-center"
+            >
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                Contact Us
+              </h1>
+              <p className="text-xl lg:text-2xl text-white font-medium">
+                We're Here to Help
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
       <section className="py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
