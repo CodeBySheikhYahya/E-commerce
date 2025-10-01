@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { ShoppingCart, Heart } from "lucide-react";
+import ProductActions from "./ProductActions";
 
 interface ProductCardProps {
   id: string;
@@ -12,6 +13,9 @@ interface ProductCardProps {
   image: string;
   originalPrice?: string;
   discount?: string;
+  onWishlist?: (productId: string) => void;
+  onQuickView?: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
 }
 
 export default function ProductCard({ 
@@ -20,7 +24,10 @@ export default function ProductCard({
   price, 
   image, 
   originalPrice, 
-  discount 
+  discount,
+  onWishlist,
+  onQuickView,
+  onAddToCart
 }: ProductCardProps) {
   return (
     <Card className="group relative overflow-hidden border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -44,15 +51,14 @@ export default function ProductCard({
           <Heart className="h-4 w-4 text-gray-600" />
         </button>
         
-        {/* Quick Add to Cart - Hidden by default, shows on hover */}
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button 
-            size="sm" 
-            className="w-full bg-black hover:bg-gray-800 text-white"
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Quick Add
-          </Button>
+        {/* Product Actions - Always visible on mobile, hover on desktop */}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
+          <ProductActions
+            productId={id}
+            onWishlist={onWishlist || (() => {})}
+            onQuickView={onQuickView || (() => {})}
+            onAddToCart={onAddToCart || (() => {})}
+          />
         </div>
       </div>
       
