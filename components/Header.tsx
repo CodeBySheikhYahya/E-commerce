@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
+import CartSidebar from "./CartSidebar";
+import { useCartStore } from "../lib/cartStore";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +20,9 @@ export default function Header() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  
+  const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
+  const cartItemCount = getItemCount();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -211,10 +216,16 @@ export default function Header() {
               <User className="h-5 w-5" />
             </button>
             
-            <button className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
+            <button 
+              className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200"
+              onClick={() => {
+                // Always open sidebar first, then user can choose to go to cart page
+                openCart();
+              }}
+            >
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-2 -right-2 bg-[var(--header-text)] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                {cartItemCount}
               </span>
             </button>
           </div>
@@ -289,6 +300,12 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Cart Sidebar */}
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={closeCart}
+      />
     </header>
   );
 }

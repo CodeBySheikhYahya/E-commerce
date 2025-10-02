@@ -55,6 +55,9 @@ export default function ProductCard({
         <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
           <ProductActions
             productId={id}
+            productName={name}
+            productPrice={price}
+            productImage={image}
             onWishlist={onWishlist || (() => {})}
             onQuickView={onQuickView || (() => {})}
             onAddToCart={onAddToCart || (() => {})}

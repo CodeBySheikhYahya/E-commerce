@@ -1,22 +1,44 @@
 "use client";
 
 import { Heart, Eye, ShoppingCart } from "lucide-react";
+import { useCartStore } from "../lib/cartStore";
 
 interface ProductActionsProps {
   productId: string;
+  productName: string;
+  productPrice: string;
+  productImage: string;
   onWishlist: (productId: string) => void;
   onQuickView: (productId: string) => void;
-  onAddToCart: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
   className?: string;
 }
 
 export default function ProductActions({
   productId,
+  productName,
+  productPrice,
+  productImage,
   onWishlist,
   onQuickView,
   onAddToCart,
   className = ""
 }: ProductActionsProps) {
+  const { addItem, openCart } = useCartStore();
+
+  const handleAddToCart = () => {
+    addItem({
+      id: productId,
+      name: productName,
+      price: productPrice,
+      image: productImage,
+    });
+    openCart();
+    
+    if (onAddToCart) {
+      onAddToCart(productId);
+    }
+  };
   return (
     <div className={`flex items-center justify-center gap-2 ${className}`}>
       <button
@@ -46,7 +68,7 @@ export default function ProductActions({
       </button>
       
       <button
-        onClick={() => onAddToCart(productId)}
+        onClick={handleAddToCart}
         className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow duration-200 group relative"
         aria-label="Add to cart"
         title="Add to cart"
