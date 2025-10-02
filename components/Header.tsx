@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import CartSidebar from "./CartSidebar";
@@ -23,6 +24,7 @@ export default function Header() {
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
   const cartItemCount = getItemCount();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -219,8 +221,12 @@ export default function Header() {
             <button 
               className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200"
               onClick={() => {
-                // Always open sidebar first, then user can choose to go to cart page
-                openCart();
+                // On mobile, open sidebar. On desktop, go to cart page
+                if (window.innerWidth < 1024) {
+                  openCart();
+                } else {
+                  router.push('/cart');
+                }
               }}
             >
               <ShoppingCart className="h-5 w-5" />

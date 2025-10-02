@@ -4,6 +4,8 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import CartPage from "../../components/CartPage";
+import NewsletterSection from "../../components/NewsletterSection";
+import RelatedProducts from "../../components/RelatedProducts";
 import { useCartStore } from "../../lib/cartStore";
 
 export default function Cart() {
@@ -25,6 +27,8 @@ export default function Cart() {
           onCheckout={handleCheckout}
           onContinueShopping={handleContinueShopping}
         />
+        <RelatedProducts />
+        <NewsletterSection />
       </main>
       <Footer />
       <MobileBottomNav />
