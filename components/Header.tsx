@@ -101,23 +101,35 @@ export default function Header() {
                   Shop
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    <NavigationMenuLink href="/shop/helmets" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                      <div className="text-sm font-medium leading-none">Safety Helmets</div>
+                  <div className="grid gap-3 p-4 w-[300px]">
+                    <NavigationMenuLink href="/products" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <div className="text-sm font-medium leading-none">View All Products</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Industrial safety helmets and hard hats
+                        Browse our complete product catalog
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/shop/gloves" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                      <div className="text-sm font-medium leading-none">Safety Gloves</div>
+                    <NavigationMenuLink href="/products?filter=best-sellers" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <div className="text-sm font-medium leading-none">Best Sellers</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Protective gloves for various industries
+                        Our most popular safety equipment
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/shop/shoes" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                      <div className="text-sm font-medium leading-none">Safety Shoes</div>
+                    <NavigationMenuLink href="/products?filter=new-arrivals" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <div className="text-sm font-medium leading-none">New Arrivals</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Steel toe and safety footwear
+                        Latest safety products and equipment
+                      </p>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink href="/products?filter=on-sale" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <div className="text-sm font-medium leading-none">On Sale</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Special offers and discounted items
+                      </p>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink href="/products?filter=recently-viewed" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <div className="text-sm font-medium leading-none">Recently Viewed</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        Continue where you left off
                       </p>
                     </NavigationMenuLink>
                   </div>

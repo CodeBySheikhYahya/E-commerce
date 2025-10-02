@@ -92,4 +92,13 @@ export const demoProducts: Product[] = [
   }
 ];
 
+export const heroImages = ['/industry.jpg', '/pak.jpg'];
+
+export const heroContent = {
+  title: "Premium Safety",
+  subtitle: "Equipment",
+  description: "Protect your workforce with industry-leading safety gear and reliable protection solutions.",
+  buttonText: "Shop Now"
+};
+
 export default demoProducts;

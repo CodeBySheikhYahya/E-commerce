@@ -4,9 +4,10 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { heroImages, heroContent } from "./DemoData";
 
 export default function HeroSection() {
-  const images = ['/industry.jpg', '/pak.jpg'];
+  const images = heroImages;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -55,9 +56,9 @@ export default function HeroSection() {
               className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight" 
               style={{fontFamily: 'var(--header-font-family)'}}
             >
-              Premium Safety
+              {heroContent.title}
               <br />
-              <span className="text-white">Equipment</span>
+              <span className="text-white">{heroContent.subtitle}</span>
             </motion.h1>
             
             {/* Description */}
@@ -67,7 +68,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg lg:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
             >
-              Protect your workforce with industry-leading safety gear and reliable protection solutions.
+              {heroContent.description}
             </motion.p>
             
             {/* CTA Button */}
@@ -81,7 +82,7 @@ export default function HeroSection() {
                 className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-lg font-medium rounded-lg transition-all duration-300 hover:scale-105"
                 style={{fontFamily: 'var(--header-font-family)'}}
               >
-                Shop Now
+                {heroContent.buttonText}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>

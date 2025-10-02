@@ -2,52 +2,15 @@
 
 import CategoryCard from "./CategoryCard";
 import ScrollableContainer from "./ScrollableContainer";
+import { demoProducts } from "./DemoData";
 
-// Sample category data - replace with real data later
-const categories = [
-  {
-    id: "1",
-    name: "Safety Vests",
-    image: "/sa.webp",
-    href: "/category/safety-vests"
-  },
-  {
-    id: "2", 
-    name: "Safety Helmets",
-    image: "/sa.webp",
-    href: "/category/safety-helmets"
-  },
-  {
-    id: "3",
-    name: "Goggles",
-    image: "/sa.webp",
-    href: "/category/goggles"
-  },
-  {
-    id: "4",
-    name: "Industrial Parts",
-    image: "/sa.webp",
-    href: "/category/industrial-parts"
-  },
-  {
-    id: "5",
-    name: "Safety Gloves",
-    image: "/sa.webp",
-    href: "/category/safety-gloves"
-  },
-  {
-    id: "6",
-    name: "Safety Shoes",
-    image: "/sa.webp",
-    href: "/category/safety-shoes"
-  },
-  {
-    id: "7",
-    name: "Safety Harness",
-    image: "/sa.webp",
-    href: "/category/safety-harness"
-  }
-];
+// Generate categories from demo products
+const categories = Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean))).map((category, index) => ({
+  id: (index + 1).toString(),
+  name: category!,
+  image: "/sa.webp",
+  href: `/category/${category!.toLowerCase().replace(/\s+/g, '-')}`
+}));
 
 export default function ShopByCategory() {
   return (

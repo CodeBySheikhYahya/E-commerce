@@ -4,58 +4,7 @@ import ProductCard from "./ProductCard";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useState } from "react";
-
-// Sample product data - replace with real data later
-const sampleProducts = [
-  {
-    id: "1",
-    name: "Industrial Safety Helmet",
-    price: "$49.99",
-    image: "/sa.webp",
-    originalPrice: "$69.99",
-    discount: "29% OFF"
-  },
-  {
-    id: "2", 
-    name: "High Visibility Safety Vest",
-    price: "$24.99",
-    image: "/sa.webp",
-    originalPrice: "$34.99",
-    discount: "29% OFF"
-  },
-  {
-    id: "3",
-    name: "Protective Safety Goggles",
-    price: "$19.99", 
-    image: "/sa.webp",
-    originalPrice: "$29.99",
-    discount: "33% OFF"
-  },
-  {
-    id: "4",
-    name: "Steel Toe Safety Boots",
-    price: "$89.99",
-    image: "/sa.webp",
-    originalPrice: "$119.99",
-    discount: "25% OFF"
-  },
-  {
-    id: "5",
-    name: "Industrial Work Gloves",
-    price: "$14.99",
-    image: "/sa.webp",
-    originalPrice: "$19.99",
-    discount: "25% OFF"
-  },
-  {
-    id: "6",
-    name: "Safety Harness System",
-    price: "$129.99",
-    image: "/sa.webp",
-    originalPrice: "$159.99",
-    discount: "19% OFF"
-  }
-];
+import { demoProducts } from "./DemoData";
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<"best" | "new" | "featured">("best");
@@ -109,7 +58,7 @@ export default function ProductShowcase() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-          {sampleProducts.map((product) => (
+          {demoProducts.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}
