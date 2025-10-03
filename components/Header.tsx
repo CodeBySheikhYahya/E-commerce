@@ -8,6 +8,7 @@ import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import CartSidebar from "./CartSidebar";
 import { useCartStore } from "../lib/cartStore";
+import { useWishlistStore } from "../lib/wishlistStore";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -22,7 +23,9 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
+  const { getItemCount: getWishlistCount } = useWishlistStore();
   const cartItemCount = getItemCount();
+  const wishlistCount = getWishlistCount();
   const router = useRouter();
 
 
@@ -158,6 +161,17 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               
+              <NavigationMenuItem>
+                <Link href="/wishlist" className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center space-x-1 px-3 py-2 rounded-md transition-colors">
+                  <span style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>Wishlist</span>
+                  {wishlistCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+              </NavigationMenuItem>
+              
             </NavigationMenuList>
           </NavigationMenu>
           </div>
@@ -246,6 +260,14 @@ export default function Header() {
               </Link>
               <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
                 About Us
+              </Link>
+              <Link href="/wishlist" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 flex items-center justify-between">
+                Wishlist
+                {wishlistCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
               
               <div className="pt-4 border-t border-[var(--header-border)] space-y-2">

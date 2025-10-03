@@ -5,6 +5,8 @@ import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { ShoppingCart, Heart } from "lucide-react";
 import ProductActions from "./ProductActions";
+import { useWishlistStore } from "../lib/wishlistStore";
+import { useCartStore } from "../lib/cartStore";
 
 interface ProductCardProps {
   id: string;
@@ -29,6 +31,22 @@ export default function ProductCard({
   onQuickView,
   onAddToCart
 }: ProductCardProps) {
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { addItem: addToCart } = useCartStore();
+  
+  const isWishlisted = isInWishlist(id);
+  
+  const handleWishlistToggle = () => {
+    if (isWishlisted) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist({ id, name, price, image, originalPrice, discount });
+    }
+  };
+  
+  const handleAddToCart = () => {
+    addToCart({ id, name, price, image });
+  };
   return (
     <Card className="group relative overflow-hidden border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="relative aspect-square overflow-hidden">
@@ -47,8 +65,11 @@ export default function ProductCard({
         )}
         
         {/* Wishlist Button */}
-        <button className="absolute top-3 right-3 p-2 bg-white/80 hover:bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Heart className="h-4 w-4 text-gray-600" />
+        <button 
+          onClick={handleWishlistToggle}
+          className="absolute top-3 right-3 p-2 bg-white/80 hover:bg-white rounded-full opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <Heart className={`h-4 w-4 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
         </button>
         
         {/* Product Actions - Always visible on mobile, hover on desktop */}
@@ -58,9 +79,9 @@ export default function ProductCard({
             productName={name}
             productPrice={price}
             productImage={image}
-            onWishlist={onWishlist || (() => {})}
+            onWishlist={handleWishlistToggle}
             onQuickView={onQuickView || (() => {})}
-            onAddToCart={onAddToCart || (() => {})}
+            onAddToCart={handleAddToCart}
           />
         </div>
       </div>
