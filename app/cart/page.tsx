@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import MobileBottomNav from "../../components/MobileBottomNav";
@@ -9,9 +10,10 @@ import RelatedProducts from "../../components/RelatedProducts";
 import { useCartStore } from "../../lib/cartStore";
 
 export default function Cart() {
+  const router = useRouter();
+  
   const handleCheckout = () => {
-    // Navigate to checkout page
-    console.log("Proceed to checkout");
+    router.push('/checkout');
   };
 
   const handleContinueShopping = () => {

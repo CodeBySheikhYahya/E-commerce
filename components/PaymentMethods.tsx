@@ -28,54 +28,24 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
           Payment Methods
         </h4>
 
-        {/* Direct Bank Transfer */}
-        <div className="space-y-2">
-          <label className="flex items-start space-x-3 cursor-pointer">
-            <input
-              type="radio"
-              name="payment"
-              value="bank-transfer"
-              checked={selectedPayment === "bank-transfer"}
-              onChange={() => setSelectedPayment("bank-transfer")}
-              className="mt-1 text-black focus:ring-black"
-            />
-            <div className="flex-1">
-              <span className="text-sm font-medium text-gray-900">Direct bank transfer</span>
-              <p className="text-xs text-gray-600 mt-1">
-                Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-              </p>
-            </div>
-          </label>
-        </div>
-
-        {/* Check Payments */}
+        {/* Credit/Debit Card */}
         <div className="space-y-2">
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
               type="radio"
               name="payment"
-              value="check"
-              checked={selectedPayment === "check"}
-              onChange={() => setSelectedPayment("check")}
+              value="card"
+              checked={selectedPayment === "card"}
+              onChange={() => setSelectedPayment("card")}
               className="text-black focus:ring-black"
             />
-            <span className="text-sm font-medium text-gray-900">Check payments</span>
+            <span className="text-sm font-medium text-gray-900">Pay with Credit Debit card</span>
           </label>
-        </div>
-
-        {/* Cash on Delivery */}
-        <div className="space-y-2">
-          <label className="flex items-center space-x-3 cursor-pointer">
-            <input
-              type="radio"
-              name="payment"
-              value="cod"
-              checked={selectedPayment === "cod"}
-              onChange={() => setSelectedPayment("cod")}
-              className="text-black focus:ring-black"
-            />
-            <span className="text-sm font-medium text-gray-900">Cash on delivery</span>
-          </label>
+          {selectedPayment === "card" && (
+            <p className="text-xs text-gray-600 ml-6">
+              You can choose how you'd like to pay after you place your order.
+            </p>
+          )}
         </div>
 
         {/* PayPal */}
@@ -104,6 +74,60 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
               </div>
             </div>
           </label>
+          {selectedPayment === "paypal" && (
+            <p className="text-xs text-gray-600 ml-6">
+              Click the PayPal button below to process your order.
+            </p>
+          )}
+        </div>
+
+        {/* Direct Bank Transfer */}
+        <div className="space-y-2">
+          <label className="flex items-start space-x-3 cursor-pointer">
+            <input
+              type="radio"
+              name="payment"
+              value="bank-transfer"
+              checked={selectedPayment === "bank-transfer"}
+              onChange={() => setSelectedPayment("bank-transfer")}
+              className="mt-1 text-black focus:ring-black"
+            />
+            <div className="flex-1">
+              <span className="text-sm font-medium text-gray-900">Direct bank transfer</span>
+            </div>
+          </label>
+          {selectedPayment === "bank-transfer" && (
+            <div className="ml-6 text-xs text-gray-600 space-y-1">
+              <p><strong>Reference:</strong> 691070</p>
+              <p><strong>Account holder:</strong> Buy With Us Pk Ltd</p>
+              <p><strong>Swift/BIC:</strong> TRWIGB2LXXX</p>
+              <p><strong>IBAN:</strong> GB21 TRWI 2308 0110 0600 47</p>
+              <p><strong>Bank name and address:</strong></p>
+              <p>Wise Payments Limited 1st Floor, Worship Square, 65 Clifton Street</p>
+              <p>London EC2A 4JE</p>
+              <p>United Kingdom</p>
+            </div>
+          )}
+        </div>
+
+        {/* Cash on Delivery */}
+        <div className="space-y-2">
+          <label className="flex items-center space-x-3 cursor-pointer">
+            <input
+              type="radio"
+              name="payment"
+              value="cod"
+              checked={selectedPayment === "cod"}
+              onChange={() => setSelectedPayment("cod")}
+              className="text-black focus:ring-black"
+            />
+            <span className="text-sm font-medium text-gray-900">Cash on delivery</span>
+          </label>
+          {selectedPayment === "cod" && (
+            <p className="text-xs text-gray-600 ml-6">
+              Pay with cash when your order is delivered. Additional delivery charges may apply.
+            </p>
+          )}
         </div>
       </div>
 
