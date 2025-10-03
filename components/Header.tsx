@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
@@ -231,21 +232,21 @@ export default function Header() {
               </div>
               
               <nav className="space-y-4">
-              <a href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
-                Home <ChevronDown className="h-4 w-4" />
-              </a>
-              <a href="/shop" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
-                Shop <ChevronDown className="h-4 w-4" />
-              </a>
-              <a href="/category" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
+              <Link href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+                Home
+              </Link>
+              <Link href="/products" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+                Shop
+              </Link>
+              <Link href="/category" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
                 Search by Category <ChevronDown className="h-4 w-4" />
-              </a>
-              <a href="/contact" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
-                Contact Us <ChevronDown className="h-4 w-4" />
-              </a>
-              <a href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
-                About Us <ChevronDown className="h-4 w-4" />
-              </a>
+              </Link>
+              <Link href="/contact-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+                Contact Us
+              </Link>
+              <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+                About Us
+              </Link>
               
               <div className="pt-4 border-t border-[var(--header-border)] space-y-2">
                 <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2 pr-4">

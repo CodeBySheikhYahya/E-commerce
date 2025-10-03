@@ -9,6 +9,7 @@ import ProductFilters from "../../components/ProductFilters";
 import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
 import MobileFilterSidebar from "../../components/MobileFilterSidebar";
+import MobileBottomNav from "../../components/MobileBottomNav";
 import { demoProducts } from "../../components/DemoData";
 
 export default function ProductsPage() {
@@ -147,6 +148,7 @@ export default function ProductsPage() {
       </MobileFilterSidebar>
       
       <Footer />
+      <MobileBottomNav />
     </>
   );
 }
