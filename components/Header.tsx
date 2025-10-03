@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
@@ -18,37 +18,17 @@ import {
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
   const cartItemCount = getItemCount();
   const router = useRouter();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down - hide header
-        setIsHeaderVisible(false);
-      } else {
-        // Scrolling up - show header
-        setIsHeaderVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  // No body scroll lock: header remains fixed via classes only
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] border-b border-[var(--header-border)] transition-transform duration-300 ${
-      isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
+    <header className={`relative z-50 bg-[var(--header-bg)] border-b border-[var(--header-border)]`}>
       {/* Top Bar - Desktop Only */}
       <div className="hidden lg:block h-[var(--desktop-top-bar-height)] bg-[var(--header-bg)] border-b border-[var(--header-border)]">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between text-sm">
@@ -243,7 +223,7 @@ export default function Header() {
         <div className="fixed inset-0 z-50 lg:hidden animate-in fade-in duration-300">
           <div className="fixed inset-0 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setIsMobileMenuOpen(false)} />
           <div className="fixed left-0 top-0 h-full w-80 bg-white animate-in slide-in-from-left duration-300">
-            <div className="h-full w-full p-6 flex flex-col bg-white" style={{minHeight: '100vh'}}>
+            <div className="h-full w-full p-6 flex flex-col bg-white overflow-y-auto" style={{minHeight: '100vh'}}>
               <div className="flex justify-end mb-6">
                 <button onClick={() => setIsMobileMenuOpen(false)}>
                   <X className="h-6 w-6 text-[var(--header-text)] " />
@@ -281,11 +261,11 @@ export default function Header() {
         </div>
       )}
 
-      {/* Search Overlay */}
+      {/* Search Dropdown Panel */}
       {isSearchOpen && (
-        <div className="fixed inset-0 z-50 bg-white animate-in slide-in-from-top duration-300">
+        <div className="absolute left-0 right-0 top-full z-50 bg-white shadow-lg border-b animate-in fade-in duration-200">
           <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold text-[var(--header-text)]" style={{fontFamily: 'var(--header-font-family)'}}>
                 Search Products
               </h2>
@@ -307,11 +287,7 @@ export default function Header() {
         </div>
       )}
 
-      {/* Cart Sidebar */}
-      <CartSidebar
-        isOpen={isCartOpen}
-        onClose={closeCart}
-      />
+      {/* Cart Sidebar moved to app root */}
     </header>
   );
 }

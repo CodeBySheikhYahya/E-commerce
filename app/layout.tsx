@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CartOverlayRoot from "../components/CartOverlayRoot";
 
 export const metadata: Metadata = {
   title: "E-Commerce App",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <CartOverlayRoot />
+      </body>
     </html>
   );
 }

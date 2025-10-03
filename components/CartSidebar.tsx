@@ -1,6 +1,7 @@
 "use client";
 
 import { X, Plus, Minus, Trash2 } from "lucide-react";
+import { createPortal } from "react-dom";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { useCartStore } from "../lib/cartStore";
@@ -32,16 +33,16 @@ export default function CartSidebar({
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 lg:hidden">
+  const overlay = (
+    <div className="fixed inset-0 z-[1000] lg:hidden">
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/50"
+      <div
+        className="fixed inset-0 bg-white"
         onClick={onClose}
       />
-      
+
       {/* Cart Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+      <div className=" flex flex-col fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out overscroll-contain">
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -57,7 +58,7 @@ export default function CartSidebar({
           </div>
 
           {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 bg-white">
             {currentItems.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-gray-500">Your cart is empty</p>
@@ -168,4 +169,10 @@ export default function CartSidebar({
       </div>
     </div>
   );
+
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  return createPortal(overlay, document.body);
 }
