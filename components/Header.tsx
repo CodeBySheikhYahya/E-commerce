@@ -209,9 +209,9 @@ export default function Header() {
             </div>
 
             {/* Desktop User Icon */}
-            <button className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
+            <Link href="/login" className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
               <User className="h-5 w-5" />
-            </button>
+            </Link>
             
             <button 
               className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200"
