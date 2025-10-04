@@ -22,7 +22,7 @@ export default function MobileBottomNav() {
           <span className="text-xs">Shop</span>
         </Link>
         
-        <Link href="/account" className="flex flex-col items-center space-y-1 py-2 px-4 text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
+        <Link href="/login" className="flex flex-col items-center space-y-1 py-2 px-4 text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
           <User className="h-5 w-5" />
           <span className="text-xs">Account</span>
         </Link>
