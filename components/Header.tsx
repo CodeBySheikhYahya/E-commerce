@@ -36,15 +36,27 @@ export default function Header() {
       {/* Top Bar - Desktop Only */}
       <div className="hidden lg:block h-[var(--desktop-top-bar-height)] bg-[var(--header-bg)] border-b border-[var(--header-border)]">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between text-sm">
-          <div className="text-[var(--header-text-muted)]">
-            15% Off First Order - Sign Up Today
+          <div className="text-[var(--header-text-muted)]" style={{
+            fontFamily: 'var(--top-bar-font-family)',
+            fontSize: 'var(--top-bar-font-size)',
+            fontWeight: 'var(--top-bar-font-weight)',
+            lineHeight: 'var(--top-bar-line-height)',
+            color: 'var(--top-bar-color)'
+          }}>
+            15% Off First Order <br /> Sign Up Today
           </div>
-          <div className="flex items-center space-x-4 text-[var(--header-text-muted)]">
+          <div className="flex items-center space-x-4 text-[var(--header-text-muted)]" style={{
+            fontFamily: 'var(--top-bar-font-family)',
+            fontSize: 'var(--top-bar-font-size)',
+            fontWeight: 'var(--top-bar-font-weight)',
+            lineHeight: 'var(--top-bar-line-height)',
+            color: 'var(--top-bar-color)'
+          }}>
             <span>Javeria.aman@buywithuspkltd.co.uk</span>
-            <span className="text-[var(--header-border)]">|</span>
-            <span>Suite 9 2nd Floor, Cranbrook house, 61 Cranbrook Road ilford, England IG14PG</span>
-            <span className="text-[var(--header-border)]">|</span>
-            <span>+44 7946 252194</span>
+            <span className="text-[var(--header-vertical-line)]">|</span>
+            <span className="max-w-[15vw]">Suite 9 2nd Floor, Cranbrook house, 61 Cranbrook Road ilford, England IG14PG</span>
+            <span className="text-[var(--header-vertical-line)]">|</span>
+            <span className="max-w-[15vw]">+44 7946 252194</span>
           </div>
         </div>
       </div>
@@ -161,16 +173,6 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               
-              <NavigationMenuItem>
-                <Link href="/wishlist" className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center space-x-1 px-3 py-2 rounded-md transition-colors">
-                  <span style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>Wishlist</span>
-                  {wishlistCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </Link>
-              </NavigationMenuItem>
               
             </NavigationMenuList>
           </NavigationMenu>
