@@ -42,7 +42,7 @@ export default function CartSidebar({
       />
 
       {/* Cart Sidebar */}
-      <div className=" flex flex-col fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out overscroll-contain">
+      <div className="flex flex-col fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out overscroll-contain animate-in slide-in-from-right">
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
