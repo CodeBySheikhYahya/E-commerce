@@ -4,6 +4,7 @@ import { X, Plus, Minus, Trash2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import { useCartStore } from "../lib/cartStore";
 
 interface CartSidebarProps {
@@ -139,21 +140,21 @@ export default function CartSidebar({
 
           {/* Action Buttons */}
           <div className="p-4 border-t border-gray-200 space-y-3">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => {
-                onClose();
-                window.location.href = '/cart';
-              }}
-            >
-              View Cart
-            </Button>
-            <Button
-              className="w-full bg-black hover:bg-gray-800 text-white"
-            >
-              Check Out
-            </Button>
+            <Link href="/cart" onClick={onClose}>
+              <Button
+                variant="outline"
+                className="w-full"
+              >
+                View Cart
+              </Button>
+            </Link>
+            <Link href="/checkout" onClick={onClose}>
+              <Button
+                className="w-full bg-black hover:bg-gray-800 text-white"
+              >
+                Check Out
+              </Button>
+            </Link>
           </div>
 
           {/* Subtotal */}
