@@ -54,7 +54,7 @@ export default function Header() {
           }}>
             <span>Javeria.aman@buywithuspkltd.co.uk</span>
             <span className="text-[var(--header-vertical-line)]">|</span>
-            <span className="max-w-[15vw]">Suite 9 2nd Floor, Cranbrook house, 61 Cranbrook Road ilford, England IG14PG</span>
+            <span className="max-w-[15vw]">Ilford, England IG14PG</span>
             <span className="text-[var(--header-vertical-line)]">|</span>
             <span className="max-w-[15vw]">+44 7946 252194</span>
           </div>
