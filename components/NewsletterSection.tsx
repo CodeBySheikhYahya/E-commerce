@@ -25,8 +25,10 @@ export default function NewsletterSection() {
                 lineHeight: "55px",
               }}
             >
-              Subscribe to our newsletter
-              <br className="hidden lg:block" />
+              Subscribe to
+              <br className="lg:hidden" />
+              our newsletter
+              <br />
               and Grab 30% OFF
             </h2>
             <p className="mt-4 text-gray-600 max-w-xl text-sm lg:text-base">
