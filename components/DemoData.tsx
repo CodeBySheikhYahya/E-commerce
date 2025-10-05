@@ -92,7 +92,7 @@ export const demoProducts: Product[] = [
   }
 ];
 
-export const heroImages = ['/industry.jpg', '/pak.jpg'];
+export const heroImages = ['/herosection1.png', '/herosection2.png'];
 
 export const heroContent = {
   title: "Premium Safety",

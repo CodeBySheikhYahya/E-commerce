@@ -20,7 +20,7 @@ export default function HeroSection() {
 
   return (
     <section 
-      className="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden"
+      className="relative w-full h-[60vh] md:h-[70vh] lg:h-[90vh] overflow-hidden"
       onMouseEnter={() => setCurrentImageIndex(currentImageIndex)}
       onMouseLeave={() => setCurrentImageIndex(currentImageIndex)}
     >

@@ -2,6 +2,7 @@
 
 import ProductCard from "./ProductCard";
 import { Button } from "./ui/button";
+import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
 import { useState } from "react";
 import { demoProducts } from "./DemoData";
@@ -23,36 +24,25 @@ export default function ProductShowcase() {
 
         {/* Top Controls Row (tabs left, view all right) */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
-          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap sm:overflow-visible">
-            <Button 
-              size="sm" 
-              variant={activeTab === "best" ? undefined : "ghost"}
-              aria-selected={activeTab === "best"}
-              onClick={() => setActiveTab("best")}
-            >
-              Best Sellers
-            </Button>
-            <Button 
-              size="sm" 
-              variant={activeTab === "new" ? undefined : "ghost"}
-              aria-selected={activeTab === "new"}
-              onClick={() => setActiveTab("new")}
-            >
-              New Arrivals
-            </Button>
-            <Button 
-              size="sm" 
-              variant={activeTab === "featured" ? undefined : "ghost"}
-              aria-selected={activeTab === "featured"}
-              onClick={() => setActiveTab("featured")}
-            >
-              Featured
-            </Button>
+          <div className="flex items-center gap-6 overflow-x-auto whitespace-nowrap sm:overflow-visible">
+            <UnderlineTab 
+              label="Best Sellers" 
+              isActive={activeTab === "best"}
+              onClick={() => setActiveTab("best")} 
+            />
+            <UnderlineTab 
+              label="New Arrivals" 
+              isActive={activeTab === "new"}
+              onClick={() => setActiveTab("new")} 
+            />
+            <UnderlineTab 
+              label="Featured" 
+              isActive={activeTab === "featured"}
+              onClick={() => setActiveTab("featured")} 
+            />
           </div>
           <div className="order-2 sm:order-none">
-            <Button size="sm" asChild>
-              <Link href="/products">View All</Link>
-            </Button>
+            <UnderlineTab label="View All" href="/products" />
           </div>
         </div>
 

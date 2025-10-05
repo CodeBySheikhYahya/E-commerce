@@ -200,15 +200,7 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </button>
             
-            {/* Desktop Currency & Language */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <button className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center">
-                🇺🇸 USD $ <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              <button className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center">
-                EN <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-            </div>
+            {/* Removed currency and language selectors */}
 
             {/* Desktop User Icon */}
             <Link href="/login" className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
@@ -272,14 +264,7 @@ export default function Header() {
                 )}
               </Link>
               
-              <div className="pt-4 border-t border-[var(--header-border)] space-y-2">
-                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2 pr-4">
-                  🇺🇸 USD $ <ChevronDown className="h-4 w-4" />
-                </button>
-                <button className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between w-full py-2 pr-4">
-                  EN <ChevronDown className="h-4 w-4" />
-                </button>
-              </div>
+              {/* Removed currency and language selectors in mobile menu */}
             </nav>
             </div>
           </div>
