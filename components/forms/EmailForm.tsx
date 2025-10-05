@@ -54,18 +54,18 @@ export default function EmailForm({
 
   return (
     <form onSubmit={handleSubmit(onValid)} className={className} noValidate>
-      <div className="flex w-full items-center rounded-full border border-[#e9e9e9] bg-white p-1.5 pr-2 shadow-[0_0_0_1px_rgba(0,0,0,0.04)]">
+      <div className="relative flex w-full items-center rounded-full border border-[#e9e9e9] bg-white p-1.5 pr-2 shadow-[0_0_0_1px_rgba(0,0,0,0.04)] overflow-hidden flex-nowrap h-14">
         <input
           type="email"
           aria-label="Email address"
           placeholder={placeholder}
           {...register("email")}
-          className="flex-1 rounded-full px-6 py-3 text-base outline-none placeholder:text-gray-500"
+          className="flex-1 rounded-full px-6 py-3 text-base outline-none placeholder:text-gray-500 min-w-0 w-full pr-28 lg:pr-6 h-full"
           disabled={isSubmitting}
         />
         <CtaPillButton
           type="submit"
-          className="px-7 py-3"
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-3 text-sm lg:px-7 lg:text-base h-11 lg:h-12 shrink-0"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : buttonText}
