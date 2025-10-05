@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
+import { CtaPillButton } from "../ui/cta-pill-button";
 
 const emailSchema = z.object({
   email: z
@@ -54,22 +54,22 @@ export default function EmailForm({
 
   return (
     <form onSubmit={handleSubmit(onValid)} className={className} noValidate>
-      <div className="flex w-full items-stretch rounded-full border border-[var(--header-border)] bg-white p-1 shadow-sm">
+      <div className="flex w-full items-center rounded-full border border-[#e9e9e9] bg-white p-1.5 pr-2 shadow-[0_0_0_1px_rgba(0,0,0,0.04)]">
         <input
           type="email"
           aria-label="Email address"
           placeholder={placeholder}
           {...register("email")}
-          className="flex-1 rounded-full px-4 py-3 text-sm outline-none placeholder:text-gray-400"
+          className="flex-1 rounded-full px-6 py-3 text-base outline-none placeholder:text-gray-500"
           disabled={isSubmitting}
         />
-        <Button
+        <CtaPillButton
           type="submit"
-          className="rounded-full bg-black px-5 py-2 text-white hover:bg-gray-800"
+          className="px-7 py-3"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : buttonText}
-        </Button>
+        </CtaPillButton>
       </div>
 
       <div className="mt-2 min-h-[1.25rem]">
