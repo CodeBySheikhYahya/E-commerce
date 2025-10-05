@@ -155,6 +155,11 @@
   }
 }
 
+/* Prevent page-level horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
 /* Section Heading Utility Classes */
 .section-heading {
   font-size: var(--section-heading-size);

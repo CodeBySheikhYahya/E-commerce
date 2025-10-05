@@ -29,7 +29,7 @@ export default function ScrollableContainer({ children, className = "" }: Scroll
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       {/* Left Arrow Button - Hidden on mobile */}
       <button
         onClick={scrollLeft}
@@ -55,10 +55,13 @@ export default function ScrollableContainer({ children, className = "" }: Scroll
       {/* Scrollable Content */}
       <div
         ref={scrollRef}
-        className={`flex gap-4 lg:gap-6 overflow-x-auto pb-4 lg:pb-0 ${className}`}
+        className={`w-full flex gap-4 lg:gap-6 overflow-x-auto pb-4 lg:pb-0 ${className}`}
         style={{
           scrollbarWidth: 'none', // Firefox
           msOverflowStyle: 'none', // IE/Edge
+          overscrollBehaviorX: 'contain',
+          WebkitOverflowScrolling: 'touch',
+          touchAction: 'pan-x'
         }}
       >
         {children}
