@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, Eye } from "lucide-react";
 import ProductActions from "./ProductActions";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { useCartStore } from "../lib/cartStore";
@@ -47,8 +47,9 @@ export default function ProductCard({
   const handleAddToCart = () => {
     addToCart({ id, name, price, image });
   };
+  
   return (
-    <Card className="group relative overflow-hidden border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300">
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={image}
@@ -57,23 +58,13 @@ export default function ProductCard({
           className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
-        {/* Discount Badge */}
-        {discount && (
-          <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-full">
-            {discount}
-          </div>
-        )}
+        {/* New Badge */}
+        <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+          New
+        </div>
         
-        {/* Wishlist Button */}
-        <button 
-          onClick={handleWishlistToggle}
-          className="absolute top-3 right-3 p-2 bg-white/80 hover:bg-white rounded-full opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300"
-        >
-          <Heart className={`h-4 w-4 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
-        </button>
-        
-        {/* Product Actions - Always visible on mobile, hover on desktop */}
-        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
+        {/* Product Actions - Show on hover */}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <ProductActions
             productId={id}
             productName={name}
@@ -87,21 +78,14 @@ export default function ProductCard({
       </div>
       
       <CardContent className="p-4">
-        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2" style={{fontFamily: 'var(--header-font-family)'}}>
+        <h3 className="font-medium text-gray-900 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
           {name}
         </h3>
         
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
-              {price}
-            </span>
-            {originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                {originalPrice}
-              </span>
-            )}
-          </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-lg font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
+            {price}
+          </span>
         </div>
       </CardContent>
     </Card>

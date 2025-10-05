@@ -13,12 +13,12 @@ export default function ProductShowcase() {
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-left mb-12">
           <h2 className="section-heading">
-            Featured Safety Products
+            Featured Products
           </h2>
-          <p className="section-subtitle max-w-2xl mx-auto">
-            Discover our top-rated safety equipment designed to protect your workforce with industry-leading quality and reliability.
+          <p className="section-subtitle max-w-2xl">
+            Explore the best of Furnisy Featured Collection.
           </p>
         </div>
 
