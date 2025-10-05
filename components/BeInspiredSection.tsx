@@ -52,7 +52,7 @@ export default function BeInspiredSection() {
 
             {/* CTA Button */}
             <div className="pt-4">
-              <Button asChild size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
+              <Button asChild size="lg" className="bg-black hover:bg-gray-800 text-white px-12 py-4 rounded-full font-medium transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
                 <Link href="/products">
                   Shop Safety Products
                   <ArrowUpRight className="ml-2 h-4 w-4" />
