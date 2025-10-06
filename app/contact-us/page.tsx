@@ -13,7 +13,7 @@ export default function ContactUs() {
   return (
    <>
     <Header />
-    <main className="min-h-screen pb-20 lg:pb-0 pt-[var(--mobile-header-height)] lg:pt-[calc(var(--desktop-top-bar-height)+var(--desktop-header-height))]">
+    <main className="min-h-screen pb-20 lg:pb-0">
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -23,30 +23,17 @@ export default function ContactUs() {
       >
         <div className="absolute inset-0">
           <Image
-            src="/contactus.avif"
+            src="/contactus.png"
             alt="Contact Us"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black/40"></div>
         </div>
         
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center"
-            >
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
-                Contact Us
-              </h1>
-              <p className="text-xl lg:text-2xl text-white font-medium">
-                We're Here to Help
-              </p>
-            </motion.div>
+            {/* Text overlay removed as image contains headings */}
           </div>
         </div>
       </motion.section>
