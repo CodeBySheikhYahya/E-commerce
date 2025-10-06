@@ -7,64 +7,57 @@ import { heroContent } from "./DemoData";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[60vh] md:h-[70vh] lg:h-[90vh] overflow-hidden">
-      {/* Single Hero Image */}
-      <div className="relative w-full h-full">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/herooo.png')` }}
-        />
-      </div>
-      
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/20"></div>
+    <section className="relative w-full overflow-hidden">
+      {/* Background image */}
+      <div className="relative h-[60vh] md:h-[70vh] lg:h-[90vh]">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('/herooo.png')` }} />
+        {/* Soft vignette to avoid hard edges on all sides */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/10" />
+        {/* Left panel for text readability */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-gradient-to-r from-black/65 via-black/35 to-transparent" />
 
-      {/* Text Overlay Container */}
-      <div className="relative z-10 h-full flex items-center">
-        <div className="max-w-7xl mx-auto px-4 w-full">
-          <div className="max-w-2xl">
-            {/* Main Headline */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight" 
-              style={{fontFamily: 'var(--header-font-family)'}}
-            >
-              {heroContent.title}
-              <br />
-              <span className="text-white">{heroContent.subtitle}</span>
-            </motion.h1>
-            
-            {/* Description */}
-            <motion.p 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg lg:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
-            >
-              {heroContent.description}
-            </motion.p>
-            
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Button 
-                size="lg" 
-                className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-lg font-medium rounded-lg transition-all duration-300 hover:scale-105"
-                style={{fontFamily: 'var(--header-font-family)'}}
+        {/* Content */}
+        <div className="absolute inset-0 z-10 flex items-center">
+          <div className="max-w-7xl mx-auto px-4 w-full">
+            <div className="max-w-2xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7 }}
+                className="text-white text-4xl lg:text-6xl font-bold leading-tight"
               >
-                {heroContent.buttonText}
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </motion.div>
+                {heroContent.title}
+                <br />
+                <span className="text-white/95">{heroContent.subtitle}</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="mt-4 text-white/95 text-lg lg:text-xl max-w-xl"
+              >
+                {heroContent.description}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="mt-8"
+              >
+                <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-xl shadow-xl">
+                  {heroContent.buttonText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
-
     </section>
   );
 }
