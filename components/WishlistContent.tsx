@@ -60,17 +60,33 @@ export default function WishlistContent() {
           </div>
         </div>
 
-        {/* Mobile Card View */}
-        <div className="lg:hidden space-y-4">
-          {items.map((item) => (
-            <WishlistItem
-              key={item.id}
-              product={item}
-              onAddToCart={handleAddToCart}
-              onRemove={handleRemoveFromWishlist}
-              variant="card"
-            />
-          ))}
+        {/* Mobile Horizontal Scroll (entire list scrolls together) */}
+        <div className="lg:hidden">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+            <div className="min-w-[720px]">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Product Name</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Price</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Stock status</th>
+                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {items.map((item) => (
+                    <WishlistItem
+                      key={item.id}
+                      product={item}
+                      onAddToCart={handleAddToCart}
+                      onRemove={handleRemoveFromWishlist}
+                      variant="table"
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>
