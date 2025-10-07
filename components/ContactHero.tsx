@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, MessageCircle, MapPin, Clock, Headset } from "lucide-react";
+import { Phone, Mail, MessageCircle, MapPin, Clock, Headset, Users, Award, Shield, Heart } from "lucide-react";
 
-export default function ContactHero() {
+type ContactHeroVariant = "contact" | "about";
+
+export default function ContactHero({ variant = "contact" }: { variant?: ContactHeroVariant }) {
   return (
     <motion.section 
       initial={{ opacity: 0 }}
@@ -94,12 +96,13 @@ export default function ContactHero() {
             transition={{ type: "spring", stiffness: 90, damping: 18 }}
             className="max-w-2xl"
           >
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
-              Contact Us
+            <h1 className={variant === "about" ? "section-heading" : "text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900"}>
+              {variant === "about" ? "About Us" : "Contact Us"}
             </h1>
             <p className="mt-4 text-base sm:text-lg text-gray-600">
-              We are here to help. Reach out via phone, email, or chat and our
-              team will get back to you as soon as possible.
+              {variant === "about"
+                ? "Learn about our mission, vision, and what makes us different."
+                : "We are here to help. Reach out via phone, email, or chat and our team will get back to you as soon as possible."}
             </p>
           </motion.div>
 
@@ -113,74 +116,130 @@ export default function ContactHero() {
               transition={{ duration: 20, ease: "linear", repeat: Infinity }}
             >
               {/* Icons positioned around the circle */}
-              <motion.div
-                className="absolute left-1/2 top-0 -translate-x-1/2"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
-                  <Phone className="h-6 w-6 text-indigo-600" />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="absolute right-0 top-1/2 -translate-y-1/2"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
-                  <Mail className="h-6 w-6 text-purple-600" />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="absolute left-1/2 bottom-0 -translate-x-1/2"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
-                  <MessageCircle className="h-6 w-6 text-emerald-600" />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="absolute left-0 top-1/2 -translate-y-1/2"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
-                  <MapPin className="h-6 w-6 text-rose-600" />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="absolute left-[12%] top-[20%]"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
-                  <Clock className="h-5 w-5 text-amber-600" />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="absolute right-[12%] bottom-[20%]"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
-                  <Headset className="h-5 w-5 text-sky-600" />
-                </span>
-              </motion.div>
+              {variant === "about" ? (
+                <>
+                  <motion.div
+                    className="absolute left-1/2 top-0 -translate-x-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Award className="h-6 w-6 text-indigo-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Users className="h-6 w-6 text-purple-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-1/2 bottom-0 -translate-x-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Heart className="h-6 w-6 text-emerald-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-0 top-1/2 -translate-y-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Shield className="h-6 w-6 text-rose-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-[12%] top-[20%]"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
+                      <Award className="h-5 w-5 text-amber-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute right-[12%] bottom-[20%]"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
+                      <Users className="h-5 w-5 text-sky-600" />
+                    </span>
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  <motion.div
+                    className="absolute left-1/2 top-0 -translate-x-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Phone className="h-6 w-6 text-indigo-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <Mail className="h-6 w-6 text-purple-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-1/2 bottom-0 -translate-x-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <MessageCircle className="h-6 w-6 text-emerald-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-0 top-1/2 -translate-y-1/2"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md">
+                      <MapPin className="h-6 w-6 text-rose-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute left-[12%] top-[20%]"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
+                      <Clock className="h-5 w-5 text-amber-600" />
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="absolute right-[12%] bottom-[20%]"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  >
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md">
+                      <Headset className="h-5 w-5 text-sky-600" />
+                    </span>
+                  </motion.div>
+                </>
+              )}
             </motion.div>
 
             {/* Center node */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="h-20 w-20 rounded-full bg-white shadow-lg ring-1 ring-gray-100/70 flex items-center justify-center"
                   style={{ boxShadow: '0 10px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                <span className="text-sm font-medium text-gray-700">Support</span>
+                  <span className="text-sm font-medium text-gray-700">{variant === "about" ? "Our Story" : "Support"}</span>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import NewsletterSection from "../../components/NewsletterSection";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ContactHero from "../../components/ContactHero";
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Shield, Users, Award, Heart, Lock } from "lucide-react";
 
@@ -50,45 +51,8 @@ export default function AboutUs() {
     <Header />
     <main className="min-h-screen pb-20 lg:pb-0">
         
-        {/* Hero Section */}
-        <motion.section 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative h-[60vh] lg:h-[70vh] overflow-hidden"
-        >
-          <div className="absolute inset-0">
-            <Image
-              src="/helmet.jpg"
-              alt="BuyWithUsPK Team"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/40"></div>
-          </div>
-          
-          <div className="relative z-10 h-full flex items-center">
-            <div className="max-w-7xl mx-auto px-4 w-full">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-center"
-              >
-                <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
-                  About Us
-                </h1>
-                <p className="text-lg lg:text-xl text-white/90 mb-2">
-                  Home &gt; About Us
-                </p>
-                <p className="text-xl lg:text-2xl text-white font-medium">
-                  Your Safety Our Priority
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </motion.section>
+        {/* Hero Section (reused with orbiting icons) */}
+        <ContactHero variant="about" />
 
         {/* Our Story Section */}
         <motion.section 
@@ -106,7 +70,7 @@ export default function AboutUs() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
-                  className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6" 
+                  className="section-heading mb-6" 
                   style={{fontFamily: 'var(--header-font-family)'}}
                 >
                   Our Story
@@ -164,7 +128,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+              <h2 className="section-heading mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                 Our Foundation
               </h2>
             </motion.div>
@@ -177,7 +141,7 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Vision
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -192,7 +156,7 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Mission
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -207,7 +171,7 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Commitment
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -234,7 +198,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+              <h2 className="section-heading mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                 BUYWITHUS Advantage
               </h2>
             </motion.div>
@@ -305,7 +269,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+              <h2 className="section-heading mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                 Our Policies
               </h2>
             </motion.div>
@@ -318,7 +282,7 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="bg-white p-8 rounded-lg shadow-sm"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Refund Policy
                 </h3>
                 <p className="text-gray-600 mb-4">
@@ -340,7 +304,7 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="bg-white p-8 rounded-lg shadow-sm"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Shipment Policy
                 </h3>
                 <div className="text-gray-600 space-y-3">
@@ -375,7 +339,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
+              <h2 className="section-heading mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                 Frequently Asked Questions
               </h2>
             </motion.div>
