@@ -10,7 +10,8 @@ import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
 import MobileFilterSidebar from "../../components/MobileFilterSidebar";
 import MobileBottomNav from "../../components/MobileBottomNav";
-import { demoProducts } from "../../components/DemoData";
+import ProductDetailModal from "../../components/ProductDetailModal";
+import { demoProducts, Product } from "../../components/DemoData";
 
 export default function ProductsPage() {
   // State management for filters and view
@@ -20,6 +21,10 @@ export default function ProductsPage() {
   const [currentView, setCurrentView] = useState<"grid" | "list">("grid");
   const [currentSort, setCurrentSort] = useState("default");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // Modal state management
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Filter products based on selected filters
   const filteredProducts = demoProducts.filter(product => {
@@ -48,6 +53,20 @@ export default function ProductsPage() {
         return 0;
     }
   });
+
+  // Handle quick view modal
+  const handleQuickView = (productId: string) => {
+    const product = demoProducts.find(p => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   return (
     <>
@@ -116,6 +135,7 @@ export default function ProductsPage() {
                       originalPrice={product.originalPrice}
                       discount={product.discount}
                       view={currentView}
+                      onQuickView={handleQuickView}
                     />
                   ))}
                 </div>
@@ -147,6 +167,15 @@ export default function ProductsPage() {
           onColorChange={setSelectedColors}
         />
       </MobileFilterSidebar>
+      
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <ProductDetailModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          product={selectedProduct}
+        />
+      )}
       
       <Footer />
       <MobileBottomNav />

@@ -136,8 +136,8 @@ export default function ProductCard({
           New
         </div>
         
-        {/* Product Actions - Show on hover */}
-        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {/* Product Actions - Show on hover for desktop, always visible on mobile */}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
           <ProductActions
             productId={id}
             productName={name}
