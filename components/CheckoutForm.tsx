@@ -79,13 +79,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
         {/* Name Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              First name *
+            <label className="block text-sm font-normal text-gray-700 mb-2">
+              First name <span className="text-red-500 text-xs align-super">*</span>
             </label>
             <input
               type="text"
               {...register("firstName")}
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
               disabled={isSubmitting}
             />
             {errors.firstName && (
@@ -94,13 +94,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Last name *
+            <label className="block text-sm font-normal text-gray-700 mb-2">
+              Last name <span className="text-red-500 text-xs align-super">*</span>
             </label>
             <input
               type="text"
               {...register("lastName")}
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
               disabled={isSubmitting}
             />
             {errors.lastName && (
@@ -112,13 +112,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
         {/* Email and Phone */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email address *
+            <label className="block text-sm font-normal text-gray-700 mb-2">
+              Email address <span className="text-red-500 text-xs align-super">*</span>
             </label>
             <input
               type="email"
               {...register("email")}
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
               disabled={isSubmitting}
             />
             {errors.email && (
@@ -127,13 +127,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone *
+            <label className="block text-sm font-normal text-gray-700 mb-2">
+              Phone <span className="text-red-500 text-xs align-super">*</span>
             </label>
             <input
               type="tel"
               {...register("phone")}
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
               disabled={isSubmitting}
             />
             {errors.phone && (
@@ -144,12 +144,12 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
 
         {/* Country */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Country/Region *
+          <label className="block text-sm font-normal text-gray-700 mb-2">
+            Country/Region <span className="text-red-500 text-xs align-super">*</span>
           </label>
           <select
             {...register("country")}
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
             disabled={isSubmitting}
           >
             <option value="">Select a country</option>
@@ -165,13 +165,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
 
         {/* City and Address */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Town / City *
+          <label className="block text-sm font-normal text-gray-700 mb-2">
+            Town / City <span className="text-red-500 text-xs align-super">*</span>
           </label>
           <input
             type="text"
             {...register("city")}
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
             disabled={isSubmitting}
           />
           {errors.city && (
@@ -180,13 +180,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Street address *
+          <label className="block text-sm font-normal text-gray-700 mb-2">
+            Street address <span className="text-red-500 text-xs align-super">*</span>
           </label>
           <input
             type="text"
             {...register("address")}
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
             disabled={isSubmitting}
           />
           {errors.address && (
@@ -195,13 +195,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            ZIP Code *
+          <label className="block text-sm font-normal text-gray-700 mb-2">
+            ZIP Code <span className="text-red-500 text-xs align-super">*</span>
           </label>
           <input
             type="text"
             {...register("zipCode")}
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
             disabled={isSubmitting}
           />
           {errors.zipCode && (
@@ -211,13 +211,13 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
 
         {/* Additional Information */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-normal text-gray-700 mb-2">
             Additional information (optional)
           </label>
           <textarea
             {...register("additionalInfo")}
             rows={4}
-            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
             disabled={isSubmitting}
           />
           {errors.additionalInfo && (
@@ -226,14 +226,14 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
         </div>
 
         {/* Create Account Checkbox */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <input
             type="checkbox"
             {...register("createAccount")}
-            className="rounded border-gray-300 text-black focus:ring-black"
+            className="rounded border-gray-300 text-black focus:ring-gray-400 h-4 w-4"
             disabled={isSubmitting}
           />
-          <label className="text-sm text-gray-700">
+          <label className="text-sm font-normal text-gray-700">
             Create an account?
           </label>
         </div>
