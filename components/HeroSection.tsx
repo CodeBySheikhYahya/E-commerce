@@ -25,7 +25,7 @@ export default function HeroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, amount: 0.6 }}
                 transition={{ duration: 0.7 }}
-                className="text-white text-4xl lg:text-6xl font-bold leading-tight"
+                className="text-white text-4xl lg:text-8xl font-light leading-tight"
               >
                 {heroContent.title}
                 <br />
@@ -37,7 +37,7 @@ export default function HeroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, amount: 0.6 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="mt-4 text-white/95 text-lg lg:text-xl max-w-xl"
+                className="mt-4 text-white/95 text-lg lg:text-2xl max-w-xl"
               >
                 {heroContent.description}
               </motion.p>
@@ -49,10 +49,10 @@ export default function HeroSection() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="mt-8"
               >
-                <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-xl shadow-xl">
-                  {heroContent.buttonText}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                 <Button size="lg" className="bg-white text-black hover:bg-white/20 px-10 py-5 rounded-lg shadow-xl transition-all duration-300">
+                   {heroContent.buttonText}
+                   <ArrowRight className="ml-2 h-5 w-5" />
+                 </Button>
               </motion.div>
             </div>
           </div>
