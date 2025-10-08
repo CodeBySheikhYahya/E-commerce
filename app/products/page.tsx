@@ -115,6 +115,7 @@ export default function ProductsPage() {
                       image={product.image}
                       originalPrice={product.originalPrice}
                       discount={product.discount}
+                      view={currentView}
                     />
                   ))}
                 </div>
