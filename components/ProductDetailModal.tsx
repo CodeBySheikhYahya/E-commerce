@@ -94,8 +94,7 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
       price: product.price,
       image: product.image,
       selectedColor,
-      selectedSize,
-      quantity
+      selectedSize
     });
     openCart();
     onClose(); // Close modal after adding to cart
