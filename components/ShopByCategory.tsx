@@ -3,6 +3,7 @@
 import CategoryCard from "./CategoryCard";
 import ScrollableContainer from "./ScrollableContainer";
 import { demoProducts } from "./DemoData";
+import { motion } from "framer-motion";
 
 // Generate categories from demo products
 const categories = Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean))).map((category, index) => ({
@@ -17,14 +18,20 @@ export default function ShopByCategory() {
     <section className="py-16 lg:py-20 bg-gray-50">
       <div className="w-full px-4">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h2 className="section-heading">
             Shop by Category
           </h2>
           <p className="section-subtitle max-w-2xl mx-auto">
             Discover everything you need through our safety product categories
           </p>
-        </div>
+        </motion.div>
 
         {/* Categories - Horizontal Scrollable Layout */}
         <ScrollableContainer>

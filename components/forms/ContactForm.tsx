@@ -43,7 +43,7 @@ export default function ContactForm({ onSubmit, className = "" }: ContactFormPro
   return (
     <form onSubmit={handleSubmit(onValid)} className={className} noValidate>
       <div className="space-y-4">
-        <h2 className="text-xl lg:text-2xl font-semibold" style={{fontFamily: 'var(--header-font-family)'}}>Contact Us</h2>
+        <h2 className="section-heading mb-4">Contact Us</h2>
 
         {/* Name & Email - side by side on larger screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

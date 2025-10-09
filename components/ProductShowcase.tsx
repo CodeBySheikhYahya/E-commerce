@@ -6,6 +6,7 @@ import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
 import { useState } from "react";
 import { demoProducts } from "./DemoData";
+import { motion } from "framer-motion";
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<"best" | "new" | "featured">("best");
@@ -13,14 +14,20 @@ export default function ProductShowcase() {
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
-        <div className="text-left mb-12">
+        <motion.div 
+          className="text-left mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h2 className="section-heading">
             Featured Products
           </h2>
           <p className="section-subtitle max-w-2xl">
             Explore the best of Furnisy Featured Collection.
           </p>
-        </div>
+        </motion.div>
 
         {/* Top Controls Row (tabs left, view all right) */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
@@ -47,26 +54,57 @@ export default function ProductShowcase() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.1
+              }
+            }
+          }}
+        >
           {demoProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              image={product.image}
-              originalPrice={product.originalPrice}
-              discount={product.discount}
-            />
+            <motion.div 
+              key={product.id} 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+            >
+              <ProductCard
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                image={product.image}
+                originalPrice={product.originalPrice}
+                discount={product.discount}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* View All Button */}
-        <div className="text-center mt-12">
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <Button asChild size="lg" className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
             <Link href="/products">View All Products</Link>
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

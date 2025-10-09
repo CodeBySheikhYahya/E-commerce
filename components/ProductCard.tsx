@@ -53,7 +53,7 @@ export default function ProductCard({
   // Mobile list view layout
   if (view === "list") {
     return (
-      <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300 md:hidden">
+      <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300">
         <div className="relative aspect-square overflow-hidden">
           <Image
             src={image}
@@ -151,12 +151,12 @@ export default function ProductCard({
       </div>
       
       <CardContent className="p-4">
-        <h3 className="font-medium text-gray-900 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
+        <h3 className="text-xl font-medium text-gray-800 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
           {name}
         </h3>
         
         <div className="flex items-center space-x-2">
-          <span className="text-lg font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
+          <span className="text-lg font-normal text-gray-600" style={{fontFamily: 'var(--header-font-family)'}}>
             {price}
           </span>
         </div>

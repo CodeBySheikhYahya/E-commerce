@@ -1,6 +1,7 @@
 "use client";
 
 import EmailForm from "./forms/EmailForm";
+import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
   async function handleSubscribe(email: string) {
@@ -13,7 +14,13 @@ export default function NewsletterSection() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
           {/* Left: Text */}
-          <div className="flex-1">
+          <motion.div 
+            className="flex-1"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <h2
               className=""
               style={{
@@ -33,14 +40,20 @@ export default function NewsletterSection() {
             </h2>
             <p className="mt-4 text-gray-600 max-w-xl text-sm lg:text-base">
               We believe in keeping you at the forefront of innovation information, and inspiration.
-              That’s why we invite you to.
+              That's why we invite you to.
             </p>
-          </div>
+          </motion.div>
 
           {/* Right: Form */}
-          <div className="flex-1 w-full lg:max-w-2xl">
+          <motion.div 
+            className="flex-1 w-full lg:max-w-2xl"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <EmailForm onSubmit={handleSubscribe} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

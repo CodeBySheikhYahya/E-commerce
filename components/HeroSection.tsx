@@ -4,8 +4,11 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { heroContent } from "./DemoData";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
+  const router = useRouter();
+
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background image */}
@@ -49,7 +52,11 @@ export default function HeroSection() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="mt-8"
               >
-                 <Button size="lg" className="bg-white text-black hover:bg-white/20 px-10 py-5 rounded-lg shadow-xl transition-all duration-300">
+                 <Button 
+                   size="lg" 
+                   className="bg-white text-black hover:bg-white/20 px-10 py-5 rounded-lg shadow-xl transition-all duration-300"
+                   onClick={() => router.push('/products')}
+                 >
                    {heroContent.buttonText}
                    <ArrowRight className="ml-2 h-5 w-5" />
                  </Button>

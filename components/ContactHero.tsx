@@ -96,7 +96,7 @@ export default function ContactHero({ variant = "contact" }: { variant?: Contact
             transition={{ type: "spring", stiffness: 90, damping: 18 }}
             className="max-w-2xl"
           >
-            <h1 className={variant === "about" ? "section-heading" : "text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900"}>
+            <h1 className="section-heading">
               {variant === "about" ? "About Us" : "Contact Us"}
             </h1>
             <p className="mt-4 text-base sm:text-lg text-gray-600">
