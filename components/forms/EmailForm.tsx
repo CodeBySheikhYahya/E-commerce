@@ -60,7 +60,7 @@ export default function EmailForm({
           aria-label="Email address"
           placeholder={placeholder}
           {...register("email")}
-          className="flex-1 rounded-full px-6 py-3 text-base outline-none placeholder:text-gray-500 min-w-0 w-full pr-28 lg:pr-6 h-full"
+          className="flex-1 rounded-full px-6 py-3 text-base outline-none placeholder:text-gray-500 min-w-0 w-full pr-28 lg:pr-6 h-full truncate lg:truncate-none"
           disabled={isSubmitting}
         />
         <CtaPillButton

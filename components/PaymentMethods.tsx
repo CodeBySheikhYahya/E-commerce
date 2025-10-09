@@ -24,7 +24,7 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
     <div className={`space-y-6 ${className}`}>
       {/* Payment Methods */}
       <div className="space-y-4">
-        <h4 className="text-lg font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
+        <h4 className="text-xl font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
           Payment Methods
         </h4>
 
@@ -39,10 +39,10 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
               onChange={() => setSelectedPayment("card")}
               className="text-black focus:ring-black"
             />
-            <span className="text-sm font-medium text-gray-900">Pay with Credit Debit card</span>
+            <span className="text-lg font-medium text-gray-900">Pay with Credit Debit card</span>
           </label>
           {selectedPayment === "card" && (
-            <p className="text-xs text-gray-600 ml-6">
+            <p className="text-base text-gray-600 ml-6">
               You can choose how you'd like to pay after you place your order.
             </p>
           )}
@@ -60,22 +60,22 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
               className="mt-1 text-black focus:ring-black"
             />
             <div className="flex-1">
-              <span className="text-sm font-medium text-gray-900">PayPal</span>
+              <span className="text-lg font-medium text-gray-900">PayPal</span>
               <div className="flex items-center space-x-2 mt-2">
                 <div className="flex space-x-1">
-                  <div className="w-8 h-5 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">V</div>
-                  <div className="w-8 h-5 bg-red-600 rounded text-white text-xs flex items-center justify-center font-bold">M</div>
-                  <div className="w-8 h-5 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">A</div>
-                  <div className="w-8 h-5 bg-orange-500 rounded text-white text-xs flex items-center justify-center font-bold">D</div>
+                  <div className="w-8 h-5 bg-blue-600 rounded text-white text-sm flex items-center justify-center font-bold">V</div>
+                  <div className="w-8 h-5 bg-red-600 rounded text-white text-sm flex items-center justify-center font-bold">M</div>
+                  <div className="w-8 h-5 bg-blue-500 rounded text-white text-sm flex items-center justify-center font-bold">A</div>
+                  <div className="w-8 h-5 bg-orange-500 rounded text-white text-sm flex items-center justify-center font-bold">D</div>
                 </div>
-                <a href="#" className="text-xs text-blue-600 hover:text-blue-800 underline">
+                <a href="#" className="text-base text-blue-600 hover:text-blue-800 underline">
                   What is paypal?
                 </a>
               </div>
             </div>
           </label>
           {selectedPayment === "paypal" && (
-            <p className="text-xs text-gray-600 ml-6">
+            <p className="text-base text-gray-600 ml-6">
               Click the PayPal button below to process your order.
             </p>
           )}
@@ -93,11 +93,11 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
               className="mt-1 text-black focus:ring-black"
             />
             <div className="flex-1">
-              <span className="text-sm font-medium text-gray-900">Direct bank transfer</span>
+              <span className="text-lg font-medium text-gray-900">Direct bank transfer</span>
             </div>
           </label>
           {selectedPayment === "bank-transfer" && (
-            <div className="ml-6 text-xs text-gray-600 space-y-1">
+            <div className="ml-6 text-base text-gray-600 space-y-1">
               <p><strong>Reference:</strong> 691070</p>
               <p><strong>Account holder:</strong> Buy With Us Pk Ltd</p>
               <p><strong>Swift/BIC:</strong> TRWIGB2LXXX</p>
@@ -121,10 +121,10 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
               onChange={() => setSelectedPayment("cod")}
               className="text-black focus:ring-black"
             />
-            <span className="text-sm font-medium text-gray-900">Cash on delivery</span>
+            <span className="text-lg font-medium text-gray-900">Cash on delivery</span>
           </label>
           {selectedPayment === "cod" && (
-            <p className="text-xs text-gray-600 ml-6">
+            <p className="text-base text-gray-600 ml-6">
               Pay with cash when your order is delivered. Additional delivery charges may apply.
             </p>
           )}
@@ -140,7 +140,7 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
             onChange={(e) => setAgreeToTerms(e.target.checked)}
             className="mt-1 rounded border-gray-300 text-black focus:ring-black"
           />
-          <span className="text-sm text-gray-700">
+          <span className="text-lg text-gray-700">
             I have read and agree to the website{" "}
             <a href="#" className="text-blue-600 hover:text-blue-800 underline">
               terms and conditions
