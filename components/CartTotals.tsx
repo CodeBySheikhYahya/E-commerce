@@ -33,83 +33,83 @@ export default function CartTotals({
   const isSidebar = variant === "sidebar";
 
   return (
-    <div className={`${isSidebar ? 'p-4 border-t border-gray-200' : 'bg-white border border-gray-300 rounded-lg p-4 lg:p-6'} ${className}`}>
+    <div className={`${isSidebar ? 'p-4 border-t border-gray-200' : 'bg-white border border-gray-300 rounded-lg p-6'} ${className}`}>
       {/* Header */}
-      <h3 className={`font-semibold text-gray-900 mb-4 lg:mb-6 ${isSidebar ? 'text-base' : 'text-base lg:text-lg'}`}>
+      <h3 className="font-bold text-gray-900 text-lg mb-6">
         Cart Totals
       </h3>
 
       {/* Subtotal */}
       <div className="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
-        <span className="text-gray-700 text-base">Subtotal</span>
+        <span className="text-gray-900 text-base">Subtotal</span>
         <span className="text-gray-900 text-base">
           ${subtotal.toFixed(2)}
         </span>
       </div>
 
-      {/* Shipping Section */}
+      {/* Shipping Section - Reordered to match reference */}
       <div className="mb-4">
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
-          <span className="text-gray-700 text-sm lg:text-base mb-2 lg:mb-0">Shipping</span>
-          <div className="lg:text-right">
-            <div className="space-y-2 mb-3">
-              <label className="flex items-center lg:justify-end space-x-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="shipping"
-                  value="free"
-                  checked={selectedShipping === "free"}
-                  onChange={() => setSelectedShipping("free")}
-                  className="w-4 h-4 text-black focus:ring-black border-gray-400"
-                />
-                <span className="text-sm text-gray-700">Free Shipping</span>
-              </label>
-              
-              <label className="flex items-center lg:justify-end space-x-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="shipping"
-                  value="flat"
-                  checked={selectedShipping === "flat"}
-                  onChange={() => setSelectedShipping("flat")}
-                  className="w-4 h-4 text-black focus:ring-black border-gray-400"
-                />
-                <span className="text-sm text-gray-700">Flat Rate ${flatShippingRate.toFixed(2)}</span>
-              </label>
-            </div>
-            
-            <div className="text-sm text-gray-600">
-              <span>Shipping to USA</span>
-              <button className="ml-1 text-blue-600 hover:text-blue-700 underline text-sm">
-                Change address
-              </button>
-            </div>
-          </div>
+        {/* Radio Buttons First */}
+        <div className="space-y-2 mb-3">
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              name="shipping"
+              value="free"
+              checked={selectedShipping === "free"}
+              onChange={() => setSelectedShipping("free")}
+              className="w-4 h-4 text-black focus:ring-black border-gray-400"
+            />
+            <span className="text-gray-900 text-base">Free Shipping</span>
+          </label>
+          
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              name="shipping"
+              value="flat"
+              checked={selectedShipping === "flat"}
+              onChange={() => setSelectedShipping("flat")}
+              className="w-4 h-4 text-black focus:ring-black border-gray-400"
+            />
+            <span className="text-gray-900 text-base">Flat Rate ${flatShippingRate.toFixed(2)}</span>
+          </label>
+        </div>
+        
+        {/* Shipping Label Below Radio Buttons */}
+        <div className="mb-2">
+          <span className="text-gray-900 text-base">Shipping</span>
+        </div>
+        
+        {/* Shipping to USA and Change address on same line */}
+        <div className="text-sm text-gray-600">
+          <span>Shipping to USA</span>
+          <button className="ml-2 text-blue-600 hover:text-blue-700 underline">
+            Change address
+          </button>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="border-t border-gray-300 my-4"></div>
+      {/* Divider above Total */}
+      <div className="border-t border-gray-200 mb-4"></div>
 
       {/* Total */}
-      <div className="flex justify-between items-center mb-4 lg:mb-6">
-        <span className={`font-semibold text-gray-900 ${isSidebar ? 'text-base' : 'text-base lg:text-lg'}`}>
+      <div className="flex justify-between items-center mb-6">
+        <span className="font-bold text-gray-900 text-lg">
           Total
         </span>
-        <span className={`font-semibold text-gray-900 ${isSidebar ? 'text-lg' : 'text-lg lg:text-xl'}`}>
+        <span className="font-bold text-gray-900 text-lg">
           ${total.toFixed(2)}
         </span>
       </div>
 
-      {/* Action Buttons */}
-      <div className="">
-        <Button
-          className={`w-full bg-black hover:bg-gray-800 text-white py-2.5 rounded-md font-medium`}
-          onClick={onCheckout}
-        >
-          Proceed to checkout
-        </Button>
-      </div>
+      {/* Proceed to Checkout Button */}
+      <Button
+        className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-md font-medium"
+        onClick={onCheckout}
+      >
+        Proceed to checkout
+      </Button>
     </div>
   );
 }

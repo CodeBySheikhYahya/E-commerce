@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 import CartTotals from "./CartTotals";
 import { useCartStore } from "../lib/cartStore";
 import Image from "next/image";
+import { Plus, Minus, X } from "lucide-react";
 
 interface CartPageProps {
   onCheckout?: () => void;
@@ -62,13 +63,13 @@ export default function CartPage({
                 </div>
               ) : (
                 <table className="w-full">
-                  <thead className="border-b border-gray-300">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-sm font-normal text-gray-900">Products</th>
-                      <th className="px-6 py-3 text-center text-sm font-normal text-gray-900">Price</th>
-                      <th className="px-6 py-3 text-center text-sm font-normal text-gray-900">Quantity</th>
-                      <th className="px-6 py-3 text-right text-sm font-normal text-gray-900">Subtotal</th>
-                      <th className="px-6 py-3"></th>
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="px-6 py-4 text-left text-lg font-bold text-black">Products</th>
+                      <th className="px-6 py-4 text-center text-lg font-bold text-black">Price</th>
+                      <th className="px-6 py-4 text-center text-lg font-bold text-black">Quantity</th>
+                      <th className="px-6 py-4 text-right text-lg font-bold text-black">Subtotal</th>
+                      <th className="px-6 py-4"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -90,9 +91,9 @@ export default function CartPage({
               )}
             </div>
 
-            {/* Mobile Horizontal Scroll View */}
+            {/* Mobile Horizontal Table View */}
             <div className="lg:hidden">
-              <h2 className="font-normal text-gray-900 text-base mb-3">Products</h2>
+              <h2 className="font-semibold text-gray-900 text-base mb-3">Products</h2>
               {currentItems.length === 0 ? (
                 <div className="bg-white rounded-lg border border-gray-200 py-12 text-center">
                   <div className="mb-6">
@@ -116,13 +117,13 @@ export default function CartPage({
                 <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
                   <div className="min-w-[600px]">
                     <table className="w-full">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-normal text-gray-900">Products</th>
-                          <th className="px-4 py-3 text-center text-sm font-normal text-gray-900">Price</th>
-                          <th className="px-4 py-3 text-center text-sm font-normal text-gray-900">Quantity</th>
-                          <th className="px-4 py-3 text-right text-sm font-normal text-gray-900">Subtotal</th>
-                          <th className="px-4 py-3"></th>
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Products</th>
+                          <th className="px-12 py-3 text-center text-xs font-semibold text-gray-900">Price</th>
+                          <th className="px-4 py-3 text-center text-xs font-semibold text-gray-900">Qty</th>
+                          <th className="px-12 py-3 text-right text-xs font-semibold text-gray-900">Total</th>
+                          <th className="px-3 py-3"></th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
