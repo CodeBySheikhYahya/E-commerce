@@ -6,6 +6,7 @@ import CartTotals from "./CartTotals";
 import { useCartStore } from "../lib/cartStore";
 import Image from "next/image";
 import { Plus, Minus, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface CartPageProps {
   onCheckout?: () => void;
@@ -57,16 +58,48 @@ export default function CartPage({
         
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
-            <div className="text-center">
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4 animate-fade-in-up" style={{fontFamily: 'var(--header-font-family)'}}>
-                Your Shopping Cart
-              </h1>
-              <p className="text-lg lg:text-xl text-white/90 mb-2 animate-fade-in-up animation-delay-200">
-                Home &gt; Shop &gt; View Cart
-              </p>
-              <p className="text-xl lg:text-2xl text-white font-medium animate-fade-in-up animation-delay-400">
-                Review your items and proceed to checkout
-              </p>
+            <div className="max-w-2xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7 }}
+                className="text-white text-4xl lg:text-8xl font-light leading-tight mb-4"
+              >
+                Your Safety Gear Cart
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="text-white/95 text-md md:text-lg lg:text-2xl mb-2"
+              >
+                Review your selected protection products before checkout.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="text-white/95 text-md md:text-lg lg:text-2xl"
+              >
+                Equip your team with reliable, industry-standard safety gear.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                className="mt-8"
+              >
+                <Button 
+                  className="bg-white text-black hover:bg-white/20 hover:text-white px-10 py-5 rounded-lg shadow-xl transition-all duration-300"
+                  onClick={onCheckout}
+                >
+                  Proceed to Checkout
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>
