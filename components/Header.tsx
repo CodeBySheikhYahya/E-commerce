@@ -74,7 +74,7 @@ export default function Header() {
           </button>
 
           {/* Desktop Navigation - Left */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -179,19 +179,20 @@ export default function Header() {
           </div>
 
           {/* Logo - Center */}
-          <div className="flex-1 flex justify-center lg:justify-center">
+          <div className="flex-1 flex justify-center lg:justify-center min-w-0">
             <Image
               src="/logo.png"
               alt="BuyWithUsPK"
-              width={100}
-              height={32}
-              className="h-6 lg:h-10 w-auto"
+              width={200}
+              height={64}
+              className="h-6 sm:h-7 lg:h-12 w-auto max-w-[120px] sm:max-w-[140px] lg:max-w-none"
+              priority
             />
           </div>
 
 
           {/* Right Side Icons */}
-          <div className="flex-1 flex items-center justify-end space-x-4">
+          <div className="flex-1 flex items-center justify-end space-x-2 sm:space-x-4 min-w-0">
             {/* Search Icon */}
             <button 
               className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]"

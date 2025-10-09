@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { heroContent } from "./DemoData";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -13,7 +14,22 @@ export default function HeroSection() {
     <section className="relative w-full overflow-hidden">
       {/* Background image */}
       <div className="relative h-[60vh] md:h-[70vh] lg:h-[90vh]">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('/herooo.png')` }} />
+        {/* Mobile Image */}
+        <Image
+          src="/herooo.png"
+          alt="Safety Equipment Hero"
+          fill
+          className="object-cover md:hidden"
+          priority
+        />
+        {/* Desktop Landscape Image */}
+        <Image
+          src="/homepage lanscape.jpg"
+          alt="Safety Equipment Hero"
+          fill
+          className="object-cover hidden md:block"
+          priority
+        />
         {/* Soft vignette to avoid hard edges on all sides */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/10" />
         {/* Left panel for text readability */}

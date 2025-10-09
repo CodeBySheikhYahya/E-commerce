@@ -15,9 +15,10 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="BuyWithUsPK"
-                width={120}
-                height={40}
-                className="h-8 w-auto"
+                width={200}
+                height={64}
+                className="h-10 w-auto"
+                priority
               />
             </div>
             <p className="text-[var(--header-text-muted)] text-sm leading-relaxed">

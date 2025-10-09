@@ -32,15 +32,54 @@ export default function CartPage({
   const subtotal = getSubtotal();
 
   return (
-    <div className={`py-8 lg:py-12 ${className}`}>
-      <div className="max-w-7xl mx-auto px-4">
+    <div className={`${className}`}>
+      {/* Hero Section with Cart Image */}
+      <section className="relative h-[50vh] lg:h-[60vh] overflow-hidden mb-8 lg:mx-14 lg:rounded-2xl">
+        <div className="absolute inset-0">
+          {/* Mobile Image */}
+          <Image
+            src="/viewcart.jpeg"
+            alt="Shopping Cart"
+            fill
+            className="object-cover md:hidden"
+            priority
+          />
+          {/* Desktop Landscape Image */}
+          <Image
+            src="/view cart landscape.jpg"
+            alt="Shopping Cart"
+            fill
+            className="object-cover hidden md:block"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+        
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 w-full">
+            <div className="text-center">
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4 animate-fade-in-up" style={{fontFamily: 'var(--header-font-family)'}}>
+                Your Shopping Cart
+              </h1>
+              <p className="text-lg lg:text-xl text-white/90 mb-2 animate-fade-in-up animation-delay-200">
+                Home &gt; Shop &gt; View Cart
+              </p>
+              <p className="text-xl lg:text-2xl text-white font-medium animate-fade-in-up animation-delay-400">
+                Review your items and proceed to checkout
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 pb-8 lg:pb-12">
 
         {/* Two Column Layout for Desktop, Single Column for Mobile */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
           {/* Left Column - Products */}
-          <div className="lg:col-span-8">
+          <div className="xl:col-span-8">
             {/* Desktop View */}
-            <div className="hidden lg:block bg-white">
+            <div className="hidden xl:block bg-white">
               {currentItems.length === 0 ? (
                 <div className="py-12 text-center">
                   <div className="mb-6">
@@ -92,7 +131,7 @@ export default function CartPage({
             </div>
 
             {/* Mobile Horizontal Table View */}
-            <div className="lg:hidden">
+            <div className="xl:hidden">
               <h2 className="font-semibold text-gray-900 text-base mb-3">Products</h2>
               {currentItems.length === 0 ? (
                 <div className="bg-white rounded-lg border border-gray-200 py-12 text-center">
@@ -149,7 +188,7 @@ export default function CartPage({
 
             {/* Bottom Actions - Desktop */}
             {currentItems.length > 0 && (
-              <div className="hidden lg:flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
+              <div className="hidden xl:flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
                 {/* Coupon Code */}
                 <div className="flex gap-3">
                   <input
@@ -175,7 +214,7 @@ export default function CartPage({
 
             {/* Bottom Actions - Mobile */}
             {currentItems.length > 0 && (
-              <div className="lg:hidden mt-6 space-y-3">
+              <div className="xl:hidden mt-6 space-y-3">
                 {/* Coupon Code */}
                 <div className="flex gap-2">
                   <input
@@ -201,7 +240,7 @@ export default function CartPage({
           </div>
 
           {/* Right Column - Cart Totals */}
-          <div className="lg:col-span-4">
+          <div className="xl:col-span-4">
             <CartTotals
               subtotal={subtotal}
               onCheckout={onCheckout}

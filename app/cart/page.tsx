@@ -24,7 +24,7 @@ export default function Cart() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pb-20 lg:pb-0 pt-[var(--mobile-header-height)] lg:pt-[calc(var(--desktop-top-bar-height)+var(--desktop-header-height))] bg-white" data-page="cart">
+      <main className="min-h-screen pb-20 lg:pb-0 bg-white" data-page="cart">
         <CartPage
           onCheckout={handleCheckout}
           onContinueShopping={handleContinueShopping}
