@@ -1,15 +1,31 @@
 "use client";
 
 import ProductCard from "./ProductCard";
+import ProductDetailModal from "./ProductDetailModal";
 import { Button } from "./ui/button";
 import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
 import { useState } from "react";
-import { demoProducts } from "./DemoData";
+import { demoProducts, Product } from "./DemoData";
 import { motion } from "framer-motion";
 
 export default function ProductShowcase() {
   const [activeTab, setActiveTab] = useState<"best" | "new" | "featured">("best");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleQuickView = (productId: string) => {
+    const product = demoProducts.find(p => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -88,6 +104,7 @@ export default function ProductShowcase() {
                 image={product.image}
                 originalPrice={product.originalPrice}
                 discount={product.discount}
+                onQuickView={handleQuickView}
               />
             </motion.div>
           ))}
@@ -106,6 +123,15 @@ export default function ProductShowcase() {
           </Button>
         </motion.div>
       </div>
+
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <ProductDetailModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          product={selectedProduct}
+        />
+      )}
     </section>
   );
 }

@@ -68,7 +68,7 @@ export default function Header() {
           
           {/* Mobile Hamburger Menu */}
           <button 
-            className="lg:hidden"
+            className="lg:hidden cursor-pointer"
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <Menu className="h-6 w-6 text-[var(--header-text)]" />
@@ -79,24 +79,24 @@ export default function Header() {
             <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
+                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal cursor-pointer" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
                   Home
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <NavigationMenuLink href="/" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Home</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Welcome to our industrial safety products store
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/about-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/about-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">About Us</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Learn about our company and mission
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/contact-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/contact-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Contact Us</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Get in touch with our support team
@@ -107,36 +107,36 @@ export default function Header() {
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
+                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal cursor-pointer" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
                   Shop
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid gap-3 p-4 w-[300px]">
-                    <NavigationMenuLink href="/products" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/products" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">View All Products</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Browse our complete product catalog
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/products?filter=best-sellers" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/products?filter=best-sellers" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Best Sellers</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Our most popular safety equipment
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/products?filter=new-arrivals" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/products?filter=new-arrivals" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">New Arrivals</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Latest safety products and equipment
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/products?filter=on-sale" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/products?filter=on-sale" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">On Sale</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Special offers and discounted items
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/products?filter=recently-viewed" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/products?filter=recently-viewed" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Recently Viewed</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Continue where you left off
@@ -147,30 +147,30 @@ export default function Header() {
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
+                <NavigationMenuTrigger className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] bg-transparent font-normal cursor-pointer" style={{fontFamily: 'var(--header-font-family)', fontSize: 'var(--header-font-size)'}}>
                   Search by Category
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <NavigationMenuLink href="/category/safety-vests" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/category/safety-vests" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Safety Vests</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         High visibility safety vests and reflective clothing
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/safety-helmets" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/category/safety-helmets" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Safety Helmets</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Industrial hard hats and safety helmets
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/goggles" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/category/goggles" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Goggles</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Safety goggles and protective eyewear
                       </p>
                     </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/industrial-parts" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                    <NavigationMenuLink href="/category/industrial-parts" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
                       <div className="text-sm font-medium leading-none">Industrial Parts</div>
                       <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Industrial safety equipment and replacement parts
@@ -202,7 +202,7 @@ export default function Header() {
           <div className="flex-1 flex items-center justify-end space-x-2 sm:space-x-4 min-w-0">
             {/* Search Icon */}
             <button 
-              className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]"
+              className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] cursor-pointer"
               onClick={() => setIsSearchOpen(true)}
             >
               <Search className="h-5 w-5" />
@@ -211,12 +211,12 @@ export default function Header() {
             {/* Removed currency and language selectors */}
 
             {/* Desktop User Icon */}
-            <Link href="/login" className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
+            <Link href="/login" className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)] cursor-pointer">
               <User className="h-5 w-5" />
             </Link>
             
             <button 
-              className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200"
+              className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200 cursor-pointer"
               onClick={() => {
                 // On mobile, open sidebar. On desktop, go to cart page
                 if (window.innerWidth < 1024) {
@@ -248,22 +248,22 @@ export default function Header() {
                 <button onClick={() => {
                   setIsMobileMenuOpen(false);
                   setIsCategoryDropdownOpen(false);
-                }}>
+                }} className="cursor-pointer">
                   <X className="h-6 w-6 text-[var(--header-text)] " />
                 </button>
               </div>
               
               <nav className="space-y-4">
-              <Link href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+              <Link href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
                 Home
               </Link>
-              <Link href="/products" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+              <Link href="/products" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
                 Shop
               </Link>
               <div className="relative">
                 <button 
                   onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-                  className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 w-full text-left"
+                  className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 w-full text-left cursor-pointer"
                 >
                   Search by Category 
                   <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -273,28 +273,28 @@ export default function Header() {
                   <div className="ml-4 mt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
                     <Link 
                       href="/category/safety-vests" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Safety Vests
                     </Link>
                     <Link 
                       href="/category/safety-helmets" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Safety Helmets
                     </Link>
                     <Link 
                       href="/category/goggles" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Goggles
                     </Link>
                     <Link 
                       href="/category/industrial-parts" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Industrial Parts
@@ -302,13 +302,13 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              <Link href="/contact-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+              <Link href="/contact-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
                 Contact Us
               </Link>
-              <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+              <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
                 About Us
               </Link>
-              <Link href="/wishlist" className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
+              <Link href="/wishlist" className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
                 Wishlist
                 {wishlistCount > 0 && (
                   <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
@@ -334,7 +334,7 @@ export default function Header() {
               </h2>
               <button 
                 onClick={() => setIsSearchOpen(false)}
-                className="text-[var(--header-text)] hover:text-[var(--header-text-muted)]"
+                className="text-[var(--header-text)] hover:text-[var(--header-text-muted)] cursor-pointer"
               >
                 <X className="h-6 w-6" />
               </button>

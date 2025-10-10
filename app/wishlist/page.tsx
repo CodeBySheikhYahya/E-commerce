@@ -5,12 +5,14 @@ import Footer from "../../components/Footer";
 import NewsletterSection from "../../components/NewsletterSection";
 import MobileBottomNav from "../../components/MobileBottomNav";
 import WishlistContent from "../../components/WishlistContent";
+import WishlistHeroSection from "../../components/WishlistHeroSection";
 
 export default function WishlistPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-[var(--mobile-header-height)] lg:pt-[calc(var(--desktop-top-bar-height)+var(--desktop-header-height))]">
+      <main className="min-h-screen">
+        <WishlistHeroSection />
         <WishlistContent />
         <NewsletterSection />
       </main>
