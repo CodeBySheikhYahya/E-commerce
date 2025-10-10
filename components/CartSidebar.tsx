@@ -84,25 +84,27 @@ export default function CartSidebar({
                       <h3 className="text-sm font-medium text-gray-900 truncate">
                         {item.name}
                       </h3>
-                      <p className="text-sm text-gray-600">{item.price}</p>
                       
-                      {/* Quantity Controls */}
-                      <div className="flex items-center space-x-2 mt-2">
-                        <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                          className="w-6 h-6 flex items-center justify-center bg-white border border-gray-300 rounded hover:bg-gray-50"
-                        >
-                          <Minus className="h-3 w-3" />
-                        </button>
-                        <span className="text-sm font-medium w-8 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                          className="w-6 h-6 flex items-center justify-center bg-white border border-gray-300 rounded hover:bg-gray-50"
-                        >
-                          <Plus className="h-3 w-3" />
-                        </button>
+                      {/* Quantity Controls and Price - Mobile Box Style */}
+                      <div className="flex items-center mt-2">
+                        <div className="flex items-center border border-gray-600 rounded bg-white">
+                          <button
+                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                          >
+                            <Minus className="h-3 w-3 text-gray-600" />
+                          </button>
+                          <span className="text-sm font-medium w-12 text-center py-2">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                          >
+                            <Plus className="h-3 w-3 text-gray-600" />
+                          </button>
+                        </div>
+                        <p className="text-sm font-medium text-gray-900 ml-2">{item.price}</p>
                       </div>
                     </div>
 
