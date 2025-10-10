@@ -182,4 +182,26 @@ export const heroContent = {
   buttonText: "Shop Now"
 };
 
+export interface Testimonial {
+  id: string;
+  name: string;
+  title: string;
+  text: string;
+}
+
+export const testimonials: Testimonial[] = [
+  {
+    id: "1",
+    name: "Liam Smith",
+    title: "Co-Founder",
+    text: "I am thrilled with my new safety equipment from this store. The quality of products is outstanding, the customization options allowed me to get exactly what I wanted. Customer support team was incredibly helpful. Highly recommend - I couldn't be happier with my purchase!"
+  },
+  {
+    id: "2", 
+    name: "Jon Deo",
+    title: "CEO, Net2000",
+    text: "Absolutely love my recent purchase from this safety equipment store! The craftsmanship is superb — you can tell these pieces are built to last. The delivery was smooth and efficient, and the equipment looks even better in person. I'm so happy with the way it has transformed our workplace safety."
+  }
+];
+
 export default demoProducts;

@@ -94,7 +94,7 @@ export default function CartSidebar({
                           >
                             <Minus className="h-3 w-3 text-gray-600" />
                           </button>
-                          <span className="text-sm font-medium w-12 text-center py-2">
+                          <span className="text-base font-medium w-12 text-center py-2">
                             {item.quantity}
                           </span>
                           <button
@@ -104,7 +104,7 @@ export default function CartSidebar({
                             <Plus className="h-3 w-3 text-gray-600" />
                           </button>
                         </div>
-                        <p className="text-sm font-medium text-gray-900 ml-2">{item.price}</p>
+                        <p className="text-base font-medium text-gray-900 ml-2">{item.price}</p>
                       </div>
                     </div>
 
