@@ -21,6 +21,7 @@ import {
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
   const { getItemCount: getWishlistCount } = useWishlistStore();
@@ -237,11 +238,17 @@ export default function Header() {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden animate-in fade-in duration-300">
-          <div className="fixed inset-0 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="fixed inset-0 backdrop-blur-md animate-in fade-in duration-300" onClick={() => {
+            setIsMobileMenuOpen(false);
+            setIsCategoryDropdownOpen(false);
+          }} />
           <div className="fixed left-0 top-0 h-full w-80 bg-white animate-in slide-in-from-left duration-300">
             <div className="h-full w-full p-6 flex flex-col bg-white overflow-y-auto" style={{minHeight: '100vh'}}>
               <div className="flex justify-end mb-6">
-                <button onClick={() => setIsMobileMenuOpen(false)}>
+                <button onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsCategoryDropdownOpen(false);
+                }}>
                   <X className="h-6 w-6 text-[var(--header-text)] " />
                 </button>
               </div>
@@ -253,16 +260,55 @@ export default function Header() {
               <Link href="/products" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
                 Shop
               </Link>
-              <Link href="/category" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] flex items-center justify-between py-2 pr-4">
-                Search by Category <ChevronDown className="h-4 w-4" />
-              </Link>
+              <div className="relative">
+                <button 
+                  onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                  className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 w-full text-left"
+                >
+                  Search by Category 
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isCategoryDropdownOpen && (
+                  <div className="ml-4 mt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                    <Link 
+                      href="/category/safety-vests" 
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Safety Vests
+                    </Link>
+                    <Link 
+                      href="/category/safety-helmets" 
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Safety Helmets
+                    </Link>
+                    <Link 
+                      href="/category/goggles" 
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Goggles
+                    </Link>
+                    <Link 
+                      href="/category/industrial-parts" 
+                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Industrial Parts
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link href="/contact-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
                 Contact Us
               </Link>
               <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
                 About Us
               </Link>
-              <Link href="/wishlist" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 flex items-center justify-between">
+              <Link href="/wishlist" className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4">
                 Wishlist
                 {wishlistCount > 0 && (
                   <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
