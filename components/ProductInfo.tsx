@@ -28,8 +28,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       price: product.price,
       image: product.image,
       selectedColor,
-      selectedSize,
-      quantity
+      selectedSize
     });
   };
 
