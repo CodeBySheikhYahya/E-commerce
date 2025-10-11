@@ -1,9 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import MobileBottomNav from "../../components/MobileBottomNav";
 import CartPage from "../../components/CartPage";
 import NewsletterSection from "../../components/NewsletterSection";
 import RelatedProducts from "../../components/RelatedProducts";
@@ -23,17 +20,12 @@ export default function Cart() {
 
   return (
     <>
-      <Header />
-      <main className="min-h-screen pb-20 lg:pb-0 bg-white" data-page="cart">
-        <CartPage
-          onCheckout={handleCheckout}
-          onContinueShopping={handleContinueShopping}
-        />
-        <RelatedProducts />
-        <NewsletterSection />
-      </main>
-      <Footer />
-      <MobileBottomNav />
+      <CartPage
+        onCheckout={handleCheckout}
+        onContinueShopping={handleContinueShopping}
+      />
+      <RelatedProducts />
+      <NewsletterSection />
     </>
   );
 }

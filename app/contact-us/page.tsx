@@ -1,8 +1,5 @@
 "use client";
 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import MobileBottomNav from "../../components/MobileBottomNav";
 import ContactForm from "../../components/forms/ContactForm";
 import ContactInfoPanel from "../../components/ContactInfoPanel";
 import ContactMap from "../../components/ContactMap";
@@ -11,8 +8,6 @@ import ContactHero from "../../components/ContactHero";
 export default function ContactUs() {
   return (
    <>
-    <Header />
-    <main className="min-h-screen pb-20 lg:pb-0">
       <ContactHero />
 
       <section className="py-12 lg:py-16">
@@ -41,9 +36,6 @@ export default function ContactUs() {
           />
         </div>
       </section>
-    </main>
-    <Footer />
-    <MobileBottomNav />
    </>
   );
 }

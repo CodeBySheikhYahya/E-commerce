@@ -1,15 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
 import ProductFilters from "../../components/ProductFilters";
 import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
 import MobileFilterSidebar from "../../components/MobileFilterSidebar";
-import MobileBottomNav from "../../components/MobileBottomNav";
 import ProductDetailModal from "../../components/ProductDetailModal";
 import { demoProducts, Product } from "../../components/DemoData";
 
@@ -70,88 +67,85 @@ export default function ProductsPage() {
 
   return (
     <>
-      <Header />
-      <main className="min-h-screen pt-[var(--mobile-header-height)] lg:pt-[calc(var(--desktop-top-bar-height)+var(--desktop-header-height))]">
-        <section className="py-12 lg:py-16">
-          <div className="max-w-7xl mx-auto px-4">
-            <h1 className="section-heading">Shop</h1>
-            
-            {/* Mobile Filter Button */}
-            <div className="lg:hidden mb-4">
-              <button
-                onClick={() => setIsFilterOpen(true)}
-                className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
-              >
-                Filter
-              </button>
+      <section className="py-12 lg:py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="section-heading">Shop</h1>
+          
+          {/* Mobile Filter Button */}
+          <div className="lg:hidden mb-4">
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
+            >
+              Filter
+            </button>
+          </div>
+
+          {/* Two Column Layout */}
+          <div className="flex flex-col lg:flex-row gap-8 mt-8">
+            {/* Left Sidebar - Filters - Desktop */}
+            <div className="hidden lg:block w-full lg:w-1/4">
+              <ProductFilters
+                selectedCategories={selectedCategories}
+                onCategoryChange={setSelectedCategories}
+                priceRange={priceRange}
+                onPriceChange={setPriceRange}
+                selectedColors={selectedColors}
+                onColorChange={setSelectedColors}
+              />
             </div>
 
-            {/* Two Column Layout */}
-            <div className="flex flex-col lg:flex-row gap-8 mt-8">
-              {/* Left Sidebar - Filters - Desktop */}
-              <div className="hidden lg:block w-full lg:w-1/4">
-                <ProductFilters
-                  selectedCategories={selectedCategories}
-                  onCategoryChange={setSelectedCategories}
-                  priceRange={priceRange}
-                  onPriceChange={setPriceRange}
-                  selectedColors={selectedColors}
-                  onColorChange={setSelectedColors}
-                />
+            {/* Right Side - Products */}
+            <div className="w-full lg:w-3/4">
+              {/* Top Controls */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div className="flex items-center gap-4">
+                  <ViewToggle
+                    currentView={currentView}
+                    onViewChange={setCurrentView}
+                  />
+                  <SortDropdown
+                    currentSort={currentSort}
+                    onSortChange={setCurrentSort}
+                  />
+                </div>
+                <div className="text-sm text-gray-600">
+                  Showing {sortedProducts.length} products
+                </div>
               </div>
 
-              {/* Right Side - Products */}
-              <div className="w-full lg:w-3/4">
-                {/* Top Controls */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                  <div className="flex items-center gap-4">
-                    <ViewToggle
-                      currentView={currentView}
-                      onViewChange={setCurrentView}
-                    />
-                    <SortDropdown
-                      currentSort={currentSort}
-                      onSortChange={setCurrentSort}
-                    />
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Showing {sortedProducts.length} products
-                  </div>
-                </div>
-
-                {/* Products Grid/List */}
-                <div className={`grid gap-6 ${
-                  currentView === "grid" 
-                    ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3" 
-                    : "grid-cols-1"
-                }`}>
-                  {sortedProducts.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      id={product.id}
-                      name={product.name}
-                      price={product.price}
-                      image={product.image}
-                      originalPrice={product.originalPrice}
-                      discount={product.discount}
-                      view={currentView}
-                      onQuickView={handleQuickView}
-                    />
-                  ))}
-                </div>
-
-                {/* No Products Message */}
-                {sortedProducts.length === 0 && (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500">No products found matching your filters.</p>
-                  </div>
-                )}
+              {/* Products Grid/List */}
+              <div className={`grid gap-6 ${
+                currentView === "grid" 
+                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3" 
+                  : "grid-cols-1"
+              }`}>
+                {sortedProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    price={product.price}
+                    image={product.image}
+                    originalPrice={product.originalPrice}
+                    discount={product.discount}
+                    view={currentView}
+                    onQuickView={handleQuickView}
+                  />
+                ))}
               </div>
+
+              {/* No Products Message */}
+              {sortedProducts.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">No products found matching your filters.</p>
+                </div>
+              )}
             </div>
           </div>
-        </section>
-        <NewsletterSection />
-      </main>
+        </div>
+      </section>
+      <NewsletterSection />
       
       {/* Mobile Filter Sidebar */}
       <MobileFilterSidebar
@@ -176,9 +170,6 @@ export default function ProductsPage() {
           product={selectedProduct}
         />
       )}
-      
-      <Footer />
-      <MobileBottomNav />
     </>
   );
 }

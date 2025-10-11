@@ -1,9 +1,6 @@
 "use client";
 
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import NewsletterSection from "../../components/NewsletterSection";
-import MobileBottomNav from "../../components/MobileBottomNav";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import ContactHero from "../../components/ContactHero";
@@ -48,9 +45,6 @@ export default function AboutUs() {
 
   return (
    <>
-    <Header />
-    <main className="min-h-screen pb-20 lg:pb-0">
-        
         {/* Hero Section (reused with orbiting icons) */}
         <ContactHero variant="about" />
 
@@ -384,9 +378,6 @@ export default function AboutUs() {
         </motion.section>
 
       <NewsletterSection />
-    </main>
-    <Footer />
-    <MobileBottomNav />
    </>
   );
 }
