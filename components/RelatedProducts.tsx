@@ -5,14 +5,14 @@ import { demoProducts, Product } from "./DemoData";
 import ProductCard from "./ProductCard";
 
 interface RelatedProductsProps {
-  currentProductId: string;
+  currentProductId?: string;
   limit?: number;
 }
 
 export default function RelatedProducts({ currentProductId, limit = 4 }: RelatedProductsProps) {
   // Get related products (exclude current product and get random products)
   const relatedProducts = demoProducts
-    .filter(product => product.id !== currentProductId)
+    .filter(product => !currentProductId || product.id !== currentProductId)
     .slice(0, limit);
   
   // Modal state management
