@@ -1,13 +1,19 @@
 "use client";
 
-import ProductCard from "./ProductCard";
-import ProductDetailModal from "./ProductDetailModal";
-import { demoProducts, Product } from "./DemoData";
 import { useState } from "react";
+import { demoProducts, Product } from "./DemoData";
+import ProductCard from "./ProductCard";
 
-export default function RelatedProducts() {
-  // Get first 4 products from demo data as related products
-  const relatedProducts = demoProducts.slice(0, 4);
+interface RelatedProductsProps {
+  currentProductId: string;
+  limit?: number;
+}
+
+export default function RelatedProducts({ currentProductId, limit = 4 }: RelatedProductsProps) {
+  // Get related products (exclude current product and get random products)
+  const relatedProducts = demoProducts
+    .filter(product => product.id !== currentProductId)
+    .slice(0, limit);
   
   // Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +33,10 @@ export default function RelatedProducts() {
     setSelectedProduct(null);
   };
 
+  if (relatedProducts.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -36,12 +46,12 @@ export default function RelatedProducts() {
             Related Products
           </h2>
           <p className="section-subtitle max-w-2xl mx-auto">
-            You might also like these safety products
+            Discover more products that might interest you
           </p>
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -51,20 +61,22 @@ export default function RelatedProducts() {
               image={product.image}
               originalPrice={product.originalPrice}
               discount={product.discount}
+              view="grid"
               onQuickView={handleQuickView}
             />
           ))}
         </div>
-      </div>
 
-      {/* Product Detail Modal */}
-      {selectedProduct && (
-        <ProductDetailModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          product={selectedProduct}
-        />
-      )}
+        {/* View All Products Button */}
+        <div className="text-center mt-12">
+          <a
+            href="/products"
+            className="inline-flex items-center px-8 py-3 border border-gray-300 rounded-lg text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors duration-200 font-medium"
+          >
+            View All Products
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
