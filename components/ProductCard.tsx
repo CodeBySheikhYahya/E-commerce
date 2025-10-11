@@ -53,7 +53,7 @@ export default function ProductCard({
   // Mobile list view layout
   if (view === "list") {
     return (
-      <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300">
+      <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer">
         <div className="relative aspect-square overflow-hidden">
           <Image
             src={image}
@@ -122,7 +122,7 @@ export default function ProductCard({
 
   // Default grid view layout (for desktop and mobile grid)
   return (
-    <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300">
+    <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer">
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={image}
