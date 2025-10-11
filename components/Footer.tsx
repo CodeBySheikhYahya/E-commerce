@@ -92,7 +92,7 @@ export default function Footer() {
             
             {/* Copyright */}
             <div className="text-[var(--header-text-muted)] text-xs lg:text-sm text-center md:text-left">
-              © 2025, All Rights Reserved by BuyWithUsPK. Powered by The Brand Hut
+              © 2025, All Rights Reserved by BuyWithUsPK
             </div>
 
 
