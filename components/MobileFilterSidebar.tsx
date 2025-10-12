@@ -11,15 +11,11 @@ export default function MobileFilterSidebar({ isOpen, onClose, children }: Mobil
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black bg-opacity-50"
-        onClick={onClose}
-      />
-      
-      {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
-        <div className="p-4">
+      {/* Sidebar - slides in from left */}
+      <div className={`fixed left-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="p-4 h-full overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold">Filters</h2>

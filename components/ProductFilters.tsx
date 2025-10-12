@@ -81,7 +81,7 @@ export default function ProductFilters({
       <div className="border-b border-gray-200 pb-4">
         <button
           onClick={() => toggleSection('categories')}
-          className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3"
+          className="flex items-center justify-between w-full text-left text-xl font-semibold text-gray-900 uppercase tracking-wide mb-3"
         >
           Categories
           {expandedSections.categories ? (
@@ -97,7 +97,7 @@ export default function ProductFilters({
               <button
                 key={category}
                 onClick={() => category && handleCategoryToggle(category)}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+                className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
                   category && selectedCategories.includes(category)
                     ? "bg-black text-white"
                     : "text-gray-700 hover:bg-gray-100"
@@ -112,82 +112,62 @@ export default function ProductFilters({
 
       {/* Price Range */}
       <div className="border-b border-gray-200 pb-4">
-        <button
-          onClick={() => toggleSection('price')}
-          className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3"
-        >
-          Price Range
-          {expandedSections.price ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </button>
+        {/* Always visible heading - no collapse functionality */}
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold text-gray-900 uppercase tracking-wide">
+            Filter by Price
+          </h3>
+        </div>
         
-        {expandedSections.price && (
-          <div className="space-y-4">
-            {/* Price Range Slider */}
-            <div className="relative h-6 flex items-center">
-              {/* Background track */}
-              <div className="absolute w-full h-2 bg-gray-200 rounded-lg"></div>
-              
-              {/* Selected range track */}
-              <div 
-                className="absolute h-2 bg-black rounded-lg"
-                style={{
-                  left: `${(priceRange.min / 1000) * 100}%`,
-                  width: `${((priceRange.max - priceRange.min) / 1000) * 100}%`
-                }}
-              ></div>
-              
-              {/* Min handle */}
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={priceRange.min}
-                onChange={(e) => {
-                  const newMin = Number(e.target.value);
-                  if (newMin < priceRange.max) {
-                    onPriceChange({ ...priceRange, min: newMin });
-                  }
-                }}
-                className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
-                style={{ zIndex: 2 }}
-              />
-              
-              {/* Max handle */}
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={priceRange.max}
-                onChange={(e) => {
-                  const newMax = Number(e.target.value);
-                  if (newMax > priceRange.min) {
-                    onPriceChange({ ...priceRange, max: newMax });
-                  }
-                }}
-                className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
-                style={{ zIndex: 3 }}
-              />
-            </div>
+        {/* Always visible price range slider */}
+        <div className="space-y-4">
+          {/* Price Range Slider */}
+          <div className="relative h-6 flex items-center">
+            {/* Background track */}
+            <div className="absolute w-full h-1 bg-gray-300 rounded-lg"></div>
             
-            {/* Price Display and Filter Button */}
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-700">Price:</span>
-              <input
-                type="text"
-                value={`$${priceRange.min} - $${priceRange.max}`}
-                readOnly
-                className="flex-1 px-3 py-1 border border-gray-300 rounded text-sm bg-white"
-              />
-              <button className="px-4 py-1 bg-black text-white text-sm rounded hover:bg-gray-800 transition-colors">
-                Filter
-              </button>
-            </div>
+            {/* Selected range track */}
+            <div 
+              className="absolute h-1 bg-gray-800 rounded-lg"
+              style={{
+                left: `${(priceRange.min / 1000) * 100}%`,
+                width: `${((priceRange.max - priceRange.min) / 1000) * 100}%`
+              }}
+            ></div>
+            
+            {/* Min handle */}
+            <input
+              type="range"
+              min="0"
+              max="1000"
+              value={priceRange.min}
+              onChange={(e) => {
+                const newMin = Number(e.target.value);
+                if (newMin < priceRange.max) {
+                  onPriceChange({ ...priceRange, min: newMin });
+                }
+              }}
+              className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+              style={{ zIndex: 2 }}
+            />
+            
+            {/* Max handle */}
+            <input
+              type="range"
+              min="0"
+              max="1000"
+              value={priceRange.max}
+              onChange={(e) => {
+                const newMax = Number(e.target.value);
+                if (newMax > priceRange.min) {
+                  onPriceChange({ ...priceRange, max: newMax });
+                }
+              }}
+              className="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider-thumb"
+              style={{ zIndex: 3 }}
+            />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Colors */}
@@ -228,7 +208,7 @@ export default function ProductFilters({
       <div>
         <button
           onClick={() => toggleSection('bestSellers')}
-          className="flex items-center justify-between w-full text-left font-medium text-gray-900 mb-3"
+          className="flex items-center justify-between w-full text-left text-xl font-semibold text-gray-900 uppercase tracking-wide mb-3"
         >
           Best Sellers
           {expandedSections.bestSellers ? (
@@ -263,20 +243,20 @@ export default function ProductFilters({
           appearance: none;
           height: 16px;
           width: 16px;
-          border-radius: 50%;
-          background: #000;
+          border-radius: 2px;
+          background: #374151;
           cursor: pointer;
-          border: 2px solid #fff;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          border: none;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .slider-thumb::-moz-range-thumb {
           height: 16px;
           width: 16px;
-          border-radius: 50%;
-          background: #000;
+          border-radius: 2px;
+          background: #374151;
           cursor: pointer;
-          border: 2px solid #fff;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          border: none;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
       `}</style>
     </div>

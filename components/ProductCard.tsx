@@ -50,72 +50,72 @@ export default function ProductCard({
     addToCart({ id, name, price, image });
   };
   
-  // Mobile list view layout
+  // List view layout (horizontal for desktop/laptop)
   if (view === "list") {
     return (
-      <Card className="group relative overflow-hidden border-0 shadow-sm bg-gray-50 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer">
-        <div className="relative aspect-square overflow-hidden">
-          <Image
-            src={image}
-            alt={name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          
-          {/* New Badge */}
-          <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-            New
-          </div>
-        </div>
-        
-        <CardContent className="p-4">
-          <h3 className="font-medium text-gray-900 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
-            {name}
-          </h3>
-          
-          <p className="text-sm text-gray-600 mb-3">
-            Elevate your dining experience with the Baxter Colette Chair, a perfect blend of modern elegance and timeless craftsmanship.
-          </p>
-          
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-lg font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
-              {price}
-            </span>
-          </div>
-          
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3">
-            <Button 
-              onClick={handleAddToCart}
-              className="flex-1 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition-colors duration-300"
-              style={{fontFamily: 'var(--header-font-family)'}}
-            >
-              Add To Cart
-            </Button>
+      <Card className="group relative overflow-hidden border-0 shadow-sm bg-white rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer">
+        <div className="flex flex-col lg:flex-row">
+          {/* Product Image - Left side, smaller size */}
+          <div className="relative w-full lg:w-80 h-64 lg:h-56 overflow-hidden">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-contain group-hover:scale-105 transition-transform duration-300"
+            />
             
-            <div className="flex gap-2">
-              <button
-                onClick={handleWishlistToggle}
-                className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
-              >
-                <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
-              </button>
-              
-              <button
-                onClick={() => (onQuickView || (() => {}))(id)}
-                className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
-              >
-                <Eye className="h-4 w-4 text-gray-600" />
-              </button>
-              
-              <button className="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
-                <svg className="h-4 w-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                </svg>
-              </button>
+            {/* New Badge */}
+            <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+              New
             </div>
           </div>
-        </CardContent>
+          
+          {/* Product Details - Right side */}
+          <CardContent className="flex-1 p-6 flex flex-col justify-between">
+            <div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3" style={{fontFamily: 'var(--header-font-family)'}}>
+                {name}
+              </h3>
+              
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Elevate your dining experience with the Baxter Colette Chair, a perfect blend of modern elegance and timeless craftsmanship.
+              </p>
+              
+              <div className="flex items-center space-x-2 mb-6">
+                <span className="text-2xl font-bold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
+                  {price}
+                </span>
+              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <Button 
+                onClick={handleAddToCart}
+                className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-300"
+                style={{fontFamily: 'var(--header-font-family)'}}
+              >
+                Add To Cart
+              </Button>
+              
+              <div className="flex gap-2">
+                <button
+                  onClick={handleWishlistToggle}
+                  className="w-12 h-12 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                </button>
+                
+                <button
+                  onClick={() => (onQuickView || (() => {}))(id)}
+                  className="w-12 h-12 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <Eye className="h-5 w-5 text-gray-600" />
+                </button>
+              </div>
+            </div>
+          </CardContent>
+        </div>
       </Card>
     );
   }
