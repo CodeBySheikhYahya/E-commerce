@@ -254,10 +254,18 @@ export default function Header() {
               </div>
               
               <nav className="space-y-4">
-              <Link href="/" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
+              <Link 
+                href="/" 
+                className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Home
               </Link>
-              <Link href="/products" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
+              <Link 
+                href="/products" 
+                className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Shop
               </Link>
               <div className="relative">
@@ -302,13 +310,25 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              <Link href="/contact-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
+              <Link 
+                href="/contact-us" 
+                className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Contact Us
               </Link>
-              <Link href="/about-us" className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
+              <Link 
+                href="/about-us" 
+                className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 About Us
               </Link>
-              <Link href="/wishlist" className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer">
+              <Link 
+                href="/wishlist" 
+                className="flex items-center justify-between text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Wishlist
                 {wishlistCount > 0 && (
                   <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
