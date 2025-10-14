@@ -35,7 +35,7 @@ export default function CategoryCard({ id, name, image, href }: CategoryCardProp
       </div>
       
       <CardContent className="p-4 text-center">
-        <h3 className="text-xl font-medium text-gray-800 group-hover:text-gray-700 transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
+        <h3 className="text-xl font-medium text-gray-800 transition-colors duration-300" style={{fontFamily: 'var(--header-font-family)'}}>
           {name}
         </h3>
       </CardContent>

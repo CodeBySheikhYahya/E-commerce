@@ -19,7 +19,7 @@ export default function BeInspiredSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <div className="relative h-[400px] lg:h-[500px] rounded-lg overflow-hidden">
+            <div className="relative h-[400px] lg:h-[800px] rounded-lg overflow-hidden">
               <Image
                 src="/inspired.png"
                 alt="Safety equipment inspiration"
@@ -39,7 +39,8 @@ export default function BeInspiredSection() {
           >
             {/* Heading */}
             <motion.h2 
-              className="section-heading text-left"
+              className="text-left font-light text-gray-700 mb-4 text-3xl lg:text-6xl lg:-mt-32"
+              style={{fontFamily: 'var(--header-font-family)'}}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -50,7 +51,8 @@ export default function BeInspiredSection() {
             
             {/* Description */}
             <motion.p 
-              className="text-gray-600 text-lg leading-relaxed"
+              className="text-gray-700 text-base lg:text-xl leading-relaxed"
+              style={{fontFamily: 'var(--header-font-family)'}}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -86,8 +88,8 @@ export default function BeInspiredSection() {
                   }
                 }}
               >
-                <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
-                <span className="text-gray-700">Effortless browsing experience</span>
+                <Check className="h-5 w-5 text-black flex-shrink-0" />
+                <span className="text-black text-base lg:text-xl" style={{fontFamily: 'var(--header-font-family)'}}>Effortless browsing experience</span>
               </motion.div>
               <motion.div 
                 className="flex items-center gap-3" 
@@ -100,8 +102,8 @@ export default function BeInspiredSection() {
                   }
                 }}
               >
-                <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
-                <span className="text-gray-700">Access to the finest 5% of safety equipment for your workplace</span>
+                <Check className="h-5 w-5 text-black flex-shrink-0" />
+                <span className="text-black text-base lg:text-xl" style={{fontFamily: 'var(--header-font-family)'}}>Access to the finest 5% of safety equipment for your workplace</span>
               </motion.div>
               <motion.div 
                 className="flex items-center gap-3" 
@@ -114,8 +116,8 @@ export default function BeInspiredSection() {
                   }
                 }}
               >
-                <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
-                <span className="text-gray-700">Secure payment options for peace of mind</span>
+                <Check className="h-5 w-5 text-black flex-shrink-0" />
+                <span className="text-black text-base lg:text-xl" style={{fontFamily: 'var(--header-font-family)'}}>Secure payment options for peace of mind</span>
               </motion.div>
             </motion.div>
 
