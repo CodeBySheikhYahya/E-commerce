@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { ShoppingCart, Heart, Eye } from "lucide-react";
@@ -55,27 +56,31 @@ export default function ProductCard({
     return (
       <Card className="group relative overflow-hidden border-0 shadow-sm bg-white rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer">
         <div className="flex flex-col lg:flex-row">
-          {/* Product Image - Left side, smaller size */}
-          <div className="relative w-full lg:w-80 h-64 lg:h-56 overflow-hidden">
-            <Image
-              src={image}
-              alt={name}
-              fill
-              className="object-contain group-hover:scale-105 transition-transform duration-300"
-            />
-            
-            {/* New Badge */}
-            <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-              New
+          {/* Product Image - Left side, smaller size (click to open detail) */}
+          <Link href={`/products/${id}`} className="block">
+            <div className="relative w-full lg:w-80 h-64 lg:h-56 overflow-hidden">
+              <Image
+                src={image}
+                alt={name}
+                fill
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
+              />
+              
+              {/* New Badge */}
+              <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+                New
+              </div>
             </div>
-          </div>
+          </Link>
           
           {/* Product Details - Right side */}
           <CardContent className="flex-1 p-6 flex flex-col justify-between">
             <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3" style={{fontFamily: 'var(--header-font-family)'}}>
-                {name}
-              </h3>
+              <Link href={`/products/${id}`} className="inline-block">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3" style={{fontFamily: 'var(--header-font-family)'}}>
+                  {name}
+                </h3>
+              </Link>
               
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Elevate your dining experience with the Baxter Colette Chair, a perfect blend of modern elegance and timeless craftsmanship.
@@ -151,9 +156,11 @@ export default function ProductCard({
       </div>
       
       <CardContent className="p-4">
-        <h3 className="text-xl font-medium text-gray-800 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
-          {name}
-        </h3>
+        <Link href={`/products/${id}`} className="inline-block">
+          <h3 className="text-xl font-medium text-gray-800 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
+            {name}
+          </h3>
+        </Link>
         
         <div className="flex items-center space-x-2">
           <span className="text-lg font-normal text-gray-600" style={{fontFamily: 'var(--header-font-family)'}}>

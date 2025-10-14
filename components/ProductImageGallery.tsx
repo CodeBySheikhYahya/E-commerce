@@ -105,7 +105,7 @@ export default function ProductImageGallery({ images, productName }: ProductImag
             {/* Close Button */}
             <button
               onClick={closeFullscreen}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/60 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors duration-200"
             >
               <X className="h-5 w-5" />
             </button>
@@ -123,20 +123,20 @@ export default function ProductImageGallery({ images, productName }: ProductImag
               {/* Fullscreen Navigation Arrows */}
               <button
                 onClick={prevImage}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/60 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors duration-200"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               
               <button
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/60 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors duration-200"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
 
               {/* Fullscreen Image Counter */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 text-white px-4 py-2 rounded-full text-sm">
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm">
                 {currentImageIndex + 1} / {images.length}
               </div>
             </div>
@@ -146,3 +146,4 @@ export default function ProductImageGallery({ images, productName }: ProductImag
     </>
   );
 }
+
