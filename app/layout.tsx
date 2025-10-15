@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MobileBottomNav from "../components/MobileBottomNav";
 import CartOverlayRoot from "../components/CartOverlayRoot";
+import SafetyGallery from "../components/SafetyGallery";
 
 export const metadata: Metadata = {
   title: "E-Commerce App",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <main className="min-h-screen pb-20 lg:pb-0">
           {children}
         </main>
+        <SafetyGallery />
         <Footer />
         <MobileBottomNav />
         <CartOverlayRoot />
