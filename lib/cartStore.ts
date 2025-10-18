@@ -14,6 +14,7 @@ export interface CartItem {
 interface CartStore {
   items: CartItem[];
   isOpen: boolean;
+  isClosing: boolean;
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
@@ -21,6 +22,7 @@ interface CartStore {
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
+  closeCartWithAnimation: () => void;
   getItemCount: () => number;
   getSubtotal: () => number;
 }
@@ -30,6 +32,7 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       isOpen: false,
+      isClosing: false,
 
       addItem: (item) => {
         const existingItem = get().items.find(i => i.id === item.id);
@@ -80,6 +83,13 @@ export const useCartStore = create<CartStore>()(
 
       closeCart: () => {
         set({ isOpen: false });
+      },
+
+      closeCartWithAnimation: () => {
+        set({ isClosing: true });
+        setTimeout(() => {
+          set({ isOpen: false, isClosing: false });
+        }, 300); // Match the animation duration
       },
 
       getItemCount: () => {

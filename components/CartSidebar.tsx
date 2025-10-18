@@ -16,7 +16,7 @@ export default function CartSidebar({
   isOpen,
   onClose
 }: CartSidebarProps) {
-  const { items, updateQuantity, removeItem, getSubtotal } = useCartStore();
+  const { items, updateQuantity, removeItem, getSubtotal, isClosing, closeCartWithAnimation } = useCartStore();
   const currentItems = items;
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
@@ -26,6 +26,15 @@ export default function CartSidebar({
 
   const handleRemoveItem = (id: string) => {
     removeItem(id);
+  };
+
+  // Function to handle cart closing with animation (mobile only)
+  const handleCartClose = () => {
+    if (window.innerWidth < 1024) { // Mobile only
+      closeCartWithAnimation();
+    } else {
+      onClose(); // Desktop - immediate close
+    }
   };
 
   const subtotal = getSubtotal();
@@ -39,11 +48,15 @@ export default function CartSidebar({
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-white"
-        onClick={onClose}
+        onClick={handleCartClose}
       />
 
       {/* Cart Sidebar */}
-      <div className="flex flex-col fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out overscroll-contain animate-in slide-in-from-right">
+      <div className={`flex flex-col fixed right-0 top-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out overscroll-contain ${
+        isClosing 
+          ? 'animate-out slide-out-to-right duration-300' 
+          : 'animate-in slide-in-from-right duration-300'
+      }`}>
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -51,7 +64,7 @@ export default function CartSidebar({
               SHOPPING CART({currentItems.length})
             </h2>
             <button
-              onClick={onClose}
+              onClick={handleCartClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <X className="h-5 w-5 text-gray-600" />
@@ -142,7 +155,7 @@ export default function CartSidebar({
 
           {/* Action Buttons */}
           <div className="p-4 border-t border-gray-200 space-y-3">
-            <Link href="/cart" onClick={onClose}>
+            <Link href="/cart" onClick={handleCartClose}>
               <Button
                 variant="outline"
                 className="w-full"
@@ -150,7 +163,7 @@ export default function CartSidebar({
                 View Cart
               </Button>
             </Link>
-            <Link href="/checkout" onClick={onClose}>
+            <Link href="/checkout" onClick={handleCartClose}>
               <Button
                 className="w-full bg-black hover:bg-gray-800 text-white"
               >
