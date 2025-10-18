@@ -20,6 +20,7 @@ import {
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuClosing, setIsMobileMenuClosing] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   
@@ -29,6 +30,15 @@ export default function Header() {
   const wishlistCount = getWishlistCount();
   const router = useRouter();
 
+  // Function to handle mobile menu closing with animation
+  const handleMobileMenuClose = () => {
+    setIsMobileMenuClosing(true);
+    setIsCategoryDropdownOpen(false);
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+      setIsMobileMenuClosing(false);
+    }, 300); // Match the animation duration
+  };
 
   // No body scroll lock: header remains fixed via classes only
 
@@ -237,18 +247,24 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden animate-in fade-in duration-300">
-          <div className="fixed inset-0 backdrop-blur-md animate-in fade-in duration-300" onClick={() => {
-            setIsMobileMenuOpen(false);
-            setIsCategoryDropdownOpen(false);
-          }} />
-          <div className="fixed left-0 top-0 h-full w-80 bg-white animate-in slide-in-from-left duration-300">
+        <div className={`fixed inset-0 z-50 lg:hidden ${
+          isMobileMenuClosing 
+            ? 'animate-out fade-out duration-300' 
+            : 'animate-in fade-in duration-300'
+        }`}>
+          <div className={`fixed inset-0 backdrop-blur-md ${
+            isMobileMenuClosing 
+              ? 'animate-out fade-out duration-300' 
+              : 'animate-in fade-in duration-300'
+          }`} onClick={handleMobileMenuClose} />
+          <div className={`fixed left-0 top-0 h-full w-80 bg-white ${
+            isMobileMenuClosing 
+              ? 'animate-out slide-out-to-left duration-300' 
+              : 'animate-in slide-in-from-left duration-300'
+          }`}>
             <div className="h-full w-full p-6 flex flex-col bg-white overflow-y-auto" style={{minHeight: '100vh'}}>
               <div className="flex justify-end mb-6">
-                <button onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  setIsCategoryDropdownOpen(false);
-                }} className="cursor-pointer">
+                <button onClick={handleMobileMenuClose} className="cursor-pointer">
                   <X className="h-6 w-6 text-[var(--header-text)] " />
                 </button>
               </div>
