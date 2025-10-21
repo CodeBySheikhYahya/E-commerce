@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
@@ -23,12 +23,41 @@ export default function Header() {
   const [isMobileMenuClosing, setIsMobileMenuClosing] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [showInstallButton, setShowInstallButton] = useState(false);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
   const { getItemCount: getWishlistCount } = useWishlistStore();
   const cartItemCount = getItemCount();
   const wishlistCount = getWishlistCount();
   const router = useRouter();
+
+  // Check if PWA install button should be shown
+  useEffect(() => {
+    const checkInstallButton = () => {
+      // Only show on mobile devices
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // Check if app is already installed (standalone mode)
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      
+      // Check if already installed via other methods
+      const isInstalled = localStorage.getItem('pwa-installed') === 'true';
+      
+      setShowInstallButton(isMobile && !isStandalone && !isInstalled);
+    };
+
+    checkInstallButton();
+    
+    // Listen for app install events
+    window.addEventListener('beforeinstallprompt', () => {
+      setShowInstallButton(true);
+    });
+    
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('pwa-installed', 'true');
+      setShowInstallButton(false);
+    });
+  }, []);
 
   // Function to handle mobile menu closing with animation
   const handleMobileMenuClose = () => {
@@ -353,30 +382,32 @@ export default function Header() {
                 )}
               </Link>
               
-              {/* Add to Home Screen */}
-              <button 
-                className="flex items-center text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  // Direct PWA install
-                  if ('serviceWorker' in navigator) {
-                    // Try to trigger install prompt
-                    const installPrompt = (window as any).deferredPrompt;
-                    if (installPrompt) {
-                      installPrompt.prompt();
-                    } else {
-                      // Fallback: show browser install option
-                      if (navigator.userAgent.includes('iPhone')) {
-                        window.open('data:text/html,<script>alert("Tap Share button → Add to Home Screen")</script>');
+              {/* Add to Home Screen - Only show on mobile and if not installed */}
+              {showInstallButton && (
+                <button 
+                  className="flex items-center text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    // Direct PWA install
+                    if ('serviceWorker' in navigator) {
+                      // Try to trigger install prompt
+                      const installPrompt = (window as any).deferredPrompt;
+                      if (installPrompt) {
+                        installPrompt.prompt();
                       } else {
-                        window.open('data:text/html,<script>alert("Tap 3 dots menu → Add to Home Screen")</script>');
+                        // Fallback: show browser install option
+                        if (navigator.userAgent.includes('iPhone')) {
+                          window.open('data:text/html,<script>alert("Tap Share button → Add to Home Screen")</script>');
+                        } else {
+                          window.open('data:text/html,<script>alert("Tap 3 dots menu → Add to Home Screen")</script>');
+                        }
                       }
                     }
-                  }
-                }}
-              >
-                Add to Home Screen
-              </button>
+                  }}
+                >
+                  Add to Home Screen
+                </button>
+              )}
               
               {/* Removed currency and language selectors in mobile menu */}
             </nav>
