@@ -1,0 +1,25 @@
+{
+  "name": "BuyWithUsPK - Safety Equipment Store",
+  "short_name": "BuyWithUsPK",
+  "description": "Premium industrial safety equipment and protective gear",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png", 
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["shopping", "business"],
+  "lang": "en",
+  "scope": "/"
+}

@@ -353,6 +353,31 @@ export default function Header() {
                 )}
               </Link>
               
+              {/* Add to Home Screen */}
+              <button 
+                className="flex items-center text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 cursor-pointer"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  // Direct PWA install
+                  if ('serviceWorker' in navigator) {
+                    // Try to trigger install prompt
+                    const installPrompt = (window as any).deferredPrompt;
+                    if (installPrompt) {
+                      installPrompt.prompt();
+                    } else {
+                      // Fallback: show browser install option
+                      if (navigator.userAgent.includes('iPhone')) {
+                        window.open('data:text/html,<script>alert("Tap Share button → Add to Home Screen")</script>');
+                      } else {
+                        window.open('data:text/html,<script>alert("Tap 3 dots menu → Add to Home Screen")</script>');
+                      }
+                    }
+                  }
+                }}
+              >
+                Add to Home Screen
+              </button>
+              
               {/* Removed currency and language selectors in mobile menu */}
             </nav>
             </div>
