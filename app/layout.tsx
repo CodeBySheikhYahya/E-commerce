@@ -30,9 +30,14 @@ export default function RootLayout({
           <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="BuyWithUsPK" />
         <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/logo.png" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -42,10 +47,15 @@ export default function RootLayout({
                 });
               }
               
-              // PWA Install Prompt
+              // PWA Install Prompt - Mobile Only
               let deferredPrompt;
               window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
+                // Only show install prompt on mobile devices
+                const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) {
+                  e.preventDefault();
+                  return;
+                }
                 deferredPrompt = e;
                 window.deferredPrompt = e;
               });
