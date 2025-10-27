@@ -49,9 +49,9 @@ export default function Footer() {
                   Policies
                 </h3>
                 <ul className="space-y-3">
-                  <li><a href="/refund-policy" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Refund Policy</a></li>
-                  <li><a href="/shipment-policy" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Shipment Policy</a></li>
-                  <li><a href="/faqs" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">FAQs</a></li>
+                  <li><a href="/about-us#refund-policy" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Refund Policy</a></li>
+                  <li><a href="/about-us#shipment-policy" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Shipment Policy</a></li>
+                  <li><a href="/about-us#faqs" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">FAQs</a></li>
                 </ul>
               </div>
 

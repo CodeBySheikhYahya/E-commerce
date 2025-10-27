@@ -249,11 +249,12 @@ export default function AboutUs() {
 
         {/* Policies Section */}
         <motion.section 
+          id="refund-policy"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="py-16 lg:py-24 bg-gray-50"
+          className="py-16 lg:py-24 bg-gray-50 scroll-mt-24"
         >
           <div className="max-w-4xl mx-auto px-4">
             <motion.div
@@ -292,11 +293,12 @@ export default function AboutUs() {
               </motion.div>
 
               <motion.div
+                id="shipment-policy"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-lg shadow-sm"
+                className="bg-white p-8 rounded-lg shadow-sm scroll-mt-24"
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-4" style={{fontFamily: 'var(--header-font-family)'}}>
                   Shipment Policy
@@ -319,11 +321,12 @@ export default function AboutUs() {
 
         {/* FAQs Section */}
         <motion.section 
+          id="faqs"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="py-16 lg:py-24 bg-white"
+          className="py-16 lg:py-24 bg-white scroll-mt-24"
         >
           <div className="max-w-4xl mx-auto px-4">
             <motion.div
