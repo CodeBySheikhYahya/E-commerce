@@ -12,8 +12,9 @@ export default function ScrollableContainer({ children, className = "" }: Scroll
 
   const scrollLeft = () => {
     if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth;
       scrollRef.current.scrollBy({
-        left: -300,
+        left: -scrollAmount,
         behavior: 'smooth'
       });
     }
@@ -21,8 +22,9 @@ export default function ScrollableContainer({ children, className = "" }: Scroll
 
   const scrollRight = () => {
     if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth;
       scrollRef.current.scrollBy({
-        left: 300,
+        left: scrollAmount,
         behavior: 'smooth'
       });
     }
@@ -55,13 +57,14 @@ export default function ScrollableContainer({ children, className = "" }: Scroll
       {/* Scrollable Content */}
       <div
         ref={scrollRef}
-        className={`w-full flex gap-4 lg:gap-6 overflow-x-auto pb-4 lg:pb-0 ${className}`}
+        className={`w-full flex gap-4 lg:gap-6 overflow-x-auto pb-4 lg:pb-0 snap-x snap-mandatory ${className}`}
         style={{
           scrollbarWidth: 'none', // Firefox
           msOverflowStyle: 'none', // IE/Edge
           overscrollBehaviorX: 'contain',
           WebkitOverflowScrolling: 'touch',
-          touchAction: 'pan-x'
+          touchAction: 'pan-x',
+          scrollSnapType: 'x mandatory'
         }}
       >
         {children}
