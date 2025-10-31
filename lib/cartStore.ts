@@ -109,3 +109,13 @@ export const useCartStore = create<CartStore>()(
     }
   )
 );
+
+// Selector hooks for optimized access
+export const useCartItemCount = () => 
+  useCartStore(state => state.items.reduce((total, item) => total + item.quantity, 0));
+
+export const useCartSubtotal = () => 
+  useCartStore(state => state.items.reduce((total, item) => {
+    const price = parseFloat(item.price.replace('$', ''));
+    return total + (price * item.quantity);
+  }, 0));

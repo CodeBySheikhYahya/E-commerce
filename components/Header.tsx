@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
@@ -25,10 +25,10 @@ export default function Header() {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [showInstallButton, setShowInstallButton] = useState(false);
   
-  const { isOpen: isCartOpen, openCart, closeCart, getItemCount } = useCartStore();
-  const { getItemCount: getWishlistCount } = useWishlistStore();
-  const cartItemCount = getItemCount();
-  const wishlistCount = getWishlistCount();
+  const { isOpen: isCartOpen, openCart, closeCart, getItemCount, items: cartItems } = useCartStore();
+  const { getItemCount: getWishlistCount, items: wishlistItems } = useWishlistStore();
+  const cartItemCount = useMemo(() => getItemCount(), [cartItems]);
+  const wishlistCount = useMemo(() => getWishlistCount(), [wishlistItems]);
   const router = useRouter();
 
   // Check if PWA install button should be shown

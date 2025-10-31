@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "./ui/card";
@@ -22,7 +23,7 @@ interface ProductCardProps {
   onAddToCart?: (productId: string) => void;
 }
 
-export default function ProductCard({ 
+function ProductCard({ 
   id, 
   name, 
   price, 
@@ -172,3 +173,4 @@ export default function ProductCard({
   );
 }
 
+export default memo(ProductCard);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "./ui/button";
 
 interface CartTotalsProps {
@@ -28,7 +28,10 @@ export default function CartTotals({
   const flatShippingRate = 10;
   
   const calculatedShipping = selectedShipping === "free" ? 0 : flatShippingRate;
-  const total = subtotal + calculatedShipping + tax;
+  const total = useMemo(() => {
+    const shipping = selectedShipping === "free" ? 0 : flatShippingRate;
+    return subtotal + shipping + tax;
+  }, [subtotal, selectedShipping, tax]);
 
   const isSidebar = variant === "sidebar";
 

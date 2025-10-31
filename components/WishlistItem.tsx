@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { Product } from "./DemoData";
@@ -11,7 +12,7 @@ interface WishlistItemProps {
   variant: "table" | "card";
 }
 
-export default function WishlistItem({ 
+function WishlistItem({ 
   product, 
   onAddToCart, 
   onRemove, 
@@ -109,3 +110,5 @@ export default function WishlistItem({
     </div>
   );
 }
+
+export default memo(WishlistItem);

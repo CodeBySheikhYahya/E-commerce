@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
 import ProductFilters from "../../components/ProductFilters";
@@ -52,18 +52,18 @@ export default function ProductsPage() {
   });
 
   // Handle quick view modal
-  const handleQuickView = (productId: string) => {
+  const handleQuickView = useCallback((productId: string) => {
     const product = demoProducts.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedProduct(null);
-  };
+  }, []);
 
   return (
     <>

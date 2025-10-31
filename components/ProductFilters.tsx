@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { demoProducts } from "./DemoData";
 
@@ -13,16 +13,6 @@ interface ProductFiltersProps {
   onColorChange: (colors: string[]) => void;
   className?: string;
 }
-
-// Extract unique categories from demo data
-const categories = Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean)));
-
-// Extract best sellers (products with discount > 25%)
-const bestSellers = demoProducts.filter(product => {
-  if (!product.discount) return false;
-  const discount = parseInt(product.discount.replace('% OFF', ''));
-  return discount > 25;
-});
 
 // Sample colors for safety equipment
 const colors = [
@@ -45,6 +35,22 @@ export default function ProductFilters({
   onColorChange,
   className = ""
 }: ProductFiltersProps) {
+  // Extract unique categories from demo data
+  const categories = useMemo(() => 
+    Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean))),
+    []
+  );
+
+  // Extract best sellers (products with discount > 25%)
+  const bestSellers = useMemo(() => 
+    demoProducts.filter(product => {
+      if (!product.discount) return false;
+      const discount = parseInt(product.discount.replace('% OFF', ''));
+      return discount > 25;
+    }),
+    []
+  );
+
   const [expandedSections, setExpandedSections] = useState({
     categories: true,
     price: true,

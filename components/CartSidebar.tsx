@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import { Button } from "./ui/button";
@@ -37,9 +38,9 @@ export default function CartSidebar({
     }
   };
 
-  const subtotal = getSubtotal();
   const freeShippingThreshold = 500;
-  const remainingForFreeShipping = freeShippingThreshold - subtotal;
+  const subtotal = useMemo(() => getSubtotal(), [items]);
+  const remainingForFreeShipping = useMemo(() => freeShippingThreshold - subtotal, [subtotal]);
 
   if (!isOpen) return null;
 

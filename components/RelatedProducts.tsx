@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { demoProducts, Product } from "./DemoData";
 import ProductCard from "./ProductCard";
 
@@ -20,18 +20,18 @@ export default function RelatedProducts({ currentProductId, limit = 4 }: Related
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Handle quick view modal
-  const handleQuickView = (productId: string) => {
+  const handleQuickView = useCallback((productId: string) => {
     const product = demoProducts.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedProduct(null);
-  };
+  }, []);
 
   if (relatedProducts.length === 0) {
     return null;

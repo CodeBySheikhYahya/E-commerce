@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Plus, Minus, X } from "lucide-react";
 import Image from "next/image";
 
@@ -15,7 +16,7 @@ interface CartItemProps {
   className?: string;
 }
 
-export default function CartItem({
+function CartItem({
   id,
   name,
   price,
@@ -152,3 +153,5 @@ export default function CartItem({
     </tr>
   );
 }
+
+export default memo(CartItem);

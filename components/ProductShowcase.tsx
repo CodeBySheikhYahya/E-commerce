@@ -5,7 +5,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import { Button } from "./ui/button";
 import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { demoProducts, Product } from "./DemoData";
 import { motion } from "framer-motion";
 
@@ -14,18 +14,36 @@ export default function ProductShowcase() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleQuickView = (productId: string) => {
+  const handleQuickView = useCallback((productId: string) => {
     const product = demoProducts.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedProduct(null);
-  };
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    if (activeTab === "best") {
+      // Best sellers: products with discount > 25%
+      return demoProducts.filter(product => {
+        if (!product.discount) return false;
+        const discount = parseInt(product.discount.replace('% OFF', ''));
+        return discount > 25;
+      });
+    } else if (activeTab === "new") {
+      // New arrivals: products with isNew: true
+      return demoProducts.filter(product => product.isNew === true);
+    } else {
+      // Featured: all products
+      return demoProducts;
+    }
+  }, [activeTab]);
+
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -85,7 +103,7 @@ export default function ProductShowcase() {
             }
           }}
         >
-          {demoProducts.map((product) => (
+          {filteredProducts.map((product) => (
             <motion.div 
               key={product.id} 
               variants={{
