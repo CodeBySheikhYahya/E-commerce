@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Heart, Share2, Minus, Plus } from "lucide-react";
 import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { Product } from "./DemoData";
+import { useSizes } from "../lib/hooks/useSizes";
+import { useColors } from "../lib/hooks/useColors";
 
 interface ProductInfoProps {
   product: Product;
@@ -13,13 +15,45 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
-  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   
   const { addItem: addToCart } = useCartStore();
   const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist } = useWishlistStore();
+  const { sizes, isLoading: sizesLoading } = useSizes();
+  const { colors: apiColors, isLoading: colorsLoading } = useColors();
   
   const isWishlisted = isInWishlist(product.id);
+
+  // Map color names to hex values
+  const colorNameToHex: Record<string, string> = {
+    "Black": "#000000",
+    "White": "#FFFFFF",
+    "Orange": "#FF8C00",
+    "Yellow": "#FFD700",
+    "Red": "#DC2626",
+    "Blue": "#2563EB",
+    "Green": "#16A34A",
+    "Gray": "#6B7280",
+    "Grey": "#6B7280",
+  };
+
+  // Set default size when sizes are loaded
+  useEffect(() => {
+    if (sizes.length > 0 && !selectedSize) {
+      setSelectedSize(sizes[0].name);
+    }
+  }, [sizes, selectedSize]);
+
+  // Set default color when colors are loaded
+  useEffect(() => {
+    // Show active colors first, but if none, show all colors
+    const activeColors = apiColors.filter(color => color.isActive);
+    const colorsToShow = activeColors.length > 0 ? activeColors : apiColors;
+    if (colorsToShow.length > 0 && !selectedColor) {
+      setSelectedColor(colorsToShow[0].name);
+    }
+  }, [apiColors, selectedColor]);
 
   const handleAddToCart = () => {
     addToCart({
@@ -102,49 +136,61 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </div>
       )}
 
-      {/* Color Selection */}
-      {product.colors && product.colors.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-3">Color:</h3>
-          <div className="flex gap-3">
-            {product.colors.map((color) => (
-              <button
-                key={color}
-                onClick={() => setSelectedColor(color)}
-                className={`w-8 h-8 rounded-full border-2 transition-colors duration-200 ${
-                  selectedColor === color 
-                    ? 'border-black' 
-                    : 'border-gray-300 hover:border-gray-400'
-                }`}
-                style={{ backgroundColor: color === 'white' ? '#f3f4f6' : color }}
-                title={color}
-              />
-            ))}
+      {/* Color Selection - Dynamic from API */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-900 mb-3">Color:</h3>
+        {colorsLoading ? (
+          <div className="text-sm text-gray-500 py-2">Loading colors...</div>
+        ) : apiColors.length === 0 ? (
+          <div className="text-sm text-gray-500 py-2">No colors available</div>
+        ) : (
+          <div className="flex flex-wrap gap-3">
+            {apiColors.map((color) => {
+              const hexValue = colorNameToHex[color.name] || "#808080";
+              return (
+                <button
+                  key={color.id}
+                  onClick={() => setSelectedColor(color.name)}
+                  className={`w-10 h-10 rounded-full border-2 transition-colors duration-200 ${
+                    selectedColor === color.name 
+                      ? 'border-black scale-110' 
+                      : 'border-gray-300 hover:border-gray-400'
+                  } ${!color.isActive ? 'opacity-60' : ''}`}
+                  style={{ backgroundColor: color.name === 'White' ? '#f3f4f6' : hexValue }}
+                  title={color.fullName || color.name}
+                />
+              );
+            })}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Size Selection */}
-      {product.sizes && product.sizes.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-gray-900 mb-3">Size:</h3>
-          <div className="flex gap-3">
-            {product.sizes.map((size) => (
+      {/* Size Selection - Dynamic from API */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-900 mb-3">Size:</h3>
+        {sizesLoading ? (
+          <div className="text-sm text-gray-500 py-2">Loading sizes...</div>
+        ) : sizes.length === 0 ? (
+          <div className="text-sm text-gray-500 py-2">No sizes available</div>
+        ) : (
+          <div className="flex flex-wrap gap-3">
+            {sizes.map((size) => (
               <button
-                key={size}
-                onClick={() => setSelectedSize(size)}
+                key={size.id}
+                onClick={() => setSelectedSize(size.name)}
                 className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors duration-200 ${
-                  selectedSize === size
+                  selectedSize === size.name
                     ? 'bg-black text-white border-black'
                     : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
                 }`}
+                title={size.fullName}
               >
-                {size}
+                {size.name}
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Quantity and Add to Cart */}
       <div className="flex items-center gap-4">

@@ -9,6 +9,7 @@ import SearchBar from "./SearchBar";
 import CartSidebar from "./CartSidebar";
 import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
+import { useCategories } from "../lib/hooks/useCategories";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -30,6 +31,16 @@ export default function Header() {
   const cartItemCount = useMemo(() => getItemCount(), [cartItems]);
   const wishlistCount = useMemo(() => getWishlistCount(), [wishlistItems]);
   const router = useRouter();
+  const { categories, isLoading: categoriesLoading } = useCategories();
+  
+  // Generate category hrefs dynamically
+  const categoryLinks = useMemo(() => {
+    return categories.map((category) => ({
+      name: category.name || category.fullName,
+      fullName: category.fullName,
+      href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`
+    }));
+  }, [categories]);
 
   // Check if PWA install button should be shown
   useEffect(() => {
@@ -191,30 +202,24 @@ export default function Header() {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <NavigationMenuLink href="/category/safety-vests" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
-                      <div className="text-sm font-medium leading-none">Safety Vests</div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        High visibility safety vests and reflective clothing
-                      </p>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/safety-helmets" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
-                      <div className="text-sm font-medium leading-none">Safety Helmets</div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Industrial hard hats and safety helmets
-                      </p>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/goggles" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
-                      <div className="text-sm font-medium leading-none">Goggles</div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Safety goggles and protective eyewear
-                      </p>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink href="/category/industrial-parts" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer">
-                      <div className="text-sm font-medium leading-none">Industrial Parts</div>
-                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Industrial safety equipment and replacement parts
-                      </p>
-                    </NavigationMenuLink>
+                    {categoriesLoading ? (
+                      <div className="text-sm text-muted-foreground py-2">Loading categories...</div>
+                    ) : categoryLinks.length === 0 ? (
+                      <div className="text-sm text-muted-foreground py-2">No categories available</div>
+                    ) : (
+                      categoryLinks.map((category) => (
+                        <NavigationMenuLink 
+                          key={category.href}
+                          href={category.href} 
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                        >
+                          <div className="text-sm font-medium leading-none">{category.name}</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            {category.fullName || category.name}
+                          </p>
+                        </NavigationMenuLink>
+                      ))
+                    )}
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -324,34 +329,22 @@ export default function Header() {
                 
                 {isCategoryDropdownOpen && (
                   <div className="ml-4 mt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                    <Link 
-                      href="/category/safety-vests" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Safety Vests
-                    </Link>
-                    <Link 
-                      href="/category/safety-helmets" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Safety Helmets
-                    </Link>
-                    <Link 
-                      href="/category/goggles" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Goggles
-                    </Link>
-                    <Link 
-                      href="/category/industrial-parts" 
-                      className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Industrial Parts
-                    </Link>
+                    {categoriesLoading ? (
+                      <div className="text-[var(--header-text-muted)] py-2 pr-4 text-sm">Loading categories...</div>
+                    ) : categoryLinks.length === 0 ? (
+                      <div className="text-[var(--header-text-muted)] py-2 pr-4 text-sm">No categories available</div>
+                    ) : (
+                      categoryLinks.map((category) => (
+                        <Link 
+                          key={category.href}
+                          href={category.href} 
+                          className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {category.name}
+                        </Link>
+                      ))
+                    )}
                   </div>
                 )}
               </div>

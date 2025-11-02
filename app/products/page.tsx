@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
 import ProductFilters from "../../components/ProductFilters";
@@ -8,9 +8,11 @@ import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
 import MobileFilterSidebar from "../../components/MobileFilterSidebar";
 import ProductDetailModal from "../../components/ProductDetailModal";
-import { demoProducts, Product } from "../../components/DemoData";
+import { Product } from "../../components/DemoData";
+import { useProducts } from "../../lib/hooks/useProducts";
 
 export default function ProductsPage() {
+  const { products, isLoading, error } = useProducts();
   // State management for filters and view
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
@@ -24,41 +26,47 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Filter products based on selected filters
-  const filteredProducts = demoProducts.filter(product => {
-    // Category filter
-    if (selectedCategories.length > 0 && product.category) {
-      if (!selectedCategories.includes(product.category)) return false;
-    }
+  const filteredProducts = useMemo(() => {
+    if (isLoading) return [];
     
-    // Price filter
-    const productPrice = parseFloat(product.price.replace('$', ''));
-    if (productPrice < priceRange.min || productPrice > priceRange.max) return false;
-    
-    return true;
-  });
+    return products.filter(product => {
+      // Category filter
+      if (selectedCategories.length > 0 && product.category) {
+        if (!selectedCategories.includes(product.category)) return false;
+      }
+      
+      // Price filter
+      const productPrice = parseFloat(product.price.replace('$', ''));
+      if (productPrice < priceRange.min || productPrice > priceRange.max) return false;
+      
+      return true;
+    });
+  }, [products, isLoading, selectedCategories, priceRange]);
 
   // Sort products based on current sort
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (currentSort) {
-      case "price-low":
-        return parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', ''));
-      case "price-high":
-        return parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', ''));
-      case "latest":
-        return b.id.localeCompare(a.id);
-      default:
-        return 0;
-    }
-  });
+  const sortedProducts = useMemo(() => {
+    return [...filteredProducts].sort((a, b) => {
+      switch (currentSort) {
+        case "price-low":
+          return parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', ''));
+        case "price-high":
+          return parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', ''));
+        case "latest":
+          return b.id.localeCompare(a.id);
+        default:
+          return 0;
+      }
+    });
+  }, [filteredProducts, currentSort]);
 
   // Handle quick view modal
   const handleQuickView = useCallback((productId: string) => {
-    const product = demoProducts.find(p => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
-  }, []);
+  }, [products]);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
@@ -135,8 +143,24 @@ export default function ProductsPage() {
                 ))}
               </div>
 
+              {/* Loading State */}
+              {isLoading && (
+                <div className="text-center py-12">
+                  <p className="text-gray-600">Loading products...</p>
+                </div>
+              )}
+
+              {/* Error State */}
+              {error && !isLoading && (
+                <div className="text-center py-12">
+                  <p className="text-red-600 font-medium mb-2">Error loading products</p>
+                  <p className="text-gray-500 text-sm">{error.message || 'Failed to fetch products. Please try again later.'}</p>
+                  <p className="text-gray-400 text-xs mt-2">Check console for more details</p>
+                </div>
+              )}
+
               {/* No Products Message */}
-              {sortedProducts.length === 0 && (
+              {!isLoading && !error && sortedProducts.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-gray-500">No products found matching your filters.</p>
                 </div>

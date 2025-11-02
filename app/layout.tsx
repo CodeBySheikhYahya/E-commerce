@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import MobileBottomNav from "../components/MobileBottomNav";
 import CartOverlayRoot from "../components/CartOverlayRoot";
 import SafetyGallery from "../components/SafetyGallery";
+import { QueryProvider } from "../lib/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "BuyWithUsPK - Safety Equipment Store",
@@ -64,14 +65,16 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Header />
-        <main className="min-h-screen pb-20 lg:pb-0">
-          {children}
-        </main>
-        <SafetyGallery />
-        <Footer />
-        <MobileBottomNav />
-        <CartOverlayRoot />
+        <QueryProvider>
+          <Header />
+          <main className="min-h-screen pb-20 lg:pb-0">
+            {children}
+          </main>
+          <SafetyGallery />
+          <Footer />
+          <MobileBottomNav />
+          <CartOverlayRoot />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -6,6 +6,8 @@ import { X, Heart, Minus, Plus, Star } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
+import { useSizes } from "../lib/hooks/useSizes";
+import { useColors } from "../lib/hooks/useColors";
 
 interface ProductDetailModalProps {
   isOpen: boolean;
@@ -37,27 +39,42 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
   
   const { addItem: addToCart, openCart } = useCartStore();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { sizes: apiSizes, isLoading: sizesLoading } = useSizes();
+  const { colors: apiColors, isLoading: colorsLoading } = useColors();
+
+  // Map color names to hex values
+  const colorNameToHex: Record<string, string> = {
+    "Black": "#000000",
+    "White": "#FFFFFF",
+    "Orange": "#FF8C00",
+    "Yellow": "#FFD700",
+    "Red": "#DC2626",
+    "Blue": "#2563EB",
+    "Green": "#16A34A",
+    "Gray": "#6B7280",
+    "Grey": "#6B7280",
+  };
 
   // Initialize default selections when product changes
   useEffect(() => {
     if (product) {
-      const colors = product.colors || [];
-      const sizes = product.sizes || [];
-      
-      // Set first color as default if available
-      if (colors.length > 0 && !selectedColor) {
-        setSelectedColor(colors[0]);
+      // Set first color from API as default if available
+      // Prefer active colors, but show all if none are active
+      const activeColors = apiColors.filter(color => color.isActive);
+      const colorsToShow = activeColors.length > 0 ? activeColors : apiColors;
+      if (colorsToShow.length > 0 && !selectedColor) {
+        setSelectedColor(colorsToShow[0].name);
       }
       
-      // Set first size as default if available
-      if (sizes.length > 0 && !selectedSize) {
-        setSelectedSize(sizes[0]);
+      // Set first size from API as default if available
+      if (apiSizes.length > 0 && !selectedSize) {
+        setSelectedSize(apiSizes[0].name);
       }
       
       // Check if product is in wishlist
       setIsWishlisted(isInWishlist(product.id));
     }
-  }, [product, selectedColor, selectedSize, isInWishlist]);
+  }, [product, selectedColor, selectedSize, isInWishlist, apiSizes, apiColors]);
 
   // Close modal on escape key
   useEffect(() => {
@@ -154,8 +171,6 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
     window.open(shareLink, '_blank', 'width=600,height=400');
   };
 
-  const colors = product.colors || ["orange", "mint", "beige", "brown", "white"];
-  const sizes = product.sizes || ["S", "M", "L"];
 
   return (
     <div 
@@ -220,41 +235,58 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
               {product.description || "The Tacoma Carver Dining Chair features a sleek, Its clean lines and refined silhouette make a standout piece any room."}
             </p>
 
-            {/* Color Options */}
+            {/* Color Options - Dynamic from API */}
             <div className="mb-6">
               <label className="block text-sm font-semibold text-gray-800 mb-3">Color:</label>
-              <div className="flex gap-3">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-10 h-10 rounded-full border-3 transition-all duration-200 hover:scale-110 ${
-                      selectedColor === color ? 'border-gray-800 shadow-lg' : 'border-gray-300 hover:border-gray-500'
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+              {colorsLoading ? (
+                <div className="text-sm text-gray-500 py-2">Loading colors...</div>
+              ) : apiColors.length === 0 ? (
+                <div className="text-sm text-gray-500 py-2">No colors available</div>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {apiColors.map((color) => {
+                    const hexValue = colorNameToHex[color.name] || "#808080";
+                    return (
+                      <button
+                        key={color.id}
+                        onClick={() => setSelectedColor(color.name)}
+                        className={`w-10 h-10 rounded-full border-3 transition-all duration-200 hover:scale-110 ${
+                          selectedColor === color.name ? 'border-gray-800 shadow-lg' : 'border-gray-300 hover:border-gray-500'
+                        } ${!color.isActive ? 'opacity-60' : ''}`}
+                        style={{ backgroundColor: color.name === 'White' ? '#f3f4f6' : hexValue }}
+                        title={color.fullName || color.name}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
-            {/* Size Options */}
+            {/* Size Options - Dynamic from API */}
             <div className="mb-8">
               <label className="block text-sm font-semibold text-gray-800 mb-3">Size:</label>
-              <div className="flex gap-3">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-6 py-3 border-2 rounded-lg font-medium transition-all duration-200 ${
-                      selectedSize === size 
-                        ? 'bg-black text-white border-black shadow-lg' 
-                        : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500 hover:bg-gray-50'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
+              {sizesLoading ? (
+                <div className="text-sm text-gray-500 py-2">Loading sizes...</div>
+              ) : apiSizes.length === 0 ? (
+                <div className="text-sm text-gray-500 py-2">No sizes available</div>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {apiSizes.map((size) => (
+                    <button
+                      key={size.id}
+                      onClick={() => setSelectedSize(size.name)}
+                      className={`px-6 py-3 border-2 rounded-lg font-medium transition-all duration-200 ${
+                        selectedSize === size.name 
+                          ? 'bg-black text-white border-black shadow-lg' 
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500 hover:bg-gray-50'
+                      }`}
+                      title={size.fullName}
+                    >
+                      {size.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Quantity and Add to Cart */}

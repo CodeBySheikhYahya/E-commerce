@@ -6,21 +6,23 @@ import { Button } from "./ui/button";
 import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
 import { useState, useMemo, useCallback } from "react";
-import { demoProducts, Product } from "./DemoData";
+import { Product } from "./DemoData";
 import { motion } from "framer-motion";
+import { useProducts } from "../lib/hooks/useProducts";
 
 export default function ProductShowcase() {
+  const { products, isLoading, error } = useProducts();
   const [activeTab, setActiveTab] = useState<"best" | "new" | "featured">("best");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleQuickView = useCallback((productId: string) => {
-    const product = demoProducts.find(p => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
       setIsModalOpen(true);
     }
-  }, []);
+  }, [products]);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
@@ -28,21 +30,23 @@ export default function ProductShowcase() {
   }, []);
 
   const filteredProducts = useMemo(() => {
+    if (isLoading) return [];
+    
     if (activeTab === "best") {
       // Best sellers: products with discount > 25%
-      return demoProducts.filter(product => {
+      return products.filter(product => {
         if (!product.discount) return false;
         const discount = parseInt(product.discount.replace('% OFF', ''));
         return discount > 25;
       });
     } else if (activeTab === "new") {
       // New arrivals: products with isNew: true
-      return demoProducts.filter(product => product.isNew === true);
+      return products.filter(product => product.isNew === true);
     } else {
       // Featured: all products
-      return demoProducts;
+      return products;
     }
-  }, [activeTab]);
+  }, [activeTab, products, isLoading]);
 
   return (
     <section className="py-16 lg:py-24 bg-white">

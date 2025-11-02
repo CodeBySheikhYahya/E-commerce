@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { demoProducts } from "./DemoData";
+import { useCategories } from "../lib/hooks/useCategories";
+import { useColors } from "../lib/hooks/useColors";
 
 interface ProductFiltersProps {
   selectedCategories: string[];
@@ -14,17 +16,18 @@ interface ProductFiltersProps {
   className?: string;
 }
 
-// Sample colors for safety equipment
-const colors = [
-  { name: "Black", value: "#000000" },
-  { name: "White", value: "#FFFFFF" },
-  { name: "Orange", value: "#FF8C00" },
-  { name: "Yellow", value: "#FFD700" },
-  { name: "Red", value: "#DC2626" },
-  { name: "Blue", value: "#2563EB" },
-  { name: "Green", value: "#16A34A" },
-  { name: "Gray", value: "#6B7280" }
-];
+// Map color names to hex values
+const colorNameToHex: Record<string, string> = {
+  "Black": "#000000",
+  "White": "#FFFFFF",
+  "Orange": "#FF8C00",
+  "Yellow": "#FFD700",
+  "Red": "#DC2626",
+  "Blue": "#2563EB",
+  "Green": "#16A34A",
+  "Gray": "#6B7280",
+  "Grey": "#6B7280",
+};
 
 export default function ProductFilters({
   selectedCategories,
@@ -35,10 +38,27 @@ export default function ProductFilters({
   onColorChange,
   className = ""
 }: ProductFiltersProps) {
-  // Extract unique categories from demo data
+  // Get categories from API
+  const { categories: apiCategories, isLoading: categoriesLoading } = useCategories();
+  
+  // Get colors from API
+  const { colors: apiColors, isLoading: colorsLoading } = useColors();
+  
+  // Map API categories to category names for filtering
   const categories = useMemo(() => 
-    Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean))),
-    []
+    apiCategories.map(cat => cat.name || cat.fullName).filter(Boolean),
+    [apiCategories]
+  );
+
+  // Map API colors to display format with hex values
+  // Show all colors, but prefer active ones
+  const colors = useMemo(() => 
+    apiColors.map(color => ({
+      name: color.name,
+      value: colorNameToHex[color.name] || "#808080", // Default to gray if color not found
+      isActive: color.isActive
+    })),
+    [apiColors]
   );
 
   // Extract best sellers (products with discount > 25%)
@@ -99,19 +119,25 @@ export default function ProductFilters({
         
         {expandedSections.categories && (
           <div className="space-y-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => category && handleCategoryToggle(category)}
-                className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
-                  category && selectedCategories.includes(category)
-                    ? "bg-black text-white"
-                    : "text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+            {categoriesLoading ? (
+              <div className="text-gray-500 text-sm py-2">Loading categories...</div>
+            ) : categories.length === 0 ? (
+              <div className="text-gray-500 text-sm py-2">No categories available</div>
+            ) : (
+              categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => category && handleCategoryToggle(category)}
+                  className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
+                    category && selectedCategories.includes(category)
+                      ? "bg-black text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))
+            )}
           </div>
         )}
       </div>
@@ -192,20 +218,26 @@ export default function ProductFilters({
         
         {expandedSections.colors && (
           <div className="flex flex-wrap gap-2">
-            {colors.map((color) => (
-              <button
-                key={color.name}
-                onClick={() => handleColorToggle(color.name)}
-                className={`w-8 h-8 rounded-full border-2 transition-all duration-200 ${
-                  selectedColors.includes(color.name)
-                    ? "border-black scale-110"
-                    : "border-gray-300 hover:border-gray-400"
-                }`}
-                style={{ backgroundColor: color.value }}
-                aria-label={`Select ${color.name} color`}
-                title={color.name}
-              />
-            ))}
+            {colorsLoading ? (
+              <div className="text-gray-500 text-sm py-2">Loading colors...</div>
+            ) : colors.length === 0 ? (
+              <div className="text-gray-500 text-sm py-2">No colors available</div>
+            ) : (
+              colors.map((color) => (
+                <button
+                  key={color.name}
+                  onClick={() => handleColorToggle(color.name)}
+                  className={`w-8 h-8 rounded-full border-2 transition-all duration-200 ${
+                    selectedColors.includes(color.name)
+                      ? "border-black scale-110"
+                      : "border-gray-300 hover:border-gray-400"
+                  } ${!color.isActive ? 'opacity-60' : ''}`}
+                  style={{ backgroundColor: color.value }}
+                  aria-label={`Select ${color.name} color`}
+                  title={color.name}
+                />
+              ))
+            )}
           </div>
         )}
       </div>

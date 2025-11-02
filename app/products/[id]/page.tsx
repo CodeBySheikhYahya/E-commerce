@@ -1,20 +1,40 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { demoProducts } from "../../../components/DemoData";
 import ProductImageGallery from "../../../components/ProductImageGallery";
 import ProductInfo from "../../../components/ProductInfo";
 import ProductTabs from "../../../components/ProductTabs";
 import RelatedProducts from "../../../components/RelatedProducts";
 import NewsletterSection from "../../../components/NewsletterSection";
+import { useProduct } from "../../../lib/hooks/useProducts";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
+  const { product, isLoading, error } = useProduct(productId);
   
-  // Find the product by ID (for now using demo data)
-  const product = demoProducts.find(p => p.id === productId);
-  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Error Loading Product</h1>
+          <p className="text-gray-600 mb-2">{error.message || 'Failed to fetch product'}</p>
+          <p className="text-gray-400 text-sm">Please check if the API server is running and CORS is configured.</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">

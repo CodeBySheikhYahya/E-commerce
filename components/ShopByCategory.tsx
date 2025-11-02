@@ -2,18 +2,23 @@
 
 import CategoryCard from "./CategoryCard";
 import ScrollableContainer from "./ScrollableContainer";
-import { demoProducts } from "./DemoData";
 import { motion } from "framer-motion";
-
-// Generate categories from demo products
-const categories = Array.from(new Set(demoProducts.map(product => product.category).filter(Boolean))).map((category, index) => ({
-  id: (index + 1).toString(),
-  name: category!,
-  image: "/sa.webp",
-  href: `/category/${category!.toLowerCase().replace(/\s+/g, '-')}`
-}));
+import { useCategories } from "../lib/hooks/useCategories";
+import { useMemo } from "react";
 
 export default function ShopByCategory() {
+  const { categories: apiCategories, isLoading } = useCategories();
+  
+  // Map API categories to display format
+  const categories = useMemo(() => {
+    if (isLoading) return [];
+    return apiCategories.map((category) => ({
+      id: category.id.toString(),
+      name: category.name || category.fullName,
+      image: "/sa.webp",
+      href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`
+    }));
+  }, [apiCategories, isLoading]);
   return (
     <section className="py-16 lg:py-20 bg-gray-50">
       <div className="w-full px-4">
@@ -34,18 +39,24 @@ export default function ShopByCategory() {
         </motion.div>
 
         {/* Categories - Horizontal Scrollable Layout */}
-        <ScrollableContainer>
-          {categories.map((category) => (
-            <div key={category.id} className="flex-shrink-0 w-48 lg:w-64">
-              <CategoryCard
-                id={category.id}
-                name={category.name}
-                image={category.image}
-                href={category.href}
-              />
-            </div>
-          ))}
-        </ScrollableContainer>
+        {isLoading ? (
+          <div className="text-center py-8 text-gray-500">Loading categories...</div>
+        ) : categories.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">No categories available</div>
+        ) : (
+          <ScrollableContainer>
+            {categories.map((category) => (
+              <div key={category.id} className="flex-shrink-0 w-48 lg:w-64">
+                <CategoryCard
+                  id={category.id}
+                  name={category.name}
+                  image={category.image}
+                  href={category.href}
+                />
+              </div>
+            ))}
+          </ScrollableContainer>
+        )}
       </div>
     </section>
   );

@@ -28,6 +28,16 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  // Skip API calls - let them go to network directly
+  if (url.hostname === '86.48.3.126' || 
+      url.hostname.includes('api') || 
+      url.pathname.startsWith('/Product/') ||
+      url.pathname.startsWith('/api/')) {
+    return; // Don't intercept API calls
+  }
+  
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
     return;
