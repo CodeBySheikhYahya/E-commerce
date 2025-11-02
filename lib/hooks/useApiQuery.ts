@@ -24,11 +24,13 @@ export function createUseAllHook<T>(
 
     console.log(`🟢 ${resourceName}:`, items);
 
-    return {
+    const result = {
       [returnPropertyName]: items,
       isLoading,
-      error,
+      error: error as Error | null,
     };
+    
+    return result as { [key in typeof returnPropertyName]: T[] } & { isLoading: boolean; error: Error | null };
   };
 }
 

@@ -35,7 +35,7 @@ export default function Header() {
   
   // Generate category hrefs dynamically
   const categoryLinks = useMemo(() => {
-    return categories.map((category) => ({
+    return (categories || []).map((category) => ({
       name: category.name || category.fullName,
       fullName: category.fullName,
       href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`
