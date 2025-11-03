@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Heart, ShoppingBag, User } from "lucide-react";
+import { Home, Heart, ShoppingBag } from "lucide-react";
 
 export default function MobileBottomNav() {
   return (
@@ -22,10 +22,13 @@ export default function MobileBottomNav() {
           <span className="text-xs">Shop</span>
         </Link>
         
+        {/* Account link temporarily hidden for demo */}
+        {false && (
         <Link href="/login" className="flex flex-col items-center space-y-1 py-2 px-4 text-[var(--header-text)] hover:text-[var(--header-text-muted)]">
-          <User className="h-5 w-5" />
+          {/* <User className="h-5 w-5" /> */}
           <span className="text-xs">Account</span>
         </Link>
+        )}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { useWishlistStore } from "../lib/wishlistStore";
 import { Product } from "./DemoData";
 import { useSizes } from "../lib/hooks/useSizes";
 import { useColors } from "../lib/hooks/useColors";
+import { useQuantities } from "../lib/hooks/useQuantities";
 
 interface ProductInfoProps {
   product: Product;
@@ -16,12 +17,14 @@ interface ProductInfoProps {
 export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedQuantityPack, setSelectedQuantityPack] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   
   const { addItem: addToCart } = useCartStore();
   const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist } = useWishlistStore();
   const { sizes, isLoading: sizesLoading } = useSizes();
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
+  const { quantities, isLoading: quantitiesLoading } = useQuantities();
   
   const isWishlisted = isInWishlist(product.id);
 
@@ -54,6 +57,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       setSelectedColor(colorsToShow[0].name);
     }
   }, [apiColors, selectedColor]);
+
+  // Set default quantity pack when quantities are loaded
+  useEffect(() => {
+    const active = quantities.filter(q => q.isActive);
+    const list = active.length > 0 ? active : quantities;
+    if (list.length > 0 && !selectedQuantityPack) {
+      setSelectedQuantityPack(list[0].name);
+    }
+  }, [quantities, selectedQuantityPack]);
 
   const handleAddToCart = () => {
     addToCart({
@@ -186,6 +198,33 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 title={size.fullName}
               >
                 {size.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Quantity Pack - Dynamic from API */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-900 mb-3">Quantity Pack:</h3>
+        {quantitiesLoading ? (
+          <div className="text-sm text-gray-500 py-2">Loading quantity packs...</div>
+        ) : quantities.length === 0 ? (
+          <div className="text-sm text-gray-500 py-2">No quantity packs available</div>
+        ) : (
+          <div className="flex flex-wrap gap-3">
+            {quantities.map((q) => (
+              <button
+                key={q.id}
+                onClick={() => setSelectedQuantityPack(q.name)}
+                className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors duration-200 ${
+                  selectedQuantityPack === q.name
+                    ? 'bg-black text-white border-black'
+                    : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
+                } ${!q.isActive ? 'opacity-60' : ''}`}
+                title={q.fullName}
+              >
+                {q.name}
               </button>
             ))}
           </div>

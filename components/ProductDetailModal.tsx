@@ -8,6 +8,7 @@ import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { useSizes } from "../lib/hooks/useSizes";
 import { useColors } from "../lib/hooks/useColors";
+import { useQuantities } from "../lib/hooks/useQuantities";
 
 interface ProductDetailModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ interface ProductDetailModalProps {
 export default function ProductDetailModal({ isOpen, onClose, product }: ProductDetailModalProps) {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedQuantityPack, setSelectedQuantityPack] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   
@@ -41,6 +43,7 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const { sizes: apiSizes, isLoading: sizesLoading } = useSizes();
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
+  const { quantities: apiQuantities, isLoading: quantitiesLoading } = useQuantities();
 
   // Map color names to hex values
   const colorNameToHex: Record<string, string> = {
@@ -70,11 +73,18 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
       if (apiSizes.length > 0 && !selectedSize) {
         setSelectedSize(apiSizes[0].name);
       }
+
+      // Set first active quantity pack as default (fallback to first)
+      const activeQuantities = apiQuantities.filter(q => q.isActive);
+      const quantitiesToShow = activeQuantities.length > 0 ? activeQuantities : apiQuantities;
+      if (quantitiesToShow.length > 0 && !selectedQuantityPack) {
+        setSelectedQuantityPack(quantitiesToShow[0].name);
+      }
       
       // Check if product is in wishlist
       setIsWishlisted(isInWishlist(product.id));
     }
-  }, [product, selectedColor, selectedSize, isInWishlist, apiSizes, apiColors]);
+  }, [product, selectedColor, selectedSize, selectedQuantityPack, isInWishlist, apiSizes, apiColors, apiQuantities]);
 
   // Close modal on escape key
   useEffect(() => {
@@ -283,6 +293,33 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
                       title={size.fullName}
                     >
                       {size.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Quantity Pack - Dynamic from API */}
+            <div className="mb-8">
+              <label className="block text-sm font-semibold text-gray-800 mb-3">Quantity Pack:</label>
+              {quantitiesLoading ? (
+                <div className="text-sm text-gray-500 py-2">Loading quantity packs...</div>
+              ) : apiQuantities.length === 0 ? (
+                <div className="text-sm text-gray-500 py-2">No quantity packs available</div>
+              ) : (
+                <div className="flex flex-wrap gap-3">
+                  {apiQuantities.map((q) => (
+                    <button
+                      key={q.id}
+                      onClick={() => setSelectedQuantityPack(q.name)}
+                      className={`px-6 py-3 border-2 rounded-lg font-medium transition-all duration-200 ${
+                        selectedQuantityPack === q.name 
+                          ? 'bg-black text-white border-black shadow-lg' 
+                          : 'bg-white text-gray-700 border-gray-300 hover:border-gray-500 hover:bg-gray-50'
+                      } ${!q.isActive ? 'opacity-60' : ''}`}
+                      title={q.fullName}
+                    >
+                      {q.name}
                     </button>
                   ))}
                 </div>

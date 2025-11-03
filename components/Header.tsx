@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, ShoppingCart, User, ChevronDown, Search } from "lucide-react";
+import { Menu, X, ShoppingCart, ChevronDown, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import CartSidebar from "./CartSidebar";
 import { useCartStore } from "../lib/cartStore";
@@ -254,10 +254,12 @@ export default function Header() {
             
             {/* Removed currency and language selectors */}
 
-            {/* Desktop User Icon */}
+            {/* Desktop User Icon - temporarily hidden for demo */}
+            {false && (
             <Link href="/login" className="hidden lg:block text-[var(--header-text)] hover:text-[var(--header-text-muted)] cursor-pointer">
-              <User className="h-5 w-5" />
+              {/* <User className="h-5 w-5" /> */}
             </Link>
+            )}
             
             <button 
               className="relative text-[var(--header-text)] hover:text-[var(--header-text-muted)] transition-colors duration-200 cursor-pointer"
@@ -427,7 +429,9 @@ export default function Header() {
             <SearchBar 
               placeholder="Search safety products..."
               onSubmit={(value) => {
-                console.log("Search:", value);
+                if (value && value.trim().length > 0) {
+                  router.push(`/products?search=${encodeURIComponent(value.trim())}`);
+                }
                 setIsSearchOpen(false);
               }}
             />
