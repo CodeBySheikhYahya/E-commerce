@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
@@ -81,6 +81,7 @@ export default function ProductsPage() {
   }, []);
 
   return (
+    <Suspense fallback={null}>
     <>
       <section className="py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4">
@@ -226,6 +227,7 @@ export default function ProductsPage() {
         />
       )}
     </>
+    </Suspense>
   );
 }
 
