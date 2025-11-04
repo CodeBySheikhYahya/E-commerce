@@ -1,7 +1,6 @@
 "use client";
 
 import { Heart, Eye, ShoppingCart } from "lucide-react";
-import { useCartStore } from "../lib/cartStore";
 
 interface ProductActionsProps {
   productId: string;
@@ -24,17 +23,7 @@ export default function ProductActions({
   onAddToCart,
   className = ""
 }: ProductActionsProps) {
-  const { addItem, openCart } = useCartStore();
-
   const handleAddToCart = () => {
-    addItem({
-      id: productId,
-      name: productName,
-      price: productPrice,
-      image: productImage,
-    });
-    openCart();
-    
     if (onAddToCart) {
       onAddToCart(productId);
     }
