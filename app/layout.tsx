@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import MobileBottomNav from "../components/MobileBottomNav";
 import CartOverlayRoot from "../components/CartOverlayRoot";
 import SafetyGallery from "../components/SafetyGallery";
+import Toast from "../components/Toast";
 import { QueryProvider } from "../lib/providers/QueryProvider";
 
 export const metadata: Metadata = {
@@ -74,6 +75,7 @@ export default function RootLayout({
           <Footer />
           <MobileBottomNav />
           <CartOverlayRoot />
+          <Toast />
         </QueryProvider>
       </body>
     </html>

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from '../components/DemoData';
+import { useToastStore } from './toastStore';
 
 interface WishlistStore {
   items: Product[];
@@ -22,6 +23,10 @@ export const useWishlistStore = create<WishlistStore>()(
           set(state => ({
             items: [...state.items, item]
           }));
+          // Show toast notification
+          if (typeof window !== 'undefined') {
+            useToastStore.getState().show('Added to wishlist!', 'success');
+          }
         }
       },
 
@@ -29,6 +34,10 @@ export const useWishlistStore = create<WishlistStore>()(
         set(state => ({
           items: state.items.filter(item => item.id !== id)
         }));
+        // Show toast notification
+        if (typeof window !== 'undefined') {
+          useToastStore.getState().show('Removed from wishlist', 'info');
+        }
       },
 
       clearWishlist: () => {

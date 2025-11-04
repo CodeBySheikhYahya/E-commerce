@@ -156,7 +156,12 @@
 }
 
 /* Prevent page-level horizontal scroll on mobile */
-html, body {
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
   overflow-x: hidden;
 }
 

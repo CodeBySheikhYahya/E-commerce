@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { useToastStore } from './toastStore';
 
 export interface CartItem {
   id: string;
@@ -44,10 +45,18 @@ export const useCartStore = create<CartStore>()(
                 : i
             )
           }));
+          // Show toast notification
+          if (typeof window !== 'undefined') {
+            useToastStore.getState().show('Item quantity updated in cart!', 'success');
+          }
         } else {
           set(state => ({
             items: [...state.items, { ...item, quantity: 1 }]
           }));
+          // Show toast notification
+          if (typeof window !== 'undefined') {
+            useToastStore.getState().show('Added to cart!', 'success');
+          }
         }
       },
 
@@ -55,6 +64,10 @@ export const useCartStore = create<CartStore>()(
         set(state => ({
           items: state.items.filter(item => item.id !== id)
         }));
+        // Show toast notification
+        if (typeof window !== 'undefined') {
+          useToastStore.getState().show('Item removed from cart', 'info');
+        }
       },
 
       updateQuantity: (id, quantity) => {
