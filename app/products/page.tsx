@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
+import ProductCardSkeleton from "../../components/ProductCardSkeleton";
 import ProductFilters from "../../components/ProductFilters";
 import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
@@ -134,7 +135,15 @@ export default function ProductsPage() {
               {searching ? (
                 <div className="space-y-3">
                   {searchLoading && (
-                    <div className="text-center py-12 text-gray-600">Searching...</div>
+                    <div className={`grid gap-6 ${
+                      currentView === "grid" 
+                        ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3" 
+                        : "grid-cols-1"
+                    }`}>
+                      {[...Array(3)].map((_, index) => (
+                        <ProductCardSkeleton key={index} view={currentView} />
+                      ))}
+                    </div>
                   )}
                   {searchError && !searchLoading && (
                     <div className="text-center py-12 text-red-600">Failed to search products</div>
@@ -152,6 +161,16 @@ export default function ProductsPage() {
                       ))}
                     </ul>
                   )}
+                </div>
+              ) : isLoading ? (
+                <div className={`grid gap-6 ${
+                  currentView === "grid" 
+                    ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3" 
+                    : "grid-cols-1"
+                }`}>
+                  {[...Array(6)].map((_, index) => (
+                    <ProductCardSkeleton key={index} view={currentView} />
+                  ))}
                 </div>
               ) : (
                 <div className={`grid gap-6 ${
@@ -172,13 +191,6 @@ export default function ProductsPage() {
                       onQuickView={handleQuickView}
                     />
                   ))}
-                </div>
-              )}
-
-              {/* Loading State */}
-              {!searching && isLoading && (
-                <div className="text-center py-12">
-                  <p className="text-gray-600">Loading products...</p>
                 </div>
               )}
 

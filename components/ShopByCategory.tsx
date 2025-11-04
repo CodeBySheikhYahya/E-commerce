@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryCard from "./CategoryCard";
+import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import ScrollableContainer from "./ScrollableContainer";
 import { motion } from "framer-motion";
 import { useCategories } from "../lib/hooks/useCategories";
@@ -40,7 +41,13 @@ export default function ShopByCategory() {
 
         {/* Categories - Horizontal Scrollable Layout */}
         {isLoading ? (
-          <div className="text-center py-8 text-gray-500">Loading categories...</div>
+          <ScrollableContainer>
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="flex-shrink-0 w-48 lg:w-64">
+                <CategoryCardSkeleton />
+              </div>
+            ))}
+          </ScrollableContainer>
         ) : categories.length === 0 ? (
           <div className="text-center py-8 text-gray-500">No categories available</div>
         ) : (

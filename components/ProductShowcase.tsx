@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "./ProductCard";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 import ProductDetailModal from "./ProductDetailModal";
 import { Button } from "./ui/button";
 import UnderlineTab from "./ui/underline-tab";
@@ -92,45 +93,53 @@ export default function ProductShowcase() {
         </div>
 
         {/* Products Grid */}
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.1
-              }
-            }
-          }}
-        >
-          {filteredProducts.map((product) => (
-            <motion.div 
-              key={product.id} 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: { duration: 0.5, ease: "easeOut" }
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+            {[...Array(8)].map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                  delayChildren: 0.1
                 }
-              }}
-            >
-              <ProductCard
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                image={product.image}
-                originalPrice={product.originalPrice}
-                discount={product.discount}
-                onQuickView={handleQuickView}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+              }
+            }}
+          >
+            {filteredProducts.map((product) => (
+              <motion.div 
+                key={product.id} 
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.5, ease: "easeOut" }
+                  }
+                }}
+              >
+                <ProductCard
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image}
+                  originalPrice={product.originalPrice}
+                  discount={product.discount}
+                  onQuickView={handleQuickView}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* View All Button */}
         <motion.div 
