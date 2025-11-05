@@ -25,6 +25,7 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [showInstallButton, setShowInstallButton] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount, items: cartItems } = useCartStore();
   const { getItemCount: getWishlistCount, items: wishlistItems } = useWishlistStore();
@@ -32,6 +33,11 @@ export default function Header() {
   const wishlistCount = useMemo(() => getWishlistCount(), [wishlistItems]);
   const router = useRouter();
   const { categories, isLoading: categoriesLoading } = useCategories();
+
+  // Fix hydration error by only rendering cart/wishlist counts after mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Generate category hrefs dynamically
   const categoryLinks = useMemo(() => {
@@ -273,9 +279,11 @@ export default function Header() {
               }}
             >
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                {cartItemCount}
-              </span>
+              {isMounted && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  {cartItemCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -370,7 +378,7 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Wishlist
-                {wishlistCount > 0 && (
+                {isMounted && wishlistCount > 0 && (
                   <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                     {wishlistCount}
                   </span>

@@ -1,17 +1,35 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 import ProductImageGallery from "../../../components/ProductImageGallery";
 import ProductInfo from "../../../components/ProductInfo";
 import ProductTabs from "../../../components/ProductTabs";
 import RelatedProducts from "../../../components/RelatedProducts";
+import RecentlyViewed from "../../../components/RecentlyViewed";
 import NewsletterSection from "../../../components/NewsletterSection";
 import { useProduct } from "../../../lib/hooks/useProducts";
+import { useRecentlyViewedStore } from "../../../lib/recentlyViewedStore";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
   const { product, isLoading, error } = useProduct(productId);
+  const addProduct = useRecentlyViewedStore(state => state.addProduct);
+
+  // Save product to recently viewed when it loads
+  useEffect(() => {
+    if (product) {
+      addProduct({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        originalPrice: product.originalPrice,
+        discount: product.discount,
+      });
+    }
+  }, [product, addProduct]);
   
   if (isLoading) {
     return (
@@ -87,6 +105,9 @@ export default function ProductDetailPage() {
 
       {/* Related Products Section */}
       <RelatedProducts currentProductId={product.id} />
+
+      {/* Recently Viewed Section */}
+      <RecentlyViewed currentProductId={product.id} limit={4} />
       
       {/* Newsletter Section */}
       <NewsletterSection />
