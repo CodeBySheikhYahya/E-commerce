@@ -366,9 +366,6 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
                 <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
                 {isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
               </button>
-              <button className="text-base text-gray-600 hover:text-gray-800 underline font-medium transition-colors">
-                Compare
-              </button>
             </div>
 
             {/* Product Information */}

@@ -60,7 +60,7 @@ export default function ProductsPage() {
         case "price-high":
           return parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', ''));
         case "latest":
-          return b.id.localeCompare(a.id);
+          return b.id < a.id ? -1 : b.id > a.id ? 1 : 0;
         default:
           return 0;
       }
