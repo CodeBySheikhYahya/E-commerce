@@ -271,7 +271,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           }`}
         >
           <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
-          {isWishlisted ? 'Added to Wishlist' : 'Add to Wishlist'}
+          {isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
         </button>
 
         <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:border-gray-400 transition-colors duration-200">
