@@ -6,7 +6,7 @@ import CtaPillButton from "./ui/cta-pill-button";
 
 export default function SafetyGallery() {
   return (
-    <section className="py-16 lg:py-20 bg-white">
+    <section className="pt-0 pb-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header with Title and Follow Button */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
