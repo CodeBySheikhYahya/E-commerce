@@ -12,6 +12,7 @@ import { useProduct } from "../../../lib/hooks/useProducts";
 import { useProductImages } from "../../../lib/hooks/useProductImages";
 import { useImage } from "../../../lib/hooks/useImage";
 import { useRecentlyViewedStore } from "../../../lib/recentlyViewedStore";
+import { Product } from "../../../components/DemoData";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -30,14 +31,15 @@ export default function ProductDetailPage() {
 
   // Save product to recently viewed when it loads
   useEffect(() => {
-    if (product) {
+    if (product && typeof product === 'object' && 'id' in product) {
+      const validProduct = product as Product;
       addProduct({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        originalPrice: product.originalPrice,
-        discount: product.discount,
+        id: validProduct.id,
+        name: validProduct.name,
+        price: validProduct.price,
+        image: validProduct.image,
+        originalPrice: validProduct.originalPrice,
+        discount: validProduct.discount,
       });
     }
   }, [product, addProduct]);
@@ -82,6 +84,9 @@ export default function ProductDetailPage() {
     );
   }
 
+  // Type assertion after null check - TypeScript needs help here
+  const validProduct = product as Product;
+
   // Helper function to validate image path
   const isValidImagePath = (path: string | undefined | null): boolean => {
     return !!path && typeof path === 'string' && path.trim() !== "" && path !== "/";
@@ -92,8 +97,8 @@ export default function ProductDetailPage() {
     ? productImages
         .map((img: { imagePath: string; id?: number }) => img.imagePath)
         .filter((path: string) => isValidImagePath(path)) // Filter out empty strings
-    : isValidImagePath(product?.image)
-      ? [product.image!] 
+    : isValidImagePath(validProduct.image)
+      ? [validProduct.image] 
       : ['/sa.webp'];
   
   // Ensure we always have at least one valid image
@@ -109,13 +114,13 @@ export default function ProductDetailPage() {
         <div className="p-8 lg:p-12">
           <ProductImageGallery 
             images={validImages} 
-            productName={product.name}
+            productName={validProduct.name}
           />
         </div>
 
         {/* Right Column - Product Information */}
         <div className="p-8 lg:p-12">
-          <ProductInfo product={product} />
+          <ProductInfo product={validProduct} />
         </div>
       </div>
 
@@ -125,26 +130,26 @@ export default function ProductDetailPage() {
         <div className="p-4">
           <ProductImageGallery 
             images={validImages} 
-            productName={product.name}
+            productName={validProduct.name}
           />
         </div>
 
         {/* Mobile Product Info */}
         <div className="p-4">
-          <ProductInfo product={product} />
+          <ProductInfo product={validProduct} />
         </div>
       </div>
 
       {/* Product Tabs Section */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <ProductTabs product={product} />
+        <ProductTabs product={validProduct} />
       </div>
 
       {/* Related Products Section */}
-      <RelatedProducts currentProductId={product.id} />
+      <RelatedProducts currentProductId={validProduct.id} />
 
       {/* Recently Viewed Section */}
-      <RecentlyViewed currentProductId={product.id} limit={4} />
+      <RecentlyViewed currentProductId={validProduct.id} limit={4} />
       
       {/* Newsletter Section */}
       <NewsletterSection />
