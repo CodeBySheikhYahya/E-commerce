@@ -221,20 +221,7 @@ export default function CartPage({
 
             {/* Bottom Actions - Desktop */}
             {currentItems.length > 0 && (
-              <div className="hidden xl:flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
-                {/* Coupon Code */}
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    placeholder="Coupon code"
-                    className="px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-sm bg-gray-50 min-w-[180px]"
-                  />
-                  <Button className="px-6 py-2.5 bg-black text-white hover:bg-gray-800 rounded-md">
-                    Apply coupon
-                  </Button>
-                </div>
-
-                {/* Continue Shopping */}
+              <div className="hidden xl:flex justify-end mt-6">
                 <Button
                   variant="outline"
                   className="px-6 py-2.5 border border-black text-black hover:bg-gray-50 rounded-md"
@@ -247,20 +234,7 @@ export default function CartPage({
 
             {/* Bottom Actions - Mobile */}
             {currentItems.length > 0 && (
-              <div className="xl:hidden mt-6 space-y-3">
-                {/* Coupon Code */}
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Coupon code"
-                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-sm bg-gray-50"
-                  />
-                  <Button className="px-4 py-2.5 bg-black text-white hover:bg-gray-800 rounded-md text-sm">
-                    Apply coupon
-                  </Button>
-                </div>
-
-                {/* Continue Shopping */}
+              <div className="xl:hidden mt-6">
                 <Button
                   variant="outline"
                   className="w-full py-2.5 border border-black text-black hover:bg-gray-50 rounded-md"

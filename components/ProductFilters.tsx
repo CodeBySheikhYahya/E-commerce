@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { demoProducts } from "./DemoData";
 import { useCategories } from "../lib/hooks/useCategories";
+import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useColors } from "../lib/hooks/useColors";
 
 interface ProductFiltersProps {
@@ -41,13 +42,29 @@ export default function ProductFilters({
   // Get categories from API
   const { categories: apiCategories, isLoading: categoriesLoading } = useCategories();
   
+  // Get subcategories from API
+  const { subcategories: apiSubCategories, isLoading: subCategoriesLoading } = useSubCategories();
+  
   // Get colors from API
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
   
-  // Map API categories to category names for filtering
+  // Map API categories with their subcategories
   const categories = useMemo(() => 
-    apiCategories.map(cat => cat.name || cat.fullName).filter(Boolean),
-    [apiCategories]
+    apiCategories.map(cat => {
+      const categorySubCategories = apiSubCategories.filter(
+        (sub) => sub.mainCategoryID === cat.id && sub.isActive && !sub.isDeleted
+      );
+      
+      return {
+        name: cat.name || cat.fullName,
+        id: cat.id,
+        subcategories: categorySubCategories.map(sub => ({
+          name: sub.name || sub.fullName,
+          id: sub.id,
+        })),
+      };
+    }).filter(cat => cat.name),
+    [apiCategories, apiSubCategories]
   );
 
   // Map API colors to display format with hex values
@@ -119,23 +136,41 @@ export default function ProductFilters({
         
         {expandedSections.categories && (
           <div className="space-y-2">
-            {categoriesLoading ? (
+            {categoriesLoading || subCategoriesLoading ? (
               <div className="text-gray-500 text-sm py-2">Loading categories...</div>
             ) : categories.length === 0 ? (
               <div className="text-gray-500 text-sm py-2">No categories available</div>
             ) : (
               categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => category && handleCategoryToggle(category)}
-                  className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
-                    category && selectedCategories.includes(category)
-                      ? "bg-black text-white"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  {category}
-                </button>
+                <div key={category.id} className="space-y-1">
+                  <button
+                    onClick={() => category.name && handleCategoryToggle(category.name)}
+                    className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
+                      category.name && selectedCategories.includes(category.name)
+                        ? "bg-black text-white"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                  {category.subcategories && category.subcategories.length > 0 && (
+                    <div className="pl-4 space-y-1">
+                      {category.subcategories.map((sub) => (
+                        <button
+                          key={sub.id}
+                          onClick={() => sub.name && handleCategoryToggle(sub.name)}
+                          className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors duration-200 ${
+                            sub.name && selectedCategories.includes(sub.name)
+                              ? "bg-gray-800 text-white"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          • {sub.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))
             )}
           </div>

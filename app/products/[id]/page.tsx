@@ -9,13 +9,24 @@ import RelatedProducts from "../../../components/RelatedProducts";
 import RecentlyViewed from "../../../components/RecentlyViewed";
 import NewsletterSection from "../../../components/NewsletterSection";
 import { useProduct } from "../../../lib/hooks/useProducts";
+import { useProductImages } from "../../../lib/hooks/useProductImages";
+import { useImage } from "../../../lib/hooks/useImage";
 import { useRecentlyViewedStore } from "../../../lib/recentlyViewedStore";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
   const { product, isLoading, error } = useProduct(productId);
+  const { images: productImages, isLoading: imagesLoading } = useProductImages(productId);
   const addProduct = useRecentlyViewedStore(state => state.addProduct);
+
+  // Get current image ID if available
+  const currentImageId = Array.isArray(productImages) && productImages.length > 0 
+    ? productImages[0]?.id?.toString() 
+    : "";
+  
+  // Fetch current image details using image-by-ID API (always call hook, even if empty)
+  const { image: currentImageDetails } = useImage(currentImageId);
 
   // Save product to recently viewed when it loads
   useEffect(() => {
@@ -30,6 +41,13 @@ export default function ProductDetailPage() {
       });
     }
   }, [product, addProduct]);
+
+  // Log current image details when available (for debugging/demo)
+  useEffect(() => {
+    if (currentImageDetails) {
+      console.log('Current Image Details:', currentImageDetails);
+    }
+  }, [currentImageDetails]);
   
   if (isLoading) {
     return (
@@ -64,6 +82,25 @@ export default function ProductDetailPage() {
     );
   }
 
+  // Helper function to validate image path
+  const isValidImagePath = (path: string | undefined | null): boolean => {
+    return !!path && typeof path === 'string' && path.trim() !== "" && path !== "/";
+  };
+
+  // Map product images from API, fallback to product.image if no images or still loading
+  const images = Array.isArray(productImages) && productImages.length > 0 
+    ? productImages
+        .map((img: { imagePath: string; id?: number }) => img.imagePath)
+        .filter((path: string) => isValidImagePath(path)) // Filter out empty strings
+    : isValidImagePath(product?.image)
+      ? [product.image!] 
+      : ['/sa.webp'];
+  
+  // Ensure we always have at least one valid image
+  const validImages = images.length > 0 && images.every(img => isValidImagePath(img))
+    ? images 
+    : ['/sa.webp'];
+
   return (
     <div className="min-h-screen bg-white">
       {/* Desktop Layout - 2 Columns */}
@@ -71,7 +108,7 @@ export default function ProductDetailPage() {
         {/* Left Column - Product Images */}
         <div className="p-8 lg:p-12">
           <ProductImageGallery 
-            images={[product.image, product.image, product.image, product.image, product.image]} 
+            images={validImages} 
             productName={product.name}
           />
         </div>
@@ -87,7 +124,7 @@ export default function ProductDetailPage() {
         {/* Mobile Image Section */}
         <div className="p-4">
           <ProductImageGallery 
-            images={[product.image, product.image, product.image, product.image, product.image]} 
+            images={validImages} 
             productName={product.name}
           />
         </div>

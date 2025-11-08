@@ -5,21 +5,35 @@ import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import ScrollableContainer from "./ScrollableContainer";
 import { motion } from "framer-motion";
 import { useCategories } from "../lib/hooks/useCategories";
+import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useMemo } from "react";
 
 export default function ShopByCategory() {
   const { categories: apiCategories, isLoading } = useCategories();
+  const { subcategories: apiSubCategories, isLoading: subCategoriesLoading } = useSubCategories();
   
-  // Map API categories to display format
+  // Map API categories to display format with subcategories
   const categories = useMemo(() => {
     if (isLoading) return [];
-    return apiCategories.map((category) => ({
-      id: category.id.toString(),
-      name: category.name || category.fullName,
-      image: "/sa.webp",
-      href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`
-    }));
-  }, [apiCategories, isLoading]);
+    return apiCategories.map((category) => {
+      // Filter subcategories for this main category
+      const categorySubCategories = apiSubCategories.filter(
+        (sub) => sub.mainCategoryID === category.id && sub.isActive && !sub.isDeleted
+      );
+      
+      return {
+        id: category.id.toString(),
+        name: category.name || category.fullName,
+        image: "/sa.webp",
+        href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`,
+        subcategories: categorySubCategories.map((sub) => ({
+          id: sub.id,
+          name: sub.name,
+          fullName: sub.fullName,
+        })),
+      };
+    });
+  }, [apiCategories, apiSubCategories, isLoading]);
   return (
     <section className="py-16 lg:py-20 bg-gray-50">
       <div className="w-full px-4">
@@ -59,6 +73,7 @@ export default function ShopByCategory() {
                   name={category.name}
                   image={category.image}
                   href={category.href}
+                  subcategories={category.subcategories}
                 />
               </div>
             ))}

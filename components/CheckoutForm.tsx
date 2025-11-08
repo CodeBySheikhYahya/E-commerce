@@ -71,7 +71,14 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
             Returning customer? Click here to login
           </a>
           <br />
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-800 underline">
+          <a 
+            href="#coupon-section" 
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('coupon-section')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="text-sm text-blue-600 hover:text-blue-800 underline"
+          >
             Have a coupon? Click here to enter your code
           </a>
         </div>

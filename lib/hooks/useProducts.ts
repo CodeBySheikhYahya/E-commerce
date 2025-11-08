@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { getAllProducts, getProductById } from '../productApi';
 import { Product } from '../../components/DemoData';
+import { createUseAllHook, createUseByIdHook } from './useApiQuery';
 
 function mapApiProductToProduct(apiProduct: any): Product {
   return {
@@ -15,48 +15,33 @@ function mapApiProductToProduct(apiProduct: any): Product {
   };
 }
 
-export function useProducts() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: getAllProducts,
-    staleTime: 2 * 60 * 1000, // Cache for 2 minutes (products change more frequently)
-  });
-
-  console.log('🔵 API Raw Data:', data);
-  console.log('🟡 Loading:', isLoading);
-  console.log('🔴 Error:', error);
-
-  const products: Product[] = data ? data.map(mapApiProductToProduct) : [];
-
-  console.log('🟢 Mapped Products:', products);
-
-  return {
-    products,
-    isLoading,
-    error,
-  };
+// Wrapper function that fetches and maps products
+async function fetchAllProducts(): Promise<Product[]> {
+  const data = await getAllProducts();
+  return Array.isArray(data) ? data.map(mapApiProductToProduct) : [];
 }
 
-export function useProduct(id: string) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['product', id],
-    queryFn: () => getProductById(id),
-    enabled: !!id,
-    staleTime: 2 * 60 * 1000, // Cache for 2 minutes (products change more frequently)
-  });
-
-  console.log('🔵 API Raw Product Data:', data);
-  console.log('🟡 Loading Product:', isLoading);
-  console.log('🔴 Product Error:', error);
-
-  const product: Product | null = data ? mapApiProductToProduct(data) : null;
-
-  console.log('🟢 Mapped Product:', product);
-
-  return {
-    product,
-    isLoading,
-    error,
-  };
+// Wrapper function that fetches and maps a single product
+async function fetchProductById(id: string): Promise<Product> {
+  const data = await getProductById(id);
+  return mapApiProductToProduct(data);
 }
+
+// Use the reusable hook factory
+export const useProducts = createUseAllHook<Product>(
+  'products',
+  fetchAllProducts,
+  'Products',
+  'products',
+  2 * 60 * 1000 // Cache for 2 minutes (products change more frequently)
+);
+
+// Use the reusable hook factory for single product
+export const useProduct = createUseByIdHook<Product>(
+  'product',
+  fetchProductById,
+  'Product',
+  'product',
+  2 * 60 * 1000 // Cache for 2 minutes (products change more frequently)
+);
 

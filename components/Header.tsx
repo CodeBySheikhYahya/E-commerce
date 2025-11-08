@@ -10,6 +10,7 @@ import CartSidebar from "./CartSidebar";
 import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { useCategories } from "../lib/hooks/useCategories";
+import { useSubCategories } from "../lib/hooks/useSubCategories";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -33,20 +34,28 @@ export default function Header() {
   const wishlistCount = useMemo(() => getWishlistCount(), [wishlistItems]);
   const router = useRouter();
   const { categories, isLoading: categoriesLoading } = useCategories();
+  const { subcategories, isLoading: subCategoriesLoading } = useSubCategories();
 
   // Fix hydration error by only rendering cart/wishlist counts after mount
   useEffect(() => {
     setIsMounted(true);
   }, []);
   
-  // Generate category hrefs dynamically
+  // Generate category hrefs dynamically with subcategories
   const categoryLinks = useMemo(() => {
-    return (categories || []).map((category) => ({
-      name: category.name || category.fullName,
-      fullName: category.fullName,
-      href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`
-    }));
-  }, [categories]);
+    return (categories || []).map((category) => {
+      const categorySubCategories = (subcategories || []).filter(
+        (sub) => sub.mainCategoryID === category.id && sub.isActive && !sub.isDeleted
+      );
+      
+      return {
+        name: category.name || category.fullName,
+        fullName: category.fullName,
+        href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`,
+        subcategories: categorySubCategories,
+      };
+    });
+  }, [categories, subcategories]);
 
   // Check if PWA install button should be shown
   useEffect(() => {
@@ -208,22 +217,36 @@ export default function Header() {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid gap-3 p-4 w-[400px]">
-                    {categoriesLoading ? (
+                    {categoriesLoading || subCategoriesLoading ? (
                       <div className="text-sm text-muted-foreground py-2">Loading categories...</div>
                     ) : categoryLinks.length === 0 ? (
                       <div className="text-sm text-muted-foreground py-2">No categories available</div>
                     ) : (
                       categoryLinks.map((category) => (
-                        <NavigationMenuLink 
-                          key={category.href}
-                          href={category.href} 
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
-                        >
-                          <div className="text-sm font-medium leading-none">{category.name}</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            {category.fullName || category.name}
-                          </p>
-                        </NavigationMenuLink>
+                        <div key={category.href} className="space-y-1">
+                          <NavigationMenuLink 
+                            href={category.href} 
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                          >
+                            <div className="text-sm font-medium leading-none">{category.name}</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              {category.fullName || category.name}
+                            </p>
+                          </NavigationMenuLink>
+                          {category.subcategories && category.subcategories.length > 0 && (
+                            <div className="pl-3 space-y-1">
+                              {category.subcategories.map((sub) => (
+                                <NavigationMenuLink
+                                  key={sub.id}
+                                  href={`/category/${(sub.name || sub.fullName).toLowerCase().replace(/\s+/g, '-')}`}
+                                  className="block select-none rounded-md px-3 py-1.5 text-xs leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer text-muted-foreground"
+                                >
+                                  {sub.name || sub.fullName}
+                                </NavigationMenuLink>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       ))
                     )}
                   </div>
