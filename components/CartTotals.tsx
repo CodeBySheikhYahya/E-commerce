@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Button } from "./ui/button";
 import { useCouponByCode } from "../lib/hooks/useCoupons";
 import { useCoupons } from "../lib/hooks/useCoupons";
+import { useCartStore } from "../lib/cartStore";
 
 interface CartTotalsProps {
   subtotal: number;
@@ -26,10 +27,12 @@ export default function CartTotals({
 }: CartTotalsProps) {
   const [selectedShipping, setSelectedShipping] = useState<"free" | "flat">("free");
   const [couponCode, setCouponCode] = useState("");
-  const [appliedCouponCode, setAppliedCouponCode] = useState<string | null>(null);
   const [searchCode, setSearchCode] = useState("");
   
-  const { coupon, isLoading: couponLoading, error: couponError } = useCouponByCode(searchCode);
+  const appliedCouponCode = useCartStore((state) => state.appliedCouponCode);
+  const setAppliedCoupon = useCartStore((state) => state.setAppliedCoupon);
+  
+  const { coupon, isLoading: couponLoading, error: couponError } = useCouponByCode(searchCode || appliedCouponCode || "");
   const { coupons: availableCoupons } = useCoupons();
   
   const freeShippingThreshold = 500;
@@ -46,13 +49,21 @@ export default function CartTotals({
     return subtotal + shippingCost + tax - discountAmount;
   }, [subtotal, selectedShipping, tax, discountAmount]);
 
+  // Load stored coupon on mount
+  useEffect(() => {
+    if (appliedCouponCode && !searchCode) {
+      setSearchCode(appliedCouponCode);
+      setCouponCode(appliedCouponCode);
+    }
+  }, [appliedCouponCode]);
+
   // Auto-apply coupon when it's validated and valid
   useEffect(() => {
     if (coupon && isValidCoupon && searchCode && !appliedCouponCode) {
-      setAppliedCouponCode(searchCode);
+      setAppliedCoupon(searchCode);
       setCouponCode(searchCode);
     }
-  }, [coupon, isValidCoupon, searchCode, appliedCouponCode]);
+  }, [coupon, isValidCoupon, searchCode, appliedCouponCode, setAppliedCoupon]);
 
   const handleApplyCoupon = () => {
     if (couponCode.trim()) {
@@ -62,7 +73,7 @@ export default function CartTotals({
 
   const handleRemoveCoupon = () => {
     setCouponCode("");
-    setAppliedCouponCode(null);
+    setAppliedCoupon(null);
     setSearchCode("");
   };
 

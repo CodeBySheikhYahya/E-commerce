@@ -4,11 +4,12 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 
 interface PaymentMethodsProps {
-  onPlaceOrder?: () => void;
+  onPlaceOrder?: () => void | Promise<void>;
   className?: string;
+  isSubmitting?: boolean;
 }
 
-export default function PaymentMethods({ onPlaceOrder, className = "" }: PaymentMethodsProps) {
+export default function PaymentMethods({ onPlaceOrder, className = "", isSubmitting = false }: PaymentMethodsProps) {
   const [selectedPayment, setSelectedPayment] = useState<string>("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
@@ -152,11 +153,11 @@ export default function PaymentMethods({ onPlaceOrder, className = "" }: Payment
       {/* Place Order Button */}
       <Button
         onClick={handlePlaceOrder}
-        disabled={!selectedPayment || !agreeToTerms}
-        className="w-full bg-black hover:bg-gray-800 text-white py-3 text-lg font-medium"
+        disabled={!selectedPayment || !agreeToTerms || isSubmitting}
+        className="w-full bg-black hover:bg-gray-800 text-white py-3 text-lg font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
         style={{fontFamily: 'var(--header-font-family)'}}
       >
-        Place Order
+        {isSubmitting ? 'Placing Order...' : 'Place Order'}
       </Button>
     </div>
   );

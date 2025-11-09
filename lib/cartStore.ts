@@ -9,13 +9,20 @@ export interface CartItem {
   image: string;
   selectedColor?: string;
   selectedSize?: string;
+  selectedQuantityPack?: string;
   quantity: number;
+  // Order API required fields
+  productCode?: string;
+  colorID?: number;
+  sizeID?: number;
+  quantityID?: number;
 }
 
 interface CartStore {
   items: CartItem[];
   isOpen: boolean;
   isClosing: boolean;
+  appliedCouponCode: string | null;
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
@@ -26,6 +33,7 @@ interface CartStore {
   closeCartWithAnimation: () => void;
   getItemCount: () => number;
   getSubtotal: () => number;
+  setAppliedCoupon: (code: string | null) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -34,6 +42,7 @@ export const useCartStore = create<CartStore>()(
       items: [],
       isOpen: false,
       isClosing: false,
+      appliedCouponCode: null,
 
       addItem: (item) => {
         const existingItem = get().items.find(i => i.id === item.id);
@@ -115,10 +124,14 @@ export const useCartStore = create<CartStore>()(
           return total + (price * item.quantity);
         }, 0);
       },
+
+      setAppliedCoupon: (code) => {
+        set({ appliedCouponCode: code });
+      },
     }),
     {
       name: 'cart-storage', // unique name for localStorage key
-      partialize: (state) => ({ items: state.items }), // only persist items, not isOpen
+      partialize: (state) => ({ items: state.items, appliedCouponCode: state.appliedCouponCode }), // persist items and coupon
     }
   )
 );

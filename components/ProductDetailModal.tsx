@@ -115,13 +115,23 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
   };
 
   const handleAddToCart = () => {
+    // Find IDs for color, size, and quantity
+    const color = apiColors.find(c => c.name === selectedColor);
+    const size = apiSizes.find(s => s.name === selectedSize);
+    const quantityPack = apiQuantities.find(q => q.name === selectedQuantityPack);
+
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price,
       image: product.image,
       selectedColor,
-      selectedSize
+      selectedSize,
+      selectedQuantityPack,
+      productCode: product.sku,
+      colorID: color?.id,
+      sizeID: size?.id,
+      quantityID: quantityPack?.id,
     });
     openCart();
     onClose(); // Close modal after adding to cart

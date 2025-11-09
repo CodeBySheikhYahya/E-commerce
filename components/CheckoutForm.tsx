@@ -1,6 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { forwardRef, useImperativeHandle } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
@@ -11,6 +12,7 @@ const checkoutSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   phone: z.string().min(10, "Phone number is required"),
   country: z.string().min(1, "Please select a country"),
+  state: z.string().min(2, "State is required"),
   city: z.string().min(2, "City is required"),
   address: z.string().min(5, "Street address is required"),
   zipCode: z.string().min(3, "ZIP code is required"),
@@ -18,48 +20,69 @@ const checkoutSchema = z.object({
   createAccount: z.boolean().optional(),
 });
 
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+export type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 interface CheckoutFormProps {
   onSubmit?: (values: CheckoutFormValues) => Promise<void> | void;
   className?: string;
 }
 
-export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<CheckoutFormValues>({
-    resolver: zodResolver(checkoutSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      country: "",
-      city: "",
-      address: "",
-      zipCode: "",
-      additionalInfo: "",
-      createAccount: false,
-    },
-    mode: "onChange",
-  });
+export interface CheckoutFormRef {
+  triggerValidation: () => Promise<boolean>;
+  getValues: () => CheckoutFormValues;
+  formMethods: UseFormReturn<CheckoutFormValues>;
+}
 
-  async function onValid(values: CheckoutFormValues) {
-    try {
-      if (onSubmit) await onSubmit(values);
-      else console.log("checkout form: ", values);
-      reset();
-    } catch (err) {
-      console.error(err);
+const CheckoutForm = forwardRef<CheckoutFormRef, CheckoutFormProps>(
+  ({ onSubmit, className = "" }, ref) => {
+    const formMethods = useForm<CheckoutFormValues>({
+      resolver: zodResolver(checkoutSchema),
+      defaultValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        country: "",
+        state: "",
+        city: "",
+        address: "",
+        zipCode: "",
+        additionalInfo: "",
+        createAccount: false,
+      },
+      mode: "onChange",
+    });
+
+    const {
+      register,
+      handleSubmit,
+      formState: { errors, isSubmitting },
+      reset,
+      trigger,
+      getValues,
+    } = formMethods;
+
+    // Expose form methods to parent via ref
+    useImperativeHandle(ref, () => ({
+      triggerValidation: async () => {
+        return await trigger();
+      },
+      getValues: () => getValues(),
+      formMethods,
+    }));
+
+    async function onValid(values: CheckoutFormValues) {
+      try {
+        if (onSubmit) await onSubmit(values);
+        else console.log("checkout form: ", values);
+        reset();
+      } catch (err) {
+        console.error(err);
+      }
     }
-  }
 
-  return (
-    <form onSubmit={handleSubmit(onValid)} className={className} noValidate>
+    return (
+      <form onSubmit={handleSubmit(onValid)} className={className} noValidate>
       <div className="space-y-6">
         <h2 className="text-2xl font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
           Billing Details
@@ -164,13 +187,29 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
             <option value="UK">United Kingdom</option>
             <option value="CA">Canada</option>
             <option value="AU">Australia</option>
+            <option value="Pakistan">Pakistan</option>
           </select>
           {errors.country && (
             <p className="mt-1 text-sm text-red-600">{errors.country.message}</p>
           )}
         </div>
 
-        {/* City and Address */}
+        {/* State and City */}
+        <div>
+          <label className="block text-sm font-normal text-gray-700 mb-2">
+            State <span className="text-red-500 text-xs align-super">*</span>
+          </label>
+          <input
+            type="text"
+            {...register("state")}
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+            disabled={isSubmitting}
+          />
+          {errors.state && (
+            <p className="mt-1 text-sm text-red-600">{errors.state.message}</p>
+          )}
+        </div>
+
         <div>
           <label className="block text-sm font-normal text-gray-700 mb-2">
             Town / City <span className="text-red-500 text-xs align-super">*</span>
@@ -247,4 +286,8 @@ export default function CheckoutForm({ onSubmit, className = "" }: CheckoutFormP
       </div>
     </form>
   );
-}
+});
+
+CheckoutForm.displayName = "CheckoutForm";
+
+export default CheckoutForm;

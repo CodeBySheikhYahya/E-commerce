@@ -68,13 +68,23 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   }, [quantities, selectedQuantityPack]);
 
   const handleAddToCart = () => {
+    // Find IDs for color, size, and quantity
+    const color = apiColors.find(c => c.name === selectedColor);
+    const size = sizes.find(s => s.name === selectedSize);
+    const quantityPack = quantities.find(q => q.name === selectedQuantityPack);
+
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price,
       image: product.image,
       selectedColor,
-      selectedSize
+      selectedSize,
+      selectedQuantityPack,
+      productCode: product.sku,
+      colorID: color?.id,
+      sizeID: size?.id,
+      quantityID: quantityPack?.id,
     });
   };
 
