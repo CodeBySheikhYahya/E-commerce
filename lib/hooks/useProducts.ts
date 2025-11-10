@@ -20,6 +20,7 @@ function mapApiProductToProduct(apiProduct: any): Product {
 
   const currentPrice = apiProduct.price || 0;
   const priceBefore = apiProduct.priceBefore;
+  const priceAfter = apiProduct.priceAfter;
   
   return {
     id: apiProduct.id.toString(),
@@ -30,6 +31,11 @@ function mapApiProductToProduct(apiProduct: any): Product {
     discount: calculateDiscount(priceBefore, currentPrice),
     category: apiProduct.categoryId ? `Category ${apiProduct.categoryId}` : undefined,
     isNew: apiProduct.isNewArrival === 1,
+    isBestSeller: apiProduct.isBestSeller === 1,
+    isOnSale: apiProduct.isOnSale === 1,
+    isFeatures: apiProduct.isFeatures === 1,
+    isActive: apiProduct.isActive === true,
+    priceAfter: priceAfter ? formatPrice(priceAfter) : undefined,
     stock: apiProduct.isOutOfStock === 1 ? 'Out of stock' : 'In stock',
     colors: [], // Placeholder
     sizes: [], // Placeholder
@@ -40,7 +46,11 @@ function mapApiProductToProduct(apiProduct: any): Product {
 // Wrapper function that fetches and maps products
 async function fetchAllProducts(): Promise<Product[]> {
   const data = await getAllProducts();
-  return Array.isArray(data) ? data.map(mapApiProductToProduct) : [];
+  return Array.isArray(data) 
+    ? data
+        .filter(apiProduct => apiProduct.isDeleted !== true && apiProduct.isActive === true)
+        .map(mapApiProductToProduct)
+    : [];
 }
 
 // Wrapper function that fetches and maps a single product

@@ -7,6 +7,11 @@ export interface Product {
   discount?: string;
   category?: string;
   isNew?: boolean;
+  isBestSeller?: boolean;
+  isOnSale?: boolean;
+  isFeatures?: boolean;
+  isActive?: boolean;
+  priceAfter?: string;
   description?: string;
   rating?: number;
   reviewCount?: number;

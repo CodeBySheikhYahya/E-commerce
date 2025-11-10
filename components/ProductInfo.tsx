@@ -113,7 +113,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <h1 className="text-3xl lg:text-4xl font-light text-gray-900 mb-2" style={{fontFamily: 'var(--header-font-family)'}}>
           {product.name}
         </h1>
-        {product.rating && (
+        {product.rating && product.rating > 0 && (
           <div className="flex items-center gap-2 mb-2">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -122,7 +122,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 </span>
               ))}
             </div>
-            <span className="text-sm text-gray-600">({product.reviewCount} reviews)</span>
+            {product.reviewCount && product.reviewCount > 0 && (
+              <span className="text-sm text-gray-600">({product.reviewCount} reviews)</span>
+            )}
           </div>
         )}
         {product.stock && (
@@ -142,6 +144,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             {product.originalPrice}
           </span>
         )}
+        {product.priceAfter && product.priceAfter !== product.price && (
+          <span className="text-xl text-gray-600">
+            {product.priceAfter}
+          </span>
+        )}
         {product.discount && (
           <span className="bg-red-100 text-red-800 text-sm font-medium px-2 py-1 rounded">
             {product.discount}
@@ -150,7 +157,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Description */}
-      {product.description && (
+      {product.description && product.description.trim() !== '' && (
         <div>
           <p className="text-gray-600 leading-relaxed">
             {product.description}

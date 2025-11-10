@@ -34,18 +34,14 @@ export default function ProductShowcase() {
     if (isLoading) return [];
     
     if (activeTab === "best") {
-      // Best sellers: products with discount > 25%
-      return products.filter(product => {
-        if (!product.discount) return false;
-        const discount = parseInt(product.discount.replace('% OFF', ''));
-        return discount > 25;
-      });
+      // Best sellers: products with isBestSeller: true
+      return products.filter(product => product.isBestSeller === true);
     } else if (activeTab === "new") {
       // New arrivals: products with isNew: true
       return products.filter(product => product.isNew === true);
     } else {
-      // Featured: all products
-      return products;
+      // Featured: products with isFeatures: true
+      return products.filter(product => product.isFeatures === true);
     }
   }, [activeTab, products, isLoading]);
 
@@ -134,6 +130,8 @@ export default function ProductShowcase() {
                   image={product.image}
                   originalPrice={product.originalPrice}
                   discount={product.discount}
+                  isNew={product.isNew}
+                  isOnSale={product.isOnSale}
                   onQuickView={handleQuickView}
                 />
               </motion.div>

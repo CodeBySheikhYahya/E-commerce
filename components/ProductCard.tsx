@@ -17,6 +17,8 @@ interface ProductCardProps {
   image: string;
   originalPrice?: string;
   discount?: string;
+  isNew?: boolean;
+  isOnSale?: boolean;
   view?: "grid" | "list";
   onWishlist?: (productId: string) => void;
   onQuickView?: (productId: string) => void;
@@ -30,6 +32,8 @@ function ProductCard({
   image, 
   originalPrice, 
   discount,
+  isNew,
+  isOnSale,
   view = "grid",
   onWishlist,
   onQuickView,
@@ -68,9 +72,18 @@ function ProductCard({
               />
               
               {/* New Badge */}
-              <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-                New
-              </div>
+              {isNew && (
+                <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+                  New
+                </div>
+              )}
+              
+              {/* On Sale Badge */}
+              {isOnSale && (
+                <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-medium px-2 py-1 rounded">
+                  On Sale
+                </div>
+              )}
             </div>
           </Link>
           
@@ -138,9 +151,18 @@ function ProductCard({
         />
         
         {/* New Badge */}
-        <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-          New
-        </div>
+        {isNew && (
+          <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+            New
+          </div>
+        )}
+        
+        {/* On Sale Badge */}
+        {isOnSale && (
+          <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-medium px-2 py-1 rounded">
+            On Sale
+          </div>
+        )}
         
         {/* Product Actions - Show on hover for desktop, always visible on mobile */}
         <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
