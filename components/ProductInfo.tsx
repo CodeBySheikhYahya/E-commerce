@@ -306,6 +306,12 @@ export default function ProductInfo({ product }: ProductInfoProps) {
               <span className="ml-2 text-gray-600">{product.sku}</span>
             </div>
           )}
+          {product.category && (
+            <div>
+              <span className="font-medium text-gray-900">Category:</span>
+              <span className="ml-2 text-gray-600">{product.category}</span>
+            </div>
+          )}
           {product.categories && (
             <div>
               <span className="font-medium text-gray-900">Categories:</span>

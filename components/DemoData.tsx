@@ -6,6 +6,8 @@ export interface Product {
   originalPrice?: string;
   discount?: string;
   category?: string;
+  categoryId?: number;
+  subCategoryId?: number | null;
   isNew?: boolean;
   isBestSeller?: boolean;
   isOnSale?: boolean;

@@ -13,6 +13,8 @@ import ProductDetailModal from "../../components/ProductDetailModal";
 import { Product } from "../../components/DemoData";
 import { useProducts } from "../../lib/hooks/useProducts";
 import { useProductSearch } from "../../lib/hooks/useProductSearch";
+import { useCategories } from "../../lib/hooks/useCategories";
+import { useSubCategories } from "../../lib/hooks/useSubCategories";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
@@ -21,6 +23,9 @@ export default function ProductsPage() {
 
   const { products, isLoading, error } = useProducts();
   const { results: searchResults, isLoading: searchLoading, error: searchError } = useProductSearch(searchQuery);
+  const { categories } = useCategories();
+  const { subcategories } = useSubCategories();
+  
   // State management for filters and view
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
@@ -38,9 +43,34 @@ export default function ProductsPage() {
     if (isLoading) return [];
     
     return products.filter(product => {
-      // Category filter
-      if (selectedCategories.length > 0 && product.category) {
-        if (!selectedCategories.includes(product.category)) return false;
+      // Category filter - handle both category and subcategory matching
+      if (selectedCategories.length > 0) {
+        let matchesCategory = false;
+        
+        // Check if product's category/subcategory name matches any selected category
+        if (product.category && selectedCategories.includes(product.category)) {
+          matchesCategory = true;
+        } else {
+          // If product has subcategory, check if parent category matches
+          if (product.subCategoryId) {
+            const productSubcategory = subcategories.find(sub => sub.id === product.subCategoryId);
+            if (productSubcategory) {
+              const parentCategory = categories.find(cat => cat.id === productSubcategory.mainCategoryID);
+              if (parentCategory && selectedCategories.includes(parentCategory.name || parentCategory.fullName)) {
+                matchesCategory = true;
+              }
+            }
+          }
+          // If product has no subcategory, check if category matches
+          else if (product.categoryId) {
+            const productCategory = categories.find(cat => cat.id === product.categoryId);
+            if (productCategory && selectedCategories.includes(productCategory.name || productCategory.fullName)) {
+              matchesCategory = true;
+            }
+          }
+        }
+        
+        if (!matchesCategory) return false;
       }
       
       // Price filter
@@ -49,7 +79,7 @@ export default function ProductsPage() {
       
       return true;
     });
-  }, [products, isLoading, selectedCategories, priceRange]);
+  }, [products, isLoading, selectedCategories, priceRange, categories, subcategories]);
 
   // Sort products based on current sort
   const sortedProducts = useMemo(() => {

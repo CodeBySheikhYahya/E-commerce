@@ -1,8 +1,14 @@
 import { getAllProducts, getProductById } from '../productApi';
+import { getAllCategories } from '../categoryApi';
+import { getAllSubCategories } from '../subCategoryApi';
 import { Product } from '../../components/DemoData';
 import { createUseAllHook, createUseByIdHook } from './useApiQuery';
 
-function mapApiProductToProduct(apiProduct: any): Product {
+function mapApiProductToProduct(
+  apiProduct: any,
+  categories: any[],
+  subcategories: any[]
+): Product {
   // Format price as currency string
   const formatPrice = (price: number | null | undefined): string => {
     if (price === null || price === undefined) return '$0.00';
@@ -22,6 +28,31 @@ function mapApiProductToProduct(apiProduct: any): Product {
   const priceBefore = apiProduct.priceBefore;
   const priceAfter = apiProduct.priceAfter;
   
+  // Resolve category and subcategory names
+  let categoryName: string | undefined = undefined;
+  const categoryId = apiProduct.categoryId;
+  const subCategoryId = apiProduct.subCategoryId || null;
+
+  // If product has subcategory, use subcategory name, otherwise use category name
+  if (subCategoryId) {
+    const subcategory = subcategories.find(sub => sub.id === subCategoryId);
+    if (subcategory && subcategory.isActive && !subcategory.isDeleted) {
+      categoryName = subcategory.name || subcategory.fullName;
+    } else {
+      // Fallback to category if subcategory not found
+      const category = categories.find(cat => cat.id === categoryId);
+      if (category && category.isActive && !category.isDeleted) {
+        categoryName = category.name || category.fullName;
+      }
+    }
+  } else if (categoryId) {
+    // Product belongs directly to category (no subcategory)
+    const category = categories.find(cat => cat.id === categoryId);
+    if (category && category.isActive && !category.isDeleted) {
+      categoryName = category.name || category.fullName;
+    }
+  }
+  
   return {
     id: apiProduct.id.toString(),
     name: apiProduct.fullName || apiProduct.name || '',
@@ -29,7 +60,9 @@ function mapApiProductToProduct(apiProduct: any): Product {
     image: '/sa.webp', // Placeholder
     originalPrice: priceBefore ? formatPrice(priceBefore) : undefined,
     discount: calculateDiscount(priceBefore, currentPrice),
-    category: apiProduct.categoryId ? `Category ${apiProduct.categoryId}` : undefined,
+    category: categoryName,
+    categoryId: categoryId,
+    subCategoryId: subCategoryId,
     isNew: apiProduct.isNewArrival === 1,
     isBestSeller: apiProduct.isBestSeller === 1,
     isOnSale: apiProduct.isOnSale === 1,
@@ -45,18 +78,34 @@ function mapApiProductToProduct(apiProduct: any): Product {
 
 // Wrapper function that fetches and maps products
 async function fetchAllProducts(): Promise<Product[]> {
-  const data = await getAllProducts();
-  return Array.isArray(data) 
-    ? data
+  const [productsData, categoriesData, subcategoriesData] = await Promise.all([
+    getAllProducts(),
+    getAllCategories(),
+    getAllSubCategories()
+  ]);
+
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
+  const subcategories = Array.isArray(subcategoriesData) ? subcategoriesData : [];
+
+  return Array.isArray(productsData) 
+    ? productsData
         .filter(apiProduct => apiProduct.isDeleted !== true && apiProduct.isActive === true)
-        .map(mapApiProductToProduct)
+        .map(apiProduct => mapApiProductToProduct(apiProduct, categories, subcategories))
     : [];
 }
 
 // Wrapper function that fetches and maps a single product
 async function fetchProductById(id: string): Promise<Product> {
-  const data = await getProductById(id);
-  return mapApiProductToProduct(data);
+  const [productData, categoriesData, subcategoriesData] = await Promise.all([
+    getProductById(id),
+    getAllCategories(),
+    getAllSubCategories()
+  ]);
+
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
+  const subcategories = Array.isArray(subcategoriesData) ? subcategoriesData : [];
+
+  return mapApiProductToProduct(productData, categories, subcategories);
 }
 
 // Use the reusable hook factory
