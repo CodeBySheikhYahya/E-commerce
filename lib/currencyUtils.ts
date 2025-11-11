@@ -1,129 +1,82 @@
-/**
- * Currency formatting utilities
- */
+import { useCurrencyStore } from './currencyStore';
 
-export interface CurrencyInfo {
-  code: string;
-  symbol: string;
-  country: string;
+/**
+ * Formats a price value according to the detected currency
+ * @param price - The numeric price value
+ * @param currency - Optional currency code (defaults to detected currency)
+ * @returns Formatted price string (e.g., "$100.00", "€100.00", "£100.00", "Rs 100.00")
+ */
+export function formatPrice(price: number | null | undefined, currency?: string): string {
+  if (price === null || price === undefined) {
+    price = 0;
+  }
+
+  const currencyInfo = useCurrencyStore.getState().currencyInfo;
+  const currencyCode = currency || currencyInfo?.currency || 'USD';
+
+  try {
+    // Get locale based on currency for better formatting
+    // For PKR, use en-PK locale; for others, use appropriate locales
+    const localeMap: Record<string, string> = {
+      'PKR': 'en-PK',
+      'USD': 'en-US',
+      'GBP': 'en-GB',
+      'EUR': 'de-DE', // Use German locale for EUR as it's commonly used
+      'INR': 'en-IN',
+      'JPY': 'ja-JP',
+      'CNY': 'zh-CN',
+    };
+    
+    const locale = localeMap[currencyCode] || 'en-US';
+    
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currencyCode,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price);
+  } catch (error) {
+    // Fallback to USD formatting if currency code is invalid
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price);
+  }
 }
 
 /**
- * Map country names to currency information
- */
-const countryToCurrency: Record<string, CurrencyInfo> = {
-  'Pakistan': { code: 'PKR', symbol: '₨', country: 'Pakistan' },
-  'United Kingdom': { code: 'GBP', symbol: '£', country: 'United Kingdom' },
-  'United States': { code: 'USD', symbol: '$', country: 'United States' },
-  'Canada': { code: 'CAD', symbol: 'C$', country: 'Canada' },
-  'Australia': { code: 'AUD', symbol: 'A$', country: 'Australia' },
-  'India': { code: 'INR', symbol: '₹', country: 'India' },
-  'Eurozone': { code: 'EUR', symbol: '€', country: 'Eurozone' },
-  'Germany': { code: 'EUR', symbol: '€', country: 'Germany' },
-  'France': { code: 'EUR', symbol: '€', country: 'France' },
-  'Italy': { code: 'EUR', symbol: '€', country: 'Italy' },
-  'Spain': { code: 'EUR', symbol: '€', country: 'Spain' },
-  'Netherlands': { code: 'EUR', symbol: '€', country: 'Netherlands' },
-  'Belgium': { code: 'EUR', symbol: '€', country: 'Belgium' },
-  'Austria': { code: 'EUR', symbol: '€', country: 'Austria' },
-  'Portugal': { code: 'EUR', symbol: '€', country: 'Portugal' },
-  'Ireland': { code: 'EUR', symbol: '€', country: 'Ireland' },
-  'Finland': { code: 'EUR', symbol: '€', country: 'Finland' },
-  'Greece': { code: 'EUR', symbol: '€', country: 'Greece' },
-  'Japan': { code: 'JPY', symbol: '¥', country: 'Japan' },
-  'China': { code: 'CNY', symbol: '¥', country: 'China' },
-  'South Korea': { code: 'KRW', symbol: '₩', country: 'South Korea' },
-  'Singapore': { code: 'SGD', symbol: 'S$', country: 'Singapore' },
-  'Malaysia': { code: 'MYR', symbol: 'RM', country: 'Malaysia' },
-  'Thailand': { code: 'THB', symbol: '฿', country: 'Thailand' },
-  'United Arab Emirates': { code: 'AED', symbol: 'د.إ', country: 'United Arab Emirates' },
-  'Saudi Arabia': { code: 'SAR', symbol: '﷼', country: 'Saudi Arabia' },
-  'South Africa': { code: 'ZAR', symbol: 'R', country: 'South Africa' },
-  'Brazil': { code: 'BRL', symbol: 'R$', country: 'Brazil' },
-  'Mexico': { code: 'MXN', symbol: '$', country: 'Mexico' },
-  'Argentina': { code: 'ARS', symbol: '$', country: 'Argentina' },
-  'Chile': { code: 'CLP', symbol: '$', country: 'Chile' },
-  'New Zealand': { code: 'NZD', symbol: 'NZ$', country: 'New Zealand' },
-  'Switzerland': { code: 'CHF', symbol: 'CHF', country: 'Switzerland' },
-  'Norway': { code: 'NOK', symbol: 'kr', country: 'Norway' },
-  'Sweden': { code: 'SEK', symbol: 'kr', country: 'Sweden' },
-  'Denmark': { code: 'DKK', symbol: 'kr', country: 'Denmark' },
-  'Poland': { code: 'PLN', symbol: 'zł', country: 'Poland' },
-  'Turkey': { code: 'TRY', symbol: '₺', country: 'Turkey' },
-  'Russia': { code: 'RUB', symbol: '₽', country: 'Russia' },
-  'Egypt': { code: 'EGP', symbol: 'E£', country: 'Egypt' },
-  'Nigeria': { code: 'NGN', symbol: '₦', country: 'Nigeria' },
-  'Kenya': { code: 'KES', symbol: 'KSh', country: 'Kenya' },
-  'Bangladesh': { code: 'BDT', symbol: '৳', country: 'Bangladesh' },
-  'Sri Lanka': { code: 'LKR', symbol: 'Rs', country: 'Sri Lanka' },
-  'Nepal': { code: 'NPR', symbol: 'Rs', country: 'Nepal' },
-  'Philippines': { code: 'PHP', symbol: '₱', country: 'Philippines' },
-  'Indonesia': { code: 'IDR', symbol: 'Rp', country: 'Indonesia' },
-  'Vietnam': { code: 'VND', symbol: '₫', country: 'Vietnam' },
-};
-
-/**
- * Default currency (GBP for United Kingdom)
- */
-export const DEFAULT_CURRENCY: CurrencyInfo = {
-  code: 'GBP',
-  symbol: '£',
-  country: 'United Kingdom'
-};
-
-/**
- * Get currency info from country name
- */
-export function getCurrencyFromCountry(countryName: string | null | undefined): CurrencyInfo {
-  if (!countryName) {
-    return DEFAULT_CURRENCY;
-  }
-  
-  // Try exact match first
-  if (countryToCurrency[countryName]) {
-    return countryToCurrency[countryName];
-  }
-  
-  // Try case-insensitive match
-  const normalizedCountry = countryName.trim();
-  const found = Object.keys(countryToCurrency).find(
-    key => key.toLowerCase() === normalizedCountry.toLowerCase()
-  );
-  
-  if (found) {
-    return countryToCurrency[found];
-  }
-  
-  // Default to GBP if not found
-  return DEFAULT_CURRENCY;
-}
-
-/**
- * Format price with currency symbol
- */
-export function formatPrice(
-  amount: number | null | undefined,
-  currencyCode: string = 'GBP',
-  symbol: string = '£'
-): string {
-  if (amount === null || amount === undefined) {
-    return `${symbol}0.00`;
-  }
-  
-  // Format number with 2 decimal places
-  const formattedAmount = amount.toFixed(2);
-  
-  // Return formatted price with symbol
-  return `${symbol}${formattedAmount}`;
-}
-
-/**
- * Parse price string to number (removes currency symbols)
+ * Parses a price string and returns the numeric value
+ * Handles different currency formats
+ * @param priceString - The price string (e.g., "$100.00", "€100.00")
+ * @returns Numeric price value
  */
 export function parsePrice(priceString: string): number {
-  // Remove all currency symbols and non-numeric characters except decimal point
-  const cleaned = priceString.replace(/[^\d.-]/g, '');
+  if (!priceString) return 0;
+  
+  // Remove currency symbols and spaces, then parse
+  const cleaned = priceString.replace(/[^\d.,-]/g, '').replace(',', '');
   const parsed = parseFloat(cleaned);
+  
   return isNaN(parsed) ? 0 : parsed;
+}
+
+/**
+ * Gets the current currency code
+ * @returns Currency code (e.g., "USD", "EUR", "GBP")
+ */
+export function getCurrentCurrency(): string {
+  const currencyInfo = useCurrencyStore.getState().currencyInfo;
+  return currencyInfo?.currency || 'USD';
+}
+
+/**
+ * Gets the current country name
+ * @returns Country name (e.g., "United States", "United Kingdom")
+ */
+export function getCurrentCountry(): string {
+  const currencyInfo = useCurrencyStore.getState().currencyInfo;
+  return currencyInfo?.country || 'United States';
 }
 

@@ -9,6 +9,7 @@ import { useWishlistStore } from "../lib/wishlistStore";
 import { useSizes } from "../lib/hooks/useSizes";
 import { useColors } from "../lib/hooks/useColors";
 import { useQuantities } from "../lib/hooks/useQuantities";
+import { useFormattedPrice } from "../lib/hooks/useFormattedPrice";
 
 interface ProductDetailModalProps {
   isOpen: boolean;
@@ -44,6 +45,8 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
   const { sizes: apiSizes, isLoading: sizesLoading } = useSizes();
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
   const { quantities: apiQuantities, isLoading: quantitiesLoading } = useQuantities();
+  
+  const formattedPrice = useFormattedPrice(product.price);
 
   // Map color names to hex values
   const colorNameToHex: Record<string, string> = {
@@ -247,7 +250,7 @@ export default function ProductDetailModal({ isOpen, onClose, product }: Product
 
             {/* Price */}
             <div className="text-3xl font-bold text-gray-900 mb-6" style={{fontFamily: 'var(--header-font-family)'}}>
-              {product.price}
+              {formattedPrice}
             </div>
 
             {/* Description */}

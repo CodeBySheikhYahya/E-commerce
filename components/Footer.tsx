@@ -61,9 +61,9 @@ export default function Footer() {
                   Quick Links
                 </h3>
                 <ul className="space-y-3">
-                  <li><a href="/category/safety-vests" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Safety Vests</a></li>
-                  <li><a href="/category/safety-helmets" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Safety Helmets</a></li>
-                  <li><a href="/category/goggles" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Goggles</a></li>
+                  <li><a href="/products?category=Safety Vests" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Safety Vests</a></li>
+                  <li><a href="/products?category=Safety Helmets" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Safety Helmets</a></li>
+                  <li><a href="/products?category=Goggles" className="text-[var(--header-text-muted)] hover:text-[var(--header-text)] transition-colors text-sm">Goggles</a></li>
                 </ul>
               </div>
 

@@ -141,8 +141,10 @@ export const useCartStore = create<CartStore>()(
 export const useCartItemCount = () => 
   useCartStore(state => state.items.reduce((total, item) => total + item.quantity, 0));
 
-export const useCartSubtotal = () => 
-  useCartStore(state => state.items.reduce((total, item) => {
+export const useCartSubtotal = () => {
+  const items = useCartStore(state => state.items);
+  return items.reduce((total, item) => {
     const price = parsePrice(item.price);
     return total + (price * item.quantity);
-  }, 0));
+  }, 0);
+};

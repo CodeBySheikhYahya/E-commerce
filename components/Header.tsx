@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, ShoppingCart, ChevronDown, Search } from "lucide-react";
+import { Menu, X, ShoppingCart, ChevronDown, ChevronRight, Search } from "lucide-react";
 import SearchBar from "./SearchBar";
 import CartSidebar from "./CartSidebar";
 import { useCartStore } from "../lib/cartStore";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { useCategories } from "../lib/hooks/useCategories";
 import { useSubCategories } from "../lib/hooks/useSubCategories";
+import { useCurrency } from "../lib/hooks/useCurrency";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -27,6 +28,7 @@ export default function Header() {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   
   const { isOpen: isCartOpen, openCart, closeCart, getItemCount, items: cartItems } = useCartStore();
   const { getItemCount: getWishlistCount, items: wishlistItems } = useWishlistStore();
@@ -35,6 +37,7 @@ export default function Header() {
   const router = useRouter();
   const { categories, isLoading: categoriesLoading } = useCategories();
   const { subcategories, isLoading: subCategoriesLoading } = useSubCategories();
+  const { currencyInfo } = useCurrency();
 
   // Fix hydration error by only rendering cart/wishlist counts after mount
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function Header() {
       return {
         name: category.name || category.fullName,
         fullName: category.fullName,
-        href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`,
+        href: `/products?category=${encodeURIComponent(category.name || category.fullName)}`,
         subcategories: categorySubCategories,
       };
     });
@@ -118,6 +121,12 @@ export default function Header() {
             lineHeight: 'var(--top-bar-line-height)',
             color: 'var(--top-bar-color)'
           }}>
+            {currencyInfo?.country && (
+              <>
+                <span className="max-w-[15vw] truncate">{currencyInfo.country}</span>
+                <span className="text-[var(--header-vertical-line)]">|</span>
+              </>
+            )}
             <span>Javeria.aman@buywithuspkltd.co.uk</span>
             <span className="text-[var(--header-vertical-line)]">|</span>
             <span className="max-w-[15vw]">Ilford, England IG14PG</span>
@@ -216,16 +225,20 @@ export default function Header() {
                   Search by Category
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    {categoriesLoading || subCategoriesLoading ? (
-                      <div className="text-sm text-muted-foreground py-2">Loading categories...</div>
-                    ) : categoryLinks.length === 0 ? (
-                      <div className="text-sm text-muted-foreground py-2">No categories available</div>
-                    ) : (
-                      categoryLinks.map((category) => (
-                        <div key={category.href} className="space-y-1">
+                  <div className="flex p-0 w-[600px]">
+                    {/* Left Column - Categories */}
+                    <div className="w-1/2 border-r border-gray-200 p-4">
+                      {categoriesLoading || subCategoriesLoading ? (
+                        <div className="text-sm text-muted-foreground py-2">Loading categories...</div>
+                      ) : categoryLinks.length === 0 ? (
+                        <div className="text-sm text-muted-foreground py-2">No categories available</div>
+                      ) : (
+                        categoryLinks.map((category) => (
                           <NavigationMenuLink 
+                            key={category.href}
                             href={category.href} 
+                            onMouseEnter={() => setHoveredCategory(category.href)}
+                            onMouseLeave={() => setHoveredCategory(null)}
                             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
                           >
                             <div className="text-sm font-medium leading-none">{category.name}</div>
@@ -233,22 +246,44 @@ export default function Header() {
                               {category.fullName || category.name}
                             </p>
                           </NavigationMenuLink>
-                          {category.subcategories && category.subcategories.length > 0 && (
-                            <div className="pl-3 space-y-1">
-                              {category.subcategories.map((sub) => (
+                        ))
+                      )}
+                    </div>
+                    
+                    {/* Right Column - Subcategories */}
+                    <div className="w-1/2 p-4">
+                      {hoveredCategory && (() => {
+                        const selectedCategory = categoryLinks.find(cat => cat.href === hoveredCategory);
+                        if (selectedCategory && selectedCategory.subcategories && selectedCategory.subcategories.length > 0) {
+                          return (
+                            <div className="space-y-2">
+                              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                                {selectedCategory.name}
+                              </div>
+                              {selectedCategory.subcategories.map((sub) => (
                                 <NavigationMenuLink
                                   key={sub.id}
-                                  href={`/category/${(sub.name || sub.fullName).toLowerCase().replace(/\s+/g, '-')}`}
-                                  className="block select-none rounded-md px-3 py-1.5 text-xs leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer text-muted-foreground"
+                                  href={`/products?category=${encodeURIComponent(sub.name || sub.fullName)}`}
+                                  className="block select-none rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer text-gray-700"
                                 >
                                   {sub.name || sub.fullName}
                                 </NavigationMenuLink>
                               ))}
                             </div>
-                          )}
+                          );
+                        }
+                        return (
+                          <div className="text-sm text-muted-foreground py-2">
+                            Hover over a category to see subcategories
+                          </div>
+                        );
+                      })()}
+                      {!hoveredCategory && (
+                        <div className="text-sm text-muted-foreground py-2">
+                          Hover over a category to see subcategories
                         </div>
-                      ))
-                    )}
+                      )}
+                    </div>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -361,20 +396,21 @@ export default function Header() {
                 </button>
                 
                 {isCategoryDropdownOpen && (
-                  <div className="ml-4 mt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                  <div className="ml-4 mt-2 bg-gray-50 rounded-md border border-gray-200 p-3 space-y-1 animate-in slide-in-from-top-2 duration-200">
                     {categoriesLoading ? (
-                      <div className="text-[var(--header-text-muted)] py-2 pr-4 text-sm">Loading categories...</div>
+                      <div className="text-[var(--header-text-muted)] py-3 pr-4 text-sm">Loading categories...</div>
                     ) : categoryLinks.length === 0 ? (
-                      <div className="text-[var(--header-text-muted)] py-2 pr-4 text-sm">No categories available</div>
+                      <div className="text-[var(--header-text-muted)] py-3 pr-4 text-sm">No categories available</div>
                     ) : (
                       categoryLinks.map((category) => (
                         <Link 
                           key={category.href}
                           href={category.href} 
-                          className="block text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-2 pr-4 text-sm cursor-pointer"
+                          className="flex items-center gap-2 text-[var(--header-text)] hover:text-[var(--header-text-muted)] py-3 px-2 text-sm cursor-pointer rounded-md hover:bg-white transition-colors"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          {category.name}
+                          <ChevronRight className="h-4 w-4 text-gray-400" />
+                          <span>{category.name}</span>
                         </Link>
                       ))
                     )}

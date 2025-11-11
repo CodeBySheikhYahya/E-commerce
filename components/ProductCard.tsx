@@ -9,6 +9,7 @@ import { ShoppingCart, Heart, Eye } from "lucide-react";
 import ProductActions from "./ProductActions";
 import { useWishlistStore } from "../lib/wishlistStore";
 import { useCartStore } from "../lib/cartStore";
+import { useFormattedPrice } from "../lib/hooks/useFormattedPrice";
 
 interface ProductCardProps {
   id: string;
@@ -41,6 +42,9 @@ function ProductCard({
 }: ProductCardProps) {
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const { addItem: addToCart } = useCartStore();
+  
+  const formattedPrice = useFormattedPrice(price);
+  const formattedOriginalPrice = originalPrice ? useFormattedPrice(originalPrice) : undefined;
   
   const isWishlisted = isInWishlist(id);
   
@@ -102,7 +106,7 @@ function ProductCard({
               
               <div className="flex items-center space-x-2 mb-6">
                 <span className="text-2xl font-bold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
-                  {price}
+                  {formattedPrice}
                 </span>
               </div>
             </div>
@@ -187,7 +191,7 @@ function ProductCard({
         
         <div className="flex items-center space-x-2">
           <span className="text-lg font-normal text-gray-600" style={{fontFamily: 'var(--header-font-family)'}}>
-            {price}
+            {formattedPrice}
           </span>
         </div>
       </CardContent>

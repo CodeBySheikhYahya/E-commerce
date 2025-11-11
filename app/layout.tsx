@@ -7,7 +7,7 @@ import CartOverlayRoot from "../components/CartOverlayRoot";
 import SafetyGallery from "../components/SafetyGallery";
 import Toast from "../components/Toast";
 import { QueryProvider } from "../lib/providers/QueryProvider";
-import CurrencyProvider from "../components/CurrencyProvider";
+import { CurrencyProvider } from "../lib/providers/CurrencyProvider";
 
 export const metadata: Metadata = {
   title: "BuyWithUsPK - Safety Equipment Store",

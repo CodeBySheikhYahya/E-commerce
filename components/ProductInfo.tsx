@@ -9,6 +9,7 @@ import { Product } from "./DemoData";
 import { useSizes } from "../lib/hooks/useSizes";
 import { useColors } from "../lib/hooks/useColors";
 import { useQuantities } from "../lib/hooks/useQuantities";
+import { useFormattedPrice } from "../lib/hooks/useFormattedPrice";
 
 interface ProductInfoProps {
   product: Product;
@@ -25,6 +26,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const { sizes, isLoading: sizesLoading } = useSizes();
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
   const { quantities, isLoading: quantitiesLoading } = useQuantities();
+  
+  const formattedPrice = useFormattedPrice(product.price);
+  const formattedOriginalPrice = product.originalPrice ? useFormattedPrice(product.originalPrice) : undefined;
+  const formattedPriceAfter = product.priceAfter ? useFormattedPrice(product.priceAfter) : undefined;
   
   const isWishlisted = isInWishlist(product.id);
 
@@ -137,16 +142,16 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Price */}
       <div className="flex items-center gap-3">
         <span className="text-3xl font-semibold text-gray-900" style={{fontFamily: 'var(--header-font-family)'}}>
-          {product.price}
+          {formattedPrice}
         </span>
-        {product.originalPrice && (
+        {formattedOriginalPrice && (
           <span className="text-xl text-gray-500 line-through">
-            {product.originalPrice}
+            {formattedOriginalPrice}
           </span>
         )}
-        {product.priceAfter && product.priceAfter !== product.price && (
+        {formattedPriceAfter && formattedPriceAfter !== formattedPrice && (
           <span className="text-xl text-gray-600">
-            {product.priceAfter}
+            {formattedPriceAfter}
           </span>
         )}
         {product.discount && (

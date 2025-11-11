@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "../lib/cartStore";
+import { formatPrice } from "../lib/currencyUtils";
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -140,7 +141,7 @@ export default function CartSidebar({
             <div className="p-4 border-t border-gray-200">
               <div className="text-center">
                 <p className="text-sm text-gray-600 mb-2">
-                  Add ${remainingForFreeShipping.toFixed(2)} to cart and get Free shipping!
+                  Add {formatPrice(remainingForFreeShipping)} to cart and get Free shipping!
                 </p>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
@@ -178,7 +179,7 @@ export default function CartSidebar({
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-900">Subtotal:</span>
               <span className="text-lg font-semibold text-gray-900">
-                ${subtotal.toFixed(2)}
+                {formatPrice(subtotal)}
               </span>
             </div>
           </div>

@@ -25,7 +25,7 @@ export default function ShopByCategory() {
         id: category.id.toString(),
         name: category.name || category.fullName,
         image: "/sa.webp",
-        href: `/category/${(category.name || category.fullName).toLowerCase().replace(/\s+/g, '-')}`,
+        href: `/products?category=${encodeURIComponent(category.name || category.fullName)}`,
         subcategories: categorySubCategories.map((sub) => ({
           id: sub.id,
           name: sub.name,
