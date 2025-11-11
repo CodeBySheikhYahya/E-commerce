@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useToastStore } from './toastStore';
+import { parsePrice } from './currencyUtils';
 
 export interface CartItem {
   id: string;
@@ -120,7 +121,7 @@ export const useCartStore = create<CartStore>()(
 
       getSubtotal: () => {
         return get().items.reduce((total, item) => {
-          const price = parseFloat(item.price.replace('$', ''));
+          const price = parsePrice(item.price);
           return total + (price * item.quantity);
         }, 0);
       },
@@ -142,6 +143,6 @@ export const useCartItemCount = () =>
 
 export const useCartSubtotal = () => 
   useCartStore(state => state.items.reduce((total, item) => {
-    const price = parseFloat(item.price.replace('$', ''));
+    const price = parsePrice(item.price);
     return total + (price * item.quantity);
   }, 0));

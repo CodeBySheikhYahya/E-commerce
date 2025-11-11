@@ -3,16 +3,21 @@ import { getAllCategories } from '../categoryApi';
 import { getAllSubCategories } from '../subCategoryApi';
 import { Product } from '../../components/DemoData';
 import { createUseAllHook, createUseByIdHook } from './useApiQuery';
+import { formatPrice as formatCurrencyPrice } from '../currencyUtils';
+import { useCurrencyStore } from '../currencyStore';
 
 function mapApiProductToProduct(
   apiProduct: any,
   categories: any[],
   subcategories: any[]
 ): Product {
+  // Get currency from store
+  const currencyStore = useCurrencyStore.getState();
+  const currencySymbol = currencyStore.currency.symbol;
+  
   // Format price as currency string
   const formatPrice = (price: number | null | undefined): string => {
-    if (price === null || price === undefined) return '$0.00';
-    return `$${price.toFixed(2)}`;
+    return formatCurrencyPrice(price, currencyStore.currency.code, currencySymbol);
   };
 
   // Calculate discount percentage if priceBefore exists

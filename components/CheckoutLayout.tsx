@@ -12,6 +12,7 @@ import { useToastStore } from "../lib/toastStore";
 import { useColors } from "../lib/hooks/useColors";
 import { useSizes } from "../lib/hooks/useSizes";
 import { useQuantities } from "../lib/hooks/useQuantities";
+import { parsePrice } from "../lib/currencyUtils";
 
 interface CheckoutLayoutProps {
   className?: string;
@@ -86,7 +87,7 @@ export default function CheckoutLayout({ className = "" }: CheckoutLayoutProps) 
         // Get product code from item or use product ID as fallback
         const productCode = item.productCode || item.id;
 
-        const unitPrice = parseFloat(item.price.replace('$', ''));
+        const unitPrice = parsePrice(item.price);
 
         return {
           productCode,

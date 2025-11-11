@@ -15,6 +15,7 @@ import { useProducts } from "../../lib/hooks/useProducts";
 import { useProductSearch } from "../../lib/hooks/useProductSearch";
 import { useCategories } from "../../lib/hooks/useCategories";
 import { useSubCategories } from "../../lib/hooks/useSubCategories";
+import { parsePrice } from "../../lib/currencyUtils";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
@@ -74,7 +75,7 @@ export default function ProductsPage() {
       }
       
       // Price filter
-      const productPrice = parseFloat(product.price.replace('$', ''));
+      const productPrice = parsePrice(product.price);
       if (productPrice < priceRange.min || productPrice > priceRange.max) return false;
       
       return true;
@@ -86,9 +87,9 @@ export default function ProductsPage() {
     return [...filteredProducts].sort((a, b) => {
       switch (currentSort) {
         case "price-low":
-          return parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', ''));
+          return parsePrice(a.price) - parsePrice(b.price);
         case "price-high":
-          return parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', ''));
+          return parsePrice(b.price) - parsePrice(a.price);
         case "latest":
           return b.id < a.id ? -1 : b.id > a.id ? 1 : 0;
         default:

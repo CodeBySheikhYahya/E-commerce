@@ -3,6 +3,8 @@
 import { memo } from "react";
 import { Plus, Minus, X } from "lucide-react";
 import Image from "next/image";
+import { useCurrency } from "../lib/hooks/useCurrency";
+import { formatPrice, parsePrice } from "../lib/currencyUtils";
 
 interface CartItemProps {
   id: string;
@@ -27,12 +29,16 @@ function CartItem({
   variant = "sidebar",
   className = ""
 }: CartItemProps) {
+  const { symbol, currency } = useCurrency();
+  
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity < 1) return;
     onUpdateQuantity(id, newQuantity);
   };
 
   const isSidebar = variant === "sidebar";
+  const priceValue = parsePrice(price);
+  const totalPrice = priceValue * quantity;
   
   // For sidebar variant, keep the existing layout
   if (isSidebar) {
@@ -138,7 +144,7 @@ function CartItem({
       </td>
       <td className="px-12 lg:px-6 py-4 lg:py-6 text-right">
         <span className="text-xs lg:text-base font-normal text-gray-900">
-          ${(parseFloat(price.replace('$', '')) * quantity).toFixed(2)}
+          {formatPrice(totalPrice, currency, symbol)}
         </span>
       </td>
       <td className="px-3 lg:px-6 py-4 lg:py-6 text-center">

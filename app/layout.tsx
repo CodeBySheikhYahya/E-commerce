@@ -7,6 +7,7 @@ import CartOverlayRoot from "../components/CartOverlayRoot";
 import SafetyGallery from "../components/SafetyGallery";
 import Toast from "../components/Toast";
 import { QueryProvider } from "../lib/providers/QueryProvider";
+import CurrencyProvider from "../components/CurrencyProvider";
 
 export const metadata: Metadata = {
   title: "BuyWithUsPK - Safety Equipment Store",
@@ -67,15 +68,17 @@ export default function RootLayout({
       </head>
       <body>
         <QueryProvider>
-          <Header />
-          <main className="min-h-screen pb-20 lg:pb-0">
-            {children}
-          </main>
-          <SafetyGallery />
-          <Footer />
-          <MobileBottomNav />
-          <CartOverlayRoot />
-          <Toast />
+          <CurrencyProvider>
+            <Header />
+            <main className="min-h-screen pb-20 lg:pb-0">
+              {children}
+            </main>
+            <SafetyGallery />
+            <Footer />
+            <MobileBottomNav />
+            <CartOverlayRoot />
+            <Toast />
+          </CurrencyProvider>
         </QueryProvider>
       </body>
     </html>

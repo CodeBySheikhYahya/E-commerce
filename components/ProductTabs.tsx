@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "./DemoData";
 
 interface ProductTabsProps {
@@ -9,6 +9,14 @@ interface ProductTabsProps {
 
 export default function ProductTabs({ product }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState("description");
+  const [ratingData, setRatingData] = useState<{ widths: number[]; counts: number[] } | null>(null);
+
+  // Generate random rating data only on client-side to avoid hydration errors
+  useEffect(() => {
+    const widths = [5, 4, 3, 2, 1].map(() => Math.random() * 100);
+    const counts = [5, 4, 3, 2, 1].map(() => Math.floor(Math.random() * 20));
+    setRatingData({ widths, counts });
+  }, []);
 
   const tabs = [
     {
@@ -132,16 +140,18 @@ export default function ProductTabs({ product }: ProductTabsProps) {
             </div>
             <div className="flex-1">
               <div className="space-y-2">
-                {[5, 4, 3, 2, 1].map((star) => (
+                {[5, 4, 3, 2, 1].map((star, index) => (
                   <div key={star} className="flex items-center gap-2">
                     <span className="text-sm text-gray-600 w-8">{star}★</span>
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
                       <div 
                         className="bg-yellow-400 h-2 rounded-full" 
-                        style={{ width: `${Math.random() * 100}%` }}
+                        style={{ width: ratingData ? `${ratingData.widths[index]}%` : '0%' }}
                       ></div>
                     </div>
-                    <span className="text-sm text-gray-600 w-8">{Math.floor(Math.random() * 20)}</span>
+                    <span className="text-sm text-gray-600 w-8">
+                      {ratingData ? ratingData.counts[index] : 0}
+                    </span>
                   </div>
                 ))}
               </div>

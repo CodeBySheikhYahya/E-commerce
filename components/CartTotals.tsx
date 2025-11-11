@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { useCouponByCode } from "../lib/hooks/useCoupons";
 import { useCoupons } from "../lib/hooks/useCoupons";
 import { useCartStore } from "../lib/cartStore";
+import { useCurrency } from "../lib/hooks/useCurrency";
+import { formatPrice } from "../lib/currencyUtils";
 
 interface CartTotalsProps {
   subtotal: number;
@@ -29,6 +31,7 @@ export default function CartTotals({
   const [couponCode, setCouponCode] = useState("");
   const [searchCode, setSearchCode] = useState("");
   
+  const { symbol, currency } = useCurrency();
   const appliedCouponCode = useCartStore((state) => state.appliedCouponCode);
   const setAppliedCoupon = useCartStore((state) => state.setAppliedCoupon);
   
@@ -90,7 +93,7 @@ export default function CartTotals({
       <div className="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
         <span className="text-gray-900 text-base">Subtotal</span>
         <span className="text-gray-900 text-base">
-          ${subtotal.toFixed(2)}
+          {formatPrice(subtotal, currency, symbol)}
         </span>
       </div>
 
@@ -167,7 +170,7 @@ export default function CartTotals({
           <div className="flex justify-between items-center">
             <span className="text-base text-green-600">Discount</span>
             <span className="text-base text-green-600">
-              -${discountAmount.toFixed(2)}
+              -{formatPrice(discountAmount, currency, symbol)}
             </span>
           </div>
         </div>
@@ -198,7 +201,7 @@ export default function CartTotals({
               onChange={() => setSelectedShipping("flat")}
               className="w-4 h-4 text-black focus:ring-black border-gray-400"
             />
-            <span className="text-gray-900 text-base">Flat Rate ${flatShippingRate.toFixed(2)}</span>
+            <span className="text-gray-900 text-base">Flat Rate {formatPrice(flatShippingRate, currency, symbol)}</span>
           </label>
         </div>
         
@@ -225,7 +228,7 @@ export default function CartTotals({
           Total
         </span>
         <span className="font-bold text-gray-900 text-lg">
-          ${total.toFixed(2)}
+          {formatPrice(total, currency, symbol)}
         </span>
       </div>
 
