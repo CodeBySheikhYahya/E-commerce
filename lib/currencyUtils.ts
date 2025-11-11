@@ -72,6 +72,136 @@ export const DEFAULT_CURRENCY: CurrencyInfo = {
 };
 
 /**
+ * Map region codes to currency codes (common ones)
+ * This is a fallback when locale doesn't provide currency directly
+ */
+const regionToCurrency: Record<string, { code: string; country: string }> = {
+  'US': { code: 'USD', country: 'United States' },
+  'GB': { code: 'GBP', country: 'United Kingdom' },
+  'CA': { code: 'CAD', country: 'Canada' },
+  'AU': { code: 'AUD', country: 'Australia' },
+  'IN': { code: 'INR', country: 'India' },
+  'JP': { code: 'JPY', country: 'Japan' },
+  'CN': { code: 'CNY', country: 'China' },
+  'KR': { code: 'KRW', country: 'South Korea' },
+  'SG': { code: 'SGD', country: 'Singapore' },
+  'MY': { code: 'MYR', country: 'Malaysia' },
+  'TH': { code: 'THB', country: 'Thailand' },
+  'AE': { code: 'AED', country: 'United Arab Emirates' },
+  'SA': { code: 'SAR', country: 'Saudi Arabia' },
+  'QA': { code: 'QAR', country: 'Qatar' },
+  'PK': { code: 'PKR', country: 'Pakistan' },
+  'ZA': { code: 'ZAR', country: 'South Africa' },
+  'BR': { code: 'BRL', country: 'Brazil' },
+  'MX': { code: 'MXN', country: 'Mexico' },
+  'AR': { code: 'ARS', country: 'Argentina' },
+  'CL': { code: 'CLP', country: 'Chile' },
+  'NZ': { code: 'NZD', country: 'New Zealand' },
+  'CH': { code: 'CHF', country: 'Switzerland' },
+  'NO': { code: 'NOK', country: 'Norway' },
+  'SE': { code: 'SEK', country: 'Sweden' },
+  'DK': { code: 'DKK', country: 'Denmark' },
+  'PL': { code: 'PLN', country: 'Poland' },
+  'TR': { code: 'TRY', country: 'Turkey' },
+  'RU': { code: 'RUB', country: 'Russia' },
+  'EG': { code: 'EGP', country: 'Egypt' },
+  'NG': { code: 'NGN', country: 'Nigeria' },
+  'KE': { code: 'KES', country: 'Kenya' },
+  'BD': { code: 'BDT', country: 'Bangladesh' },
+  'LK': { code: 'LKR', country: 'Sri Lanka' },
+  'NP': { code: 'NPR', country: 'Nepal' },
+  'PH': { code: 'PHP', country: 'Philippines' },
+  'ID': { code: 'IDR', country: 'Indonesia' },
+  'VN': { code: 'VND', country: 'Vietnam' },
+  // Eurozone countries
+  'DE': { code: 'EUR', country: 'Germany' },
+  'FR': { code: 'EUR', country: 'France' },
+  'IT': { code: 'EUR', country: 'Italy' },
+  'ES': { code: 'EUR', country: 'Spain' },
+  'NL': { code: 'EUR', country: 'Netherlands' },
+  'BE': { code: 'EUR', country: 'Belgium' },
+  'AT': { code: 'EUR', country: 'Austria' },
+  'PT': { code: 'EUR', country: 'Portugal' },
+  'IE': { code: 'EUR', country: 'Ireland' },
+  'FI': { code: 'EUR', country: 'Finland' },
+  'GR': { code: 'EUR', country: 'Greece' },
+};
+
+/**
+ * Get currency info from browser's Intl API (locale-based)
+ */
+export function getCurrencyFromIntl(): CurrencyInfo | null {
+  try {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    // Get user's locale (e.g., "en-QA", "ar-QA", "en-US")
+    const locale = navigator.language || (navigator as any).userLanguage;
+    
+    if (!locale) {
+      return null;
+    }
+
+    // Extract region code from locale (e.g., "en-QA" -> "QA")
+    const parts = locale.split('-');
+    const regionCode = parts.length > 1 ? parts[1].toUpperCase() : null;
+    
+    if (regionCode && regionToCurrency[regionCode]) {
+      const currencyData = regionToCurrency[regionCode];
+      
+      // Get currency symbol using Intl API
+      const symbolFormatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currencyData.code,
+      });
+      
+      const symbol = symbolFormatter.formatToParts(0).find(part => part.type === 'currency')?.value || '$';
+      
+      return {
+        code: currencyData.code,
+        symbol: symbol,
+        country: currencyData.country,
+      };
+    }
+
+    // If region code not found, try to detect from locale's number format
+    // This is a fallback for locales without region code
+    try {
+      const formatter = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: 'USD', // Default, will be overridden if locale has currency preference
+      });
+      
+      // Try common currencies to see which one matches the locale's format
+      const commonCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY'];
+      for (const currencyCode of commonCurrencies) {
+        const testFormatter = new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency: currencyCode,
+        });
+        const symbol = testFormatter.formatToParts(0).find(part => part.type === 'currency')?.value;
+        
+        if (symbol) {
+          return {
+            code: currencyCode,
+            symbol: symbol,
+            country: locale,
+          };
+        }
+      }
+    } catch (e) {
+      // Ignore errors in fallback
+    }
+
+    return null;
+  } catch (error) {
+    console.warn('Intl API currency detection failed:', error);
+    return null;
+  }
+}
+
+/**
  * Get currency info from country name
  */
 export function getCurrencyFromCountry(countryName: string | null | undefined): CurrencyInfo {
