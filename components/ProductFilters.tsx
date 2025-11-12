@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCategories } from "../lib/hooks/useCategories";
 import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useColors } from "../lib/hooks/useColors";
@@ -39,6 +40,8 @@ export default function ProductFilters({
   onColorChange,
   className = ""
 }: ProductFiltersProps) {
+  const router = useRouter();
+  
   // Get categories from API
   const { categories: apiCategories, isLoading: categoriesLoading } = useCategories();
   
@@ -298,7 +301,11 @@ export default function ProductFilters({
               <div className="text-gray-500 text-sm py-2">No best sellers available</div>
             ) : (
               bestSellers.slice(0, 3).map((product) => (
-                <div key={product.id} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                <div 
+                  key={product.id} 
+                  onClick={() => router.push(`/products/${product.id}`)}
+                  className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200"
+                >
                   <img
                     src={product.image}
                     alt={product.name}
