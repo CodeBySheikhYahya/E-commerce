@@ -118,18 +118,18 @@ export default function CartTotals({
             Please add items to your cart to apply a coupon
           </p>
         ) : appliedCouponCode ? (
-          <div className="flex items-center justify-between bg-green-50 p-2 rounded-md">
-            <div>
-              <p className="text-xs font-medium text-green-800">
+          <div className="flex items-center justify-between bg-green-50 p-3 rounded-md gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-green-800">
                 {appliedCouponCode}
               </p>
               {coupon && (
-                <p className="text-xs text-green-600">{coupon.name}</p>
+                <p className="text-xs text-green-600 mt-0.5">{coupon.name}</p>
               )}
             </div>
             <button
               onClick={handleRemoveCoupon}
-              className="text-xs text-red-600 hover:text-red-800 underline"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 hover:border-red-400 active:bg-red-100 transition-colors duration-200 whitespace-nowrap flex-shrink-0"
             >
               Remove
             </button>

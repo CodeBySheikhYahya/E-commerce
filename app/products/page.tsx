@@ -10,6 +10,7 @@ import ViewToggle from "../../components/ViewToggle";
 import SortDropdown from "../../components/SortDropdown";
 import MobileFilterSidebar from "../../components/MobileFilterSidebar";
 import ProductDetailModal from "../../components/ProductDetailModal";
+import ErrorState from "../../components/ErrorState";
 import { Product } from "../../components/DemoData";
 import { useProducts } from "../../lib/hooks/useProducts";
 import { useProductSearch } from "../../lib/hooks/useProductSearch";
@@ -176,7 +177,7 @@ export default function ProductsPage() {
                     </div>
                   )}
                   {searchError && !searchLoading && (
-                    <div className="text-center py-12 text-red-600">Failed to search products</div>
+                    <ErrorState onRetry={() => window.location.reload()} />
                   )}
                   {!searchLoading && !searchError && searchResults.length === 0 && (
                     <div className="text-center py-12 text-gray-600">No products found for "{searchQuery}"</div>
@@ -226,11 +227,7 @@ export default function ProductsPage() {
 
               {/* Error State */}
               {!searching && error && !isLoading && (
-                <div className="text-center py-12">
-                  <p className="text-red-600 font-medium mb-2">Error loading products</p>
-                  <p className="text-gray-500 text-sm">{error.message || 'Failed to fetch products. Please try again later.'}</p>
-                  <p className="text-gray-400 text-xs mt-2">Check console for more details</p>
-                </div>
+                <ErrorState onRetry={() => window.location.reload()} />
               )}
 
               {/* No Products Message */}
