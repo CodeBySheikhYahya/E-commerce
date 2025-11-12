@@ -16,7 +16,7 @@ export interface ProductSearchItem {
 }
 
 export function useProductSearch(name: string) {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product-search', name],
     queryFn: () => searchProducts(name),
     enabled: !!name && name.trim().length > 0,
@@ -25,7 +25,7 @@ export function useProductSearch(name: string) {
 
   const items: ProductSearchItem[] = Array.isArray(data) ? data : [];
 
-  return { results: items, isLoading, error: error as Error | null };
+  return { results: items, isLoading, error: error as Error | null, refetch };
 }
 
 

@@ -3,6 +3,7 @@
 import ProductCard from "./ProductCard";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import ProductDetailModal from "./ProductDetailModal";
+import ErrorState from "./ErrorState";
 import { Button } from "./ui/button";
 import UnderlineTab from "./ui/underline-tab";
 import Link from "next/link";
@@ -95,6 +96,8 @@ export default function ProductShowcase() {
               <ProductCardSkeleton key={index} />
             ))}
           </div>
+        ) : error ? (
+          <ErrorState onRetry={() => window.location.reload()} />
         ) : (
           <motion.div 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8"

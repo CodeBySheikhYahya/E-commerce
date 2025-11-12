@@ -8,6 +8,7 @@ import ProductTabs from "../../../components/ProductTabs";
 import RelatedProducts from "../../../components/RelatedProducts";
 import RecentlyViewed from "../../../components/RecentlyViewed";
 import NewsletterSection from "../../../components/NewsletterSection";
+import ErrorState from "../../../components/ErrorState";
 import { useProduct } from "../../../lib/hooks/useProducts";
 import { useProductImages } from "../../../lib/hooks/useProductImages";
 import { useImage } from "../../../lib/hooks/useImage";
@@ -63,12 +64,8 @@ export default function ProductDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Error Loading Product</h1>
-          <p className="text-gray-600 mb-2">{error.message || 'Failed to fetch product'}</p>
-          <p className="text-gray-400 text-sm">Please check if the API server is running and CORS is configured.</p>
-        </div>
+      <div className="min-h-screen">
+        <ErrorState onRetry={() => window.location.reload()} />
       </div>
     );
   }

@@ -3,14 +3,15 @@
 import CategoryCard from "./CategoryCard";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import ScrollableContainer from "./ScrollableContainer";
+import ErrorState from "./ErrorState";
 import { motion } from "framer-motion";
 import { useCategories } from "../lib/hooks/useCategories";
 import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useMemo } from "react";
 
 export default function ShopByCategory() {
-  const { categories: apiCategories, isLoading } = useCategories();
-  const { subcategories: apiSubCategories, isLoading: subCategoriesLoading } = useSubCategories();
+  const { categories: apiCategories, isLoading, error: categoriesError } = useCategories();
+  const { subcategories: apiSubCategories, isLoading: subCategoriesLoading, error: subCategoriesError } = useSubCategories();
   
   // Map API categories to display format with subcategories
   const categories = useMemo(() => {
@@ -62,6 +63,8 @@ export default function ShopByCategory() {
               </div>
             ))}
           </ScrollableContainer>
+        ) : categoriesError || subCategoriesError ? (
+          <ErrorState onRetry={() => window.location.reload()} />
         ) : categories.length === 0 ? (
           <div className="text-center py-8 text-gray-500">No categories available</div>
         ) : (

@@ -2,11 +2,43 @@
 
 import EmailForm from "./forms/EmailForm";
 import { motion } from "framer-motion";
+import { subscribeNewsletter } from "../lib/newsletterApi";
+import { useToastStore } from "../lib/toastStore";
+import { useState } from "react";
 
 export default function NewsletterSection() {
+  const showToast = useToastStore((state) => state.show);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   async function handleSubscribe(email: string) {
-    // Replace with API call later
-    console.log("newsletter: ", email);
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      const newsletterData = {
+        email: email,
+        fullName: "", // Optional - can be empty or extracted from email
+        isSubscribed: true,
+        subscribedDate: new Date().toISOString(),
+      };
+
+      const response = await subscribeNewsletter(newsletterData);
+
+      if (response.success && response.statusCode === 200) {
+        showToast(response.message || "Successfully subscribed to newsletter!", "success");
+      } else {
+        showToast(response.message || "Failed to subscribe. Please try again.", "error");
+      }
+    } catch (error: any) {
+      console.error("Newsletter subscription error:", error);
+      showToast(
+        error.message || "An error occurred. Please try again later.",
+        "error"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
