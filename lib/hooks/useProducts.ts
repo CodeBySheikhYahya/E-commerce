@@ -78,11 +78,24 @@ function mapApiProductToProduct(
 
 // Wrapper function that fetches and maps products
 async function fetchAllProducts(): Promise<Product[]> {
-  const [productsData, categoriesData, subcategoriesData] = await Promise.all([
+  const [productsResult, categoriesResult, subcategoriesResult] = await Promise.allSettled([
     getAllProducts(),
     getAllCategories(),
     getAllSubCategories()
   ]);
+
+  // Products and Categories are required - throw error if they fail
+  if (productsResult.status === 'rejected') {
+    throw productsResult.reason;
+  }
+  if (categoriesResult.status === 'rejected') {
+    throw categoriesResult.reason;
+  }
+
+  // Subcategories are optional - use empty array if they fail
+  const productsData = productsResult.value;
+  const categoriesData = categoriesResult.value;
+  const subcategoriesData = subcategoriesResult.status === 'fulfilled' ? subcategoriesResult.value : [];
 
   const categories = Array.isArray(categoriesData) ? categoriesData : [];
   const subcategories = Array.isArray(subcategoriesData) ? subcategoriesData : [];
@@ -96,11 +109,24 @@ async function fetchAllProducts(): Promise<Product[]> {
 
 // Wrapper function that fetches and maps a single product
 async function fetchProductById(id: string): Promise<Product> {
-  const [productData, categoriesData, subcategoriesData] = await Promise.all([
+  const [productResult, categoriesResult, subcategoriesResult] = await Promise.allSettled([
     getProductById(id),
     getAllCategories(),
     getAllSubCategories()
   ]);
+
+  // Product and Categories are required - throw error if they fail
+  if (productResult.status === 'rejected') {
+    throw productResult.reason;
+  }
+  if (categoriesResult.status === 'rejected') {
+    throw categoriesResult.reason;
+  }
+
+  // Subcategories are optional - use empty array if they fail
+  const productData = productResult.value;
+  const categoriesData = categoriesResult.value;
+  const subcategoriesData = subcategoriesResult.status === 'fulfilled' ? subcategoriesResult.value : [];
 
   const categories = Array.isArray(categoriesData) ? categoriesData : [];
   const subcategories = Array.isArray(subcategoriesData) ? subcategoriesData : [];

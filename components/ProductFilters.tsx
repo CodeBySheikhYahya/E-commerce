@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { demoProducts } from "./DemoData";
 import { useCategories } from "../lib/hooks/useCategories";
 import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useColors } from "../lib/hooks/useColors";
+import { useProducts } from "../lib/hooks/useProducts";
 
 interface ProductFiltersProps {
   selectedCategories: string[];
@@ -48,6 +48,9 @@ export default function ProductFilters({
   // Get colors from API
   const { colors: apiColors, isLoading: colorsLoading } = useColors();
   
+  // Get products from API
+  const { products, isLoading: productsLoading } = useProducts();
+  
   // Map API categories with their subcategories
   const categories = useMemo(() => 
     apiCategories.map(cat => {
@@ -78,14 +81,10 @@ export default function ProductFilters({
     [apiColors]
   );
 
-  // Extract best sellers (products with discount > 25%)
+  // Extract best sellers (products with isBestSeller === true)
   const bestSellers = useMemo(() => 
-    demoProducts.filter(product => {
-      if (!product.discount) return false;
-      const discount = parseInt(product.discount.replace('% OFF', ''));
-      return discount > 25;
-    }),
-    []
+    products.filter(product => product.isBestSeller === true),
+    [products]
   );
 
   const [expandedSections, setExpandedSections] = useState({
@@ -145,7 +144,7 @@ export default function ProductFilters({
                 <div key={category.id} className="space-y-1">
                   <button
                     onClick={() => category.name && handleCategoryToggle(category.name)}
-                    className={`w-full text-left px-3 py-2 rounded-md text-base transition-colors duration-200 ${
+                    className={`w-full text-left px-3 py-2 rounded-md text-base lg:text-lg transition-colors duration-200 ${
                       category.name && selectedCategories.includes(category.name)
                         ? "bg-black text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -159,7 +158,7 @@ export default function ProductFilters({
                         <button
                           key={sub.id}
                           onClick={() => sub.name && handleCategoryToggle(sub.name)}
-                          className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors duration-200 ${
+                          className={`w-full text-left px-3 py-1.5 rounded-md text-sm lg:text-base transition-colors duration-200 ${
                             sub.name && selectedCategories.includes(sub.name)
                               ? "bg-gray-800 text-white"
                               : "text-gray-600 hover:bg-gray-50"
@@ -293,19 +292,25 @@ export default function ProductFilters({
         
         {expandedSections.bestSellers && (
           <div className="space-y-4">
-            {bestSellers.slice(0, 3).map((product) => (
-              <div key={product.id} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-base font-medium text-gray-900 line-clamp-2 leading-tight">{product.name}</p>
-                  <p className="text-base font-semibold text-gray-900 mt-1">{product.price}</p>
+            {productsLoading ? (
+              <div className="text-gray-500 text-sm py-2">Loading best sellers...</div>
+            ) : bestSellers.length === 0 ? (
+              <div className="text-gray-500 text-sm py-2">No best sellers available</div>
+            ) : (
+              bestSellers.slice(0, 3).map((product) => (
+                <div key={product.id} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-200">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-base font-medium text-gray-900 line-clamp-2 leading-tight">{product.name}</p>
+                    <p className="text-base font-semibold text-gray-900 mt-1">{product.price}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>

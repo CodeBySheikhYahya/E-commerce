@@ -12,6 +12,7 @@ interface SearchBarProps {
   value?: string;
   onChange?: (value: string) => void;
   onSubmit?: (value: string) => void;
+  onProductSelect?: () => void;
   className?: string;
 }
 
@@ -81,6 +82,7 @@ export default function SearchBar({
   value,
   onChange,
   onSubmit,
+  onProductSelect,
   className
 }: SearchBarProps) {
   const [internalValue, setInternalValue] = useState("");
@@ -148,6 +150,7 @@ export default function SearchBar({
     setSelectedIndex(-1);
     if (onChange) onChange("");
     else setInternalValue("");
+    onProductSelect?.(); // Close parent modal if callback provided
   }
 
   // Retry function for error states

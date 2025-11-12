@@ -112,7 +112,7 @@ export default function Header() {
             lineHeight: 'var(--top-bar-line-height)',
             color: 'var(--top-bar-color)'
           }}>
-            15% Off First Order <br /> Sign Up Today
+            Your Trusted Safety Partner
           </div>
           <div className="flex items-center space-x-4 text-[var(--header-text-muted)]" style={{
             fontFamily: 'var(--top-bar-font-family)',
@@ -501,6 +501,7 @@ export default function Header() {
                 }
                 setIsSearchOpen(false);
               }}
+              onProductSelect={() => setIsSearchOpen(false)}
             />
           </div>
         </div>

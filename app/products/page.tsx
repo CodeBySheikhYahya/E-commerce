@@ -16,11 +16,14 @@ import { useProducts } from "../../lib/hooks/useProducts";
 import { useProductSearch } from "../../lib/hooks/useProductSearch";
 import { useCategories } from "../../lib/hooks/useCategories";
 import { useSubCategories } from "../../lib/hooks/useSubCategories";
+import { useRecentlyViewedStore } from "../../lib/recentlyViewedStore";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const searchQuery = (searchParams.get('search') || '').trim();
   const searching = searchQuery.length > 0;
+  const filterType = searchParams.get('filter') || '';
+  const { getRecentProducts } = useRecentlyViewedStore();
 
   const { products, isLoading, error } = useProducts();
   const { results: searchResults, isLoading: searchLoading, error: searchError } = useProductSearch(searchQuery);
@@ -43,7 +46,33 @@ export default function ProductsPage() {
   const filteredProducts = useMemo(() => {
     if (isLoading) return [];
     
-    return products.filter(product => {
+    let filtered = products;
+    
+    // Apply filter from URL (best-sellers, new-arrivals, on-sale, recently-viewed)
+    if (filterType) {
+      switch (filterType) {
+        case 'best-sellers':
+          filtered = filtered.filter(product => product.isBestSeller === true);
+          break;
+        case 'new-arrivals':
+          filtered = filtered.filter(product => product.isNew === true);
+          break;
+        case 'on-sale':
+          filtered = filtered.filter(product => 
+            product.isOnSale === true || 
+            (product.originalPrice !== undefined && product.discount !== undefined)
+          );
+          break;
+        case 'recently-viewed':
+          const recentProductIds = getRecentProducts().map(p => p.id);
+          filtered = filtered.filter(product => recentProductIds.includes(product.id));
+          break;
+        default:
+          break;
+      }
+    }
+    
+    return filtered.filter(product => {
       // Category filter - handle both category and subcategory matching
       if (selectedCategories.length > 0) {
         let matchesCategory = false;
@@ -80,7 +109,7 @@ export default function ProductsPage() {
       
       return true;
     });
-  }, [products, isLoading, selectedCategories, priceRange, categories, subcategories]);
+  }, [products, isLoading, selectedCategories, priceRange, categories, subcategories, filterType, getRecentProducts]);
 
   // Sort products based on current sort
   const sortedProducts = useMemo(() => {
@@ -117,7 +146,13 @@ export default function ProductsPage() {
     <>
       <section className="py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="section-heading">Shop</h1>
+          <h1 className="section-heading">
+            {filterType === 'best-sellers' && 'Best Sellers'}
+            {filterType === 'new-arrivals' && 'New Arrivals'}
+            {filterType === 'on-sale' && 'On Sale'}
+            {filterType === 'recently-viewed' && 'Recently Viewed'}
+            {!filterType && 'Shop'}
+          </h1>
           
           {/* Mobile Filter Button */}
           <div className="lg:hidden mb-4">
