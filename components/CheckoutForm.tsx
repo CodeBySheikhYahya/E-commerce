@@ -4,6 +4,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { Button } from "./ui/button";
 
 const checkoutSchema = z.object({
@@ -90,20 +91,12 @@ const CheckoutForm = forwardRef<CheckoutFormRef, CheckoutFormProps>(
 
         {/* Login/Coupon Links */}
         <div className="space-y-2">
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-800 underline">
-            Returning customer? Click here to login
-          </a>
-          <br />
-          <a 
-            href="#coupon-section" 
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('coupon-section')?.scrollIntoView({ behavior: 'smooth' });
-            }}
+          <Link 
+            href="/cart#coupon-section"
             className="text-sm text-blue-600 hover:text-blue-800 underline"
           >
             Have a coupon? Click here to enter your code
-          </a>
+          </Link>
         </div>
 
         {/* Name Fields */}

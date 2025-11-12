@@ -30,8 +30,11 @@ export default function CartTotals({
   const [couponCode, setCouponCode] = useState("");
   const [searchCode, setSearchCode] = useState("");
   
+  const items = useCartStore((state) => state.items);
   const appliedCouponCode = useCartStore((state) => state.appliedCouponCode);
   const setAppliedCoupon = useCartStore((state) => state.setAppliedCoupon);
+  
+  const isCartEmpty = items.length === 0;
   
   const { coupon, isLoading: couponLoading, error: couponError } = useCouponByCode(searchCode || appliedCouponCode || "");
   const { coupons: availableCoupons } = useCoupons();
@@ -66,7 +69,19 @@ export default function CartTotals({
     }
   }, [coupon, isValidCoupon, searchCode, appliedCouponCode, setAppliedCoupon]);
 
+  // Remove coupon if cart becomes empty
+  useEffect(() => {
+    if (isCartEmpty && appliedCouponCode) {
+      setAppliedCoupon(null);
+      setCouponCode("");
+      setSearchCode("");
+    }
+  }, [isCartEmpty, appliedCouponCode, setAppliedCoupon]);
+
   const handleApplyCoupon = () => {
+    if (isCartEmpty) {
+      return;
+    }
     if (couponCode.trim()) {
       setSearchCode(couponCode.trim().toUpperCase());
     }
@@ -96,9 +111,13 @@ export default function CartTotals({
       </div>
 
       {/* Coupon Section */}
-      <div className="mb-4 pb-4 border-b border-gray-200">
+      <div id="coupon-section" className="mb-4 pb-4 border-b border-gray-200">
         <h4 className="text-gray-900 text-base mb-3">Coupon</h4>
-        {appliedCouponCode ? (
+        {isCartEmpty ? (
+          <p className="text-sm text-gray-500 italic">
+            Please add items to your cart to apply a coupon
+          </p>
+        ) : appliedCouponCode ? (
           <div className="flex items-center justify-between bg-green-50 p-2 rounded-md">
             <div>
               <p className="text-xs font-medium text-green-800">
@@ -123,12 +142,13 @@ export default function CartTotals({
                 placeholder="Coupon code"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                disabled={isCartEmpty}
+                className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
               />
               <button
                 type="button"
                 onClick={handleApplyCoupon}
-                disabled={!couponCode.trim() || couponLoading}
+                disabled={isCartEmpty || !couponCode.trim() || couponLoading}
                 className="px-3 py-2 bg-black text-white rounded-md text-sm hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 Apply
@@ -139,7 +159,7 @@ export default function CartTotals({
                 Invalid or expired coupon
               </p>
             )}
-            {availableCoupons && availableCoupons.length > 0 && (
+            {availableCoupons && availableCoupons.length > 0 && !isCartEmpty && (
               <div className="mt-2">
                 <p className="text-xs text-gray-600 mb-1">Available:</p>
                 <div className="flex flex-wrap gap-1">
