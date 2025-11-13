@@ -30,14 +30,14 @@ interface IpApiResponse {
 }
 
 export function useCurrency() {
-  const { currencyInfo, isLoading, error, setCurrencyInfo, setLoading, setError } = useCurrencyStore();
+  const { currencyInfo, isLoading, error, isManualSelection, setCurrencyInfo, setLoading, setError } = useCurrencyStore();
 
   useEffect(() => {
-    // Only fetch if we don't have currency info yet
-    if (!currencyInfo && !isLoading && !error) {
+    // Only fetch if we don't have currency info yet AND it's not manually selected
+    if (!currencyInfo && !isLoading && !error && !isManualSelection) {
       fetchCurrencyInfo();
     }
-  }, [currencyInfo, isLoading, error]);
+  }, [currencyInfo, isLoading, error, isManualSelection]);
 
   const fetchCurrencyInfo = async () => {
     setLoading(true);

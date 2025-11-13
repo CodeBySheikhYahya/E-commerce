@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, Suspense } from "react";
+import { useState, useCallback, useMemo, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import NewsletterSection from "../../components/NewsletterSection";
 import ProductCard from "../../components/ProductCard";
@@ -41,6 +41,13 @@ export default function ProductsPage() {
   // Modal state management
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  
+  // Track client-side mount to prevent hydration mismatch
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Filter products based on selected filters
   const filteredProducts = useMemo(() => {
@@ -192,9 +199,11 @@ export default function ProductsPage() {
                     onSortChange={setCurrentSort}
                   />
                 </div>
-                <div className="text-sm text-gray-600">
-                  Showing {sortedProducts.length} products
-                </div>
+                {isMounted && (
+                  <div className="text-sm text-gray-600">
+                    Showing {sortedProducts.length} products
+                  </div>
+                )}
               </div>
 
               {/* Search Results or Full Catalog */}

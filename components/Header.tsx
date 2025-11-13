@@ -12,6 +12,7 @@ import { useWishlistStore } from "../lib/wishlistStore";
 import { useCategories } from "../lib/hooks/useCategories";
 import { useSubCategories } from "../lib/hooks/useSubCategories";
 import { useCurrency } from "../lib/hooks/useCurrency";
+import CurrencyDropdown from "./CurrencyDropdown";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -127,6 +128,8 @@ export default function Header() {
                 <span className="text-[var(--header-vertical-line)]">|</span>
               </>
             )}
+            <CurrencyDropdown />
+            <span className="text-[var(--header-vertical-line)]">|</span>
             <span>Javeria.aman@buywithuspkltd.co.uk</span>
             <span className="text-[var(--header-vertical-line)]">|</span>
             <span className="max-w-[15vw]">Ilford, England IG14PG</span>
@@ -471,7 +474,15 @@ export default function Header() {
                 </button>
               )}
               
-              {/* Removed currency and language selectors in mobile menu */}
+              {/* Currency Selector */}
+              <div className="border-t border-gray-200 pt-4 mt-4">
+                <div className="text-xs font-semibold text-[var(--header-text-muted)] uppercase tracking-wide mb-3 px-2">
+                  Currency
+                </div>
+                <div className="px-2">
+                  <CurrencyDropdown />
+                </div>
+              </div>
             </nav>
             </div>
           </div>
